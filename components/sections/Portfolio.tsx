@@ -161,6 +161,7 @@ export default function Portfolio() {
             onClick={(e) => e.stopPropagation()}
           >
             <button
+              aria-label="Tutup modal"
               onClick={closeModal}
               className="absolute -top-12 right-0 text-black dark:text-white hover:text-gray-600 dark:hover:text-gray-300 transition-colors p-2 bg-white dark:bg-black border border-gray-200 dark:border-white/10"
             >
