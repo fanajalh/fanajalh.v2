@@ -87,6 +87,8 @@ export default function Portfolio() {
                   src={item.image}
                   alt={item.title}
                   fill
+                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                  quality={80}
                   className="object-cover transition-transform duration-700 group-hover:scale-105"
                 />
                 
@@ -171,6 +173,8 @@ export default function Portfolio() {
                   src={selectedImage}
                   alt={selectedTitle}
                   fill
+                  sizes="(max-width: 1024px) 100vw, 80vw"
+                  quality={90}
                   className="object-contain"
                 />
               </div>
