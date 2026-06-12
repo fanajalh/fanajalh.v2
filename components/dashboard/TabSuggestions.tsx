@@ -15,42 +15,44 @@ export function TabSuggestions({ suggestions, onRefresh, onViewSuggestion }: Pro
 
   return (
     <div className="space-y-6 animate-in fade-in duration-500">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between bg-white border-4 border-black p-5 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] rounded-none gap-4">
         <div>
-          <h2 className="text-lg font-black text-gray-900">Kotak Saran</h2>
-          <p className="text-xs text-gray-400 font-medium">{suggestions.length} total · {pending.length} menunggu</p>
+          <h2 className="text-xl font-black text-black uppercase tracking-widest">KOTAK SARAN</h2>
+          <p className="text-xs font-bold text-gray-500 uppercase tracking-widest mt-1">
+            <span className="bg-black text-white px-2 py-0.5">{suggestions.length} TOTAL</span> <span className="bg-yellow-400 text-black px-2 py-0.5 ml-1 border-2 border-black">{pending.length} MENUNGGU</span>
+          </p>
         </div>
-        <button onClick={onRefresh} className="flex items-center gap-2 px-4 py-2 bg-gray-100 rounded-xl text-sm font-bold text-gray-600 hover:bg-gray-200 transition-all">
-          <RefreshCw size={14} /> Refresh
+        <button onClick={onRefresh} className="flex items-center justify-center gap-2 px-5 py-3 bg-white text-black border-2 border-black rounded-none text-xs font-black hover:bg-black hover:text-white transition-all shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:translate-y-0.5 active:shadow-none uppercase tracking-widest shrink-0">
+          <RefreshCw size={16} strokeWidth={3} /> REFRESH
         </button>
       </div>
 
       <div className="space-y-3">
         {suggestions.length === 0 ? (
-          <div className="text-center py-12 bg-white rounded-2xl border border-gray-100">
-            <MessageSquare size={32} className="mx-auto text-gray-200 mb-3" />
-            <p className="font-bold text-gray-400">Belum ada saran masuk</p>
+          <div className="text-center py-16 bg-white border-4 border-dashed border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] rounded-none">
+            <MessageSquare size={40} strokeWidth={3} className="mx-auto text-black mb-4" />
+            <p className="font-black text-black uppercase tracking-widest text-lg">BELUM ADA SARAN MASUK</p>
           </div>
         ) : (
           suggestions.map((s) => (
-            <div key={s.id} className="bg-white p-4 rounded-2xl border border-gray-100 hover:border-orange-200 hover:shadow-sm transition-all">
-              <div className="flex justify-between items-start gap-3">
+            <div key={s.id} className="bg-white p-5 border-4 border-black hover:-translate-y-1 hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] transition-all rounded-none group">
+              <div className="flex justify-between items-start gap-4">
                 <div className="flex-1 min-w-0">
-                  <div className="flex items-center gap-2 mb-1">
-                    <span className={`text-[10px] font-black uppercase px-2 py-0.5 rounded-md border ${
-                      s.status === "reviewed" ? "bg-emerald-50 text-emerald-600 border-emerald-200" : "bg-amber-50 text-amber-600 border-amber-200"
+                  <div className="flex items-center gap-2 mb-3 flex-wrap">
+                    <span className={`text-[10px] font-black uppercase px-2 py-1 border-2 border-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] ${
+                      s.status === "reviewed" ? "bg-green-400 text-black" : "bg-yellow-400 text-black"
                     }`}>
-                      {s.status === "reviewed" ? "Ditinjau" : "Menunggu"}
+                      {s.status === "reviewed" ? "DITINJAU" : "MENUNGGU"}
                     </span>
-                    <span className="text-[10px] font-bold text-gray-400 bg-gray-50 px-2 py-0.5 rounded-md">{s.category}</span>
+                    <span className="text-[10px] font-black text-white bg-black border-2 border-black px-2 py-1 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] uppercase tracking-widest">{s.category}</span>
                   </div>
-                  <p className="text-sm font-bold text-gray-800 line-clamp-2">{s.saran}</p>
-                  <p className="text-xs text-gray-400 mt-1">
-                    {s.nama || "Anonim"} · {new Date(s.created_at).toLocaleDateString("id-ID")}
+                  <p className="text-base font-black text-black mb-2 uppercase">{s.saran}</p>
+                  <p className="text-xs font-bold text-gray-500 uppercase tracking-widest">
+                    {s.nama || "ANONIM"} &bull; <span className="text-black">{new Date(s.created_at).toLocaleDateString("id-ID")}</span>
                   </p>
                 </div>
-                <button onClick={() => onViewSuggestion(s)} className="p-2 rounded-xl hover:bg-orange-50 text-gray-400 hover:text-orange-600 transition-colors shrink-0">
-                  <Eye size={16} />
+                <button onClick={() => onViewSuggestion(s)} className="p-3 border-2 border-black bg-white text-black group-hover:bg-black group-hover:text-white rounded-none shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:translate-y-0.5 active:shadow-none transition-all shrink-0">
+                  <Eye size={20} strokeWidth={2.5} />
                 </button>
               </div>
             </div>

@@ -122,15 +122,15 @@ export default function PremiumStockAdmin() {
 
   const statusBadge = (status: string) => {
     const map: Record<string, string> = {
-      AVAILABLE: "bg-emerald-100 text-emerald-700 border-emerald-200",
-      SOLD: "bg-slate-100 text-slate-400 border-slate-200",
-      RESERVED: "bg-amber-100 text-amber-700 border-amber-200",
-      pending: "bg-amber-100 text-amber-700 border-amber-200",
-      paid: "bg-emerald-100 text-emerald-700 border-emerald-200",
-      delivered: "bg-blue-100 text-blue-700 border-blue-200",
-      cancelled: "bg-red-100 text-red-600 border-red-200",
+      AVAILABLE: "bg-green-400 text-black border-2 border-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]",
+      SOLD: "bg-gray-200 text-gray-500 border-2 border-gray-400",
+      RESERVED: "bg-yellow-400 text-black border-2 border-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]",
+      pending: "bg-yellow-400 text-black border-2 border-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]",
+      paid: "bg-green-400 text-black border-2 border-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]",
+      delivered: "bg-blue-400 text-black border-2 border-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]",
+      cancelled: "bg-red-500 text-white border-2 border-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]",
     }
-    return map[status] || "bg-gray-100 text-gray-500 border-gray-200"
+    return map[status] || "bg-gray-100 text-gray-500 border-2 border-gray-200"
   }
 
   // Computed stats
@@ -140,8 +140,9 @@ export default function PremiumStockAdmin() {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center py-20">
-        <Loader2 className="w-8 h-8 animate-spin text-orange-500" />
+      <div className="flex flex-col items-center justify-center py-24 bg-white border-4 border-dashed border-black mt-4">
+        <Loader2 className="w-10 h-10 animate-spin text-black mb-4" strokeWidth={3} />
+        <p className="text-xs font-black text-black uppercase tracking-widest">MEMUAT DATA…</p>
       </div>
     )
   }
@@ -149,87 +150,91 @@ export default function PremiumStockAdmin() {
   return (
     <div className="relative">
       {/* Stats Cards */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
-        <div className="bg-white rounded-2xl p-4 border border-slate-100 shadow-sm">
-          <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Total Stok</p>
-          <p className="text-2xl font-black text-slate-800 mt-1">{accounts.length}</p>
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-6">
+        <div className="bg-white border-4 border-black rounded-none p-5 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+          <p className="text-xs font-black text-gray-500 uppercase tracking-widest">TOTAL STOK</p>
+          <p className="text-4xl font-black text-black mt-2">{accounts.length}</p>
         </div>
-        <div className="bg-emerald-50 rounded-2xl p-4 border border-emerald-100">
-          <p className="text-[10px] font-bold text-emerald-600 uppercase tracking-widest">Available</p>
-          <p className="text-2xl font-black text-emerald-700 mt-1">{stockAvailable}</p>
+        <div className="bg-green-400 border-4 border-black rounded-none p-5 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+          <p className="text-xs font-black text-black uppercase tracking-widest">AVAILABLE</p>
+          <p className="text-4xl font-black text-black mt-2">{stockAvailable}</p>
         </div>
-        <div className="bg-slate-50 rounded-2xl p-4 border border-slate-200">
-          <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Terjual</p>
-          <p className="text-2xl font-black text-slate-700 mt-1">{stockSold}</p>
+        <div className="bg-gray-200 border-4 border-black rounded-none p-5 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+          <p className="text-xs font-black text-gray-600 uppercase tracking-widest">TERJUAL</p>
+          <p className="text-4xl font-black text-black mt-2">{stockSold}</p>
         </div>
-        <div className="bg-amber-50 rounded-2xl p-4 border border-amber-100">
-          <p className="text-[10px] font-bold text-amber-600 uppercase tracking-widest">Pesanan Masuk</p>
-          <p className="text-2xl font-black text-amber-700 mt-1">{ordersPending}</p>
+        <div className="bg-yellow-400 border-4 border-black rounded-none p-5 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+          <p className="text-xs font-black text-black uppercase tracking-widest">PESANAN MASUK</p>
+          <p className="text-4xl font-black text-black mt-2">{ordersPending}</p>
         </div>
       </div>
 
       {/* View Toggle */}
-      <div className="flex items-center gap-2 mb-6">
-        <button onClick={() => setActiveView("stock")}
-          className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-bold transition-all ${
-            activeView === "stock" ? "bg-slate-900 text-white shadow-lg" : "bg-white text-slate-500 border border-slate-200 hover:bg-slate-50"
-          }`}>
-          <Package size={16} /> Gudang Stok
-        </button>
-        <button onClick={() => setActiveView("orders")}
-          className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-bold transition-all relative ${
-            activeView === "orders" ? "bg-slate-900 text-white shadow-lg" : "bg-white text-slate-500 border border-slate-200 hover:bg-slate-50"
-          }`}>
-          <ShoppingCart size={16} /> Pesanan
-          {ordersPending > 0 && (
-            <span className="absolute -top-2 -right-2 bg-red-500 text-white text-[10px] font-black w-5 h-5 rounded-full flex items-center justify-center">
-              {ordersPending}
-            </span>
-          )}
-        </button>
-        <div className="flex-1" />
-        <button onClick={() => { fetchStocks(); fetchOrders() }}
-          className="p-2.5 text-slate-400 hover:text-orange-500 hover:bg-orange-50 rounded-xl transition-all"
-          title="Refresh Data">
-          <RefreshCw size={18} />
-        </button>
-        {activeView === "stock" && (
-          <button onClick={() => setIsModalOpen(true)}
-            className="bg-slate-900 text-white px-4 py-2.5 rounded-xl flex items-center gap-2 text-sm font-bold hover:bg-orange-500 transition-all shadow-lg hover:shadow-orange-500/30">
-            <Plus size={16} /> Tambah
+      <div className="flex flex-col md:flex-row items-center gap-4 mb-6 bg-white p-5 border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
+        <div className="flex w-full md:w-auto border-4 border-black">
+          <button onClick={() => setActiveView("stock")}
+            className={`flex-1 md:flex-none flex justify-center items-center gap-2 px-6 py-3 text-xs font-black uppercase tracking-widest transition-all border-r-4 border-black last:border-r-0 ${
+              activeView === "stock" ? "bg-black text-white" : "bg-white text-black hover:bg-gray-200"
+            }`}>
+            <Package size={18} strokeWidth={3} /> GUDANG STOK
           </button>
-        )}
+          <button onClick={() => setActiveView("orders")}
+            className={`flex-1 md:flex-none flex justify-center items-center gap-2 px-6 py-3 text-xs font-black uppercase tracking-widest transition-all relative ${
+              activeView === "orders" ? "bg-black text-white" : "bg-white text-black hover:bg-gray-200"
+            }`}>
+            <ShoppingCart size={18} strokeWidth={3} /> PESANAN
+            {ordersPending > 0 && (
+              <span className="absolute -top-3 -right-3 bg-red-500 text-white text-[10px] font-black w-6 h-6 border-2 border-black flex items-center justify-center">
+                {ordersPending}
+              </span>
+            )}
+          </button>
+        </div>
+        <div className="flex-1" />
+        <div className="flex gap-4 w-full md:w-auto">
+          <button onClick={() => { fetchStocks(); fetchOrders() }}
+            className="flex-1 md:flex-none inline-flex items-center justify-center gap-2 px-6 py-3 border-4 border-black bg-white text-black font-black uppercase tracking-widest text-xs hover:bg-gray-200 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] active:translate-y-1 active:shadow-none transition-all"
+            title="Refresh Data">
+            <RefreshCw size={18} strokeWidth={3} /> REFRESH
+          </button>
+          {activeView === "stock" && (
+            <button onClick={() => setIsModalOpen(true)}
+              className="flex-1 md:flex-none inline-flex items-center justify-center gap-2 px-6 py-3 bg-yellow-400 border-4 border-black text-black font-black uppercase tracking-widest text-xs hover:bg-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] active:translate-y-1 active:shadow-none transition-all">
+              <Plus size={20} strokeWidth={3} /> TAMBAH
+            </button>
+          )}
+        </div>
       </div>
 
       {/* ============== STOCK VIEW ============== */}
       {activeView === "stock" && (
-        <div className="bg-white sm:rounded-2xl shadow-sm border-y sm:border border-slate-200 -mx-4 sm:mx-0">
+        <div className="bg-white border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
           {/* Mobile Cards */}
-          <div className="block md:hidden divide-y divide-slate-100">
+          <div className="block md:hidden divide-y-4 divide-black border-b-4 border-black">
             {accounts.map(acc => (
-              <div key={acc.id} className="p-4 space-y-3">
+              <div key={acc.id} className="p-5 space-y-4 bg-white">
                 <div className="flex justify-between items-start">
                   <div>
-                    <p className="font-black text-slate-700 text-base">{acc.app || "Unknown"}</p>
-                    <p className="text-[11px] text-slate-500 font-medium uppercase tracking-wider">{acc.type} • {acc.duration}</p>
+                    <p className="font-black text-black text-lg uppercase tracking-widest">{acc.app || "UNKNOWN"}</p>
+                    <p className="text-xs text-gray-500 font-black uppercase tracking-widest">{acc.type} • {acc.duration}</p>
                   </div>
-                  <div className="flex items-center gap-2">
-                    <span className={`px-2 py-1 rounded-md text-[9px] font-black tracking-widest uppercase border ${statusBadge(acc.status)}`}>
+                  <div className="flex flex-col items-end gap-2">
+                    <span className={`px-3 py-1.5 text-[10px] font-black tracking-widest uppercase ${statusBadge(acc.status)}`}>
                       {acc.status}
                     </span>
                     {acc.status === "AVAILABLE" && (
-                      <button onClick={() => handleDeleteStock(acc.id)} className="text-slate-300 hover:text-red-500 transition-colors p-1">
-                        <Trash2 size={14} />
+                      <button onClick={() => handleDeleteStock(acc.id)} className="bg-red-500 text-white border-2 border-black p-2 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:bg-black active:translate-y-0.5 active:shadow-none transition-all">
+                        <Trash2 size={16} strokeWidth={3} />
                       </button>
                     )}
                   </div>
                 </div>
-                <div className="bg-slate-50 p-3 rounded-xl flex flex-col gap-1.5 font-mono text-sm border border-slate-100">
-                  <span className="text-slate-700 font-semibold break-all">{acc.email}</span>
-                  <span className="text-slate-400 break-all">{acc.password}</span>
+                <div className="bg-gray-100 p-4 border-2 border-black flex flex-col gap-2 font-mono text-sm shadow-inner">
+                  <span className="text-black font-black break-all">{acc.email}</span>
+                  <span className="text-gray-600 break-all">{acc.password}</span>
                 </div>
                 {acc.buyer_wa && (
-                  <p className="text-[11px] text-slate-400">Pembeli: {acc.buyer_wa}</p>
+                  <p className="text-[11px] text-gray-500 font-black uppercase tracking-widest">PEMBELI: {acc.buyer_wa}</p>
                 )}
               </div>
             ))}
@@ -239,37 +244,37 @@ export default function PremiumStockAdmin() {
           <div className="hidden md:block overflow-x-auto">
             <table className="w-full text-left border-collapse">
               <thead>
-                <tr className="bg-slate-50 text-slate-500 text-xs uppercase tracking-wider font-bold">
-                  <th className="p-4 border-b">Aplikasi & Paket</th>
-                  <th className="p-4 border-b">Detail Login</th>
-                  <th className="p-4 border-b">Status</th>
-                  <th className="p-4 border-b">Pembeli</th>
-                  <th className="p-4 border-b w-16"></th>
+                <tr className="bg-black text-white text-xs uppercase tracking-widest font-black border-b-4 border-black">
+                  <th className="p-5 border-r-4 border-black">APLIKASI & PAKET</th>
+                  <th className="p-5 border-r-4 border-black">DETAIL LOGIN</th>
+                  <th className="p-5 border-r-4 border-black">STATUS</th>
+                  <th className="p-5 border-r-4 border-black">PEMBELI</th>
+                  <th className="p-5 w-20">AKSI</th>
                 </tr>
               </thead>
               <tbody>
                 {accounts.map(acc => (
-                  <tr key={acc.id} className="border-b last:border-0 hover:bg-slate-50 transition-colors">
-                    <td className="p-4">
-                      <p className="font-black text-slate-700 text-base">{acc.app || "Unknown"}</p>
-                      <p className="text-xs text-slate-500 font-medium">{acc.type} • {acc.duration}</p>
+                  <tr key={acc.id} className="border-b-4 border-black last:border-0 hover:bg-gray-100 transition-colors">
+                    <td className="p-5 border-r-4 border-black">
+                      <p className="font-black text-black text-lg uppercase tracking-widest">{acc.app || "UNKNOWN"}</p>
+                      <p className="text-xs text-gray-500 font-black uppercase tracking-widest mt-1">{acc.type} • {acc.duration}</p>
                     </td>
-                    <td className="p-4">
-                      <div className="flex flex-col gap-1 text-sm font-mono">
-                        <span className="text-slate-700 font-semibold">{acc.email}</span>
-                        <span className="text-slate-400">{acc.password}</span>
+                    <td className="p-5 border-r-4 border-black">
+                      <div className="flex flex-col gap-2 text-sm font-mono">
+                        <span className="text-black font-black">{acc.email}</span>
+                        <span className="text-gray-600 font-bold">{acc.password}</span>
                       </div>
                     </td>
-                    <td className="p-4">
-                      <span className={`px-3 py-1 rounded-full text-[10px] font-black tracking-widest uppercase border ${statusBadge(acc.status)}`}>
+                    <td className="p-5 border-r-4 border-black">
+                      <span className={`inline-block px-3 py-1.5 text-[10px] font-black tracking-widest uppercase ${statusBadge(acc.status)}`}>
                         {acc.status}
                       </span>
                     </td>
-                    <td className="p-4 text-sm text-slate-500">{acc.buyer_wa || "—"}</td>
-                    <td className="p-4">
+                    <td className="p-5 text-sm font-black text-black uppercase tracking-widest border-r-4 border-black">{acc.buyer_wa || "—"}</td>
+                    <td className="p-5">
                       {acc.status === "AVAILABLE" && (
-                        <button onClick={() => handleDeleteStock(acc.id)} className="text-slate-300 hover:text-red-500 transition-colors p-1.5 hover:bg-red-50 rounded-lg">
-                          <Trash2 size={16} />
+                        <button onClick={() => handleDeleteStock(acc.id)} className="w-10 h-10 flex items-center justify-center bg-red-500 text-white border-2 border-black hover:bg-black transition-all active:translate-y-0.5 active:shadow-none shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] outline-none">
+                          <Trash2 size={16} strokeWidth={3} />
                         </button>
                       )}
                     </td>
@@ -279,42 +284,44 @@ export default function PremiumStockAdmin() {
             </table>
           </div>
 
-          {accounts.length === 0 && <div className="p-8 text-center text-slate-500 text-sm">Belum ada stok akun. Klik "Tambah" untuk mulai.</div>}
+          {accounts.length === 0 && <div className="p-10 text-center font-black text-gray-500 text-sm uppercase tracking-widest">BELUM ADA STOK AKUN. KLIK "TAMBAH" UNTUK MULAI.</div>}
         </div>
       )}
 
       {/* ============== ORDERS VIEW ============== */}
       {activeView === "orders" && (
-        <div className="space-y-3">
+        <div className="space-y-4">
           {orders.length === 0 ? (
-            <div className="bg-white rounded-2xl border border-slate-100 p-8 text-center text-slate-400 text-sm">Belum ada pesanan masuk.</div>
+            <div className="bg-white border-4 border-dashed border-black p-12 text-center font-black text-gray-500 text-sm uppercase tracking-widest shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">BELUM ADA PESANAN MASUK.</div>
           ) : (
             orders.map(order => (
-              <div key={order.order_token} className="bg-white rounded-2xl border border-slate-100 p-4 sm:p-5 shadow-sm">
-                <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-3">
+              <div key={order.order_token} className="bg-white border-4 border-black p-5 sm:p-6 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:-translate-y-1 hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] transition-all">
+                <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-4">
                   <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2 flex-wrap">
-                      <h3 className="font-black text-slate-800 text-base">{order.product_name || "Produk"}</h3>
-                      <span className={`px-2 py-0.5 rounded-md text-[9px] font-black tracking-widest uppercase border ${statusBadge(order.status)}`}>
-                        {order.status === "pending" ? "Belum Bayar" : order.status === "paid" ? "Lunas" : order.status === "delivered" ? "Terkirim" : order.status}
+                    <div className="flex items-center gap-3 flex-wrap">
+                      <h3 className="font-black text-black text-xl uppercase tracking-widest">{order.product_name || "PRODUK"}</h3>
+                      <span className={`px-3 py-1.5 text-[10px] font-black tracking-widest uppercase ${statusBadge(order.status)}`}>
+                        {order.status === "pending" ? "BELUM BAYAR" : order.status === "paid" ? "LUNAS" : order.status === "delivered" ? "TERKIRIM" : order.status}
                       </span>
                     </div>
-                    <p className="text-xs text-slate-500 mt-1">{order.type} • {order.duration}</p>
-                    <div className="flex flex-wrap items-center gap-x-4 gap-y-1 mt-2 text-sm">
-                      <span className="text-slate-600 font-bold">📱 {order.buyer_wa}</span>
-                      <span className="text-orange-600 font-black">Rp {order.total_price.toLocaleString("id-ID")}</span>
+                    <p className="text-xs font-black text-gray-500 mt-2 uppercase tracking-widest">{order.type} • {order.duration}</p>
+                    <div className="flex flex-wrap items-center gap-x-6 gap-y-2 mt-4 text-sm">
+                      <span className="text-black font-black uppercase tracking-widest">📱 {order.buyer_wa}</span>
+                      <span className="text-white bg-black px-3 py-1 font-black uppercase tracking-widest border-2 border-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">RP {order.total_price.toLocaleString("id-ID")}</span>
                     </div>
                     {order.stock_email && (
-                      <p className="text-xs text-emerald-600 mt-1.5 font-mono bg-emerald-50 px-2 py-1 rounded-lg inline-block">
-                        ✅ Akun: {order.stock_email}
+                      <p className="text-xs text-black mt-4 font-black bg-green-400 px-4 py-3 border-2 border-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] inline-block uppercase tracking-widest">
+                        ✅ AKUN: {order.stock_email}
                       </p>
                     )}
-                    <p className="text-[10px] text-slate-400 mt-2">{new Date(order.created_at).toLocaleString("id-ID")}</p>
+                    <p className="text-[10px] font-black text-gray-400 mt-4 uppercase tracking-widest border-t-2 border-dashed border-black pt-3">
+                      {new Date(order.created_at).toLocaleString("id-ID")}
+                    </p>
                   </div>
                   {order.status === "pending" && (
                     <button onClick={() => handleConfirmPayment(order.order_token)}
-                      className="bg-emerald-500 hover:bg-emerald-600 text-white px-4 py-2.5 rounded-xl text-xs font-bold flex items-center gap-1.5 transition-all shadow-md hover:shadow-emerald-500/30 flex-shrink-0">
-                      <CheckCircle size={14} /> Konfirmasi Bayar
+                      className="bg-green-400 hover:bg-black text-black hover:text-white border-2 border-black px-6 py-4 text-xs font-black flex items-center gap-2 transition-all shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] active:translate-y-1 active:shadow-none flex-shrink-0 uppercase tracking-widest">
+                      <CheckCircle size={18} strokeWidth={3} /> KONFIRMASI BAYAR
                     </button>
                   )}
                 </div>
@@ -326,76 +333,74 @@ export default function PremiumStockAdmin() {
 
       {/* ============== MODAL TAMBAH STOK ============== */}
       {isModalOpen && (
-        <div className="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-[100] flex items-end sm:items-center justify-center p-0 sm:p-4">
-          <div className="bg-white rounded-t-[2rem] sm:rounded-[2rem] p-6 sm:p-8 w-full max-w-lg shadow-2xl animate-in slide-in-from-bottom sm:zoom-in-95 duration-300 max-h-[90vh] overflow-y-auto">
-            <div className="flex justify-between items-center mb-6 sticky top-0 bg-white z-10 py-2">
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[100] flex items-end sm:items-center justify-center p-0 sm:p-4">
+          <div className="bg-white border-4 border-black rounded-none shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] p-6 sm:p-8 w-full max-w-lg animate-in slide-in-from-bottom sm:zoom-in-95 duration-300 max-h-[90vh] overflow-y-auto">
+            <div className="flex justify-between items-center mb-8 sticky top-0 bg-white z-10 py-2 border-b-4 border-black">
               <div>
-                <h2 className="text-xl sm:text-2xl font-black text-slate-800">Tambah Akun</h2>
-                <p className="text-xs sm:text-sm text-slate-500">Pastikan kredensial valid.</p>
+                <h2 className="text-2xl font-black text-black uppercase tracking-widest">TAMBAH AKUN</h2>
+                <p className="text-xs font-black text-gray-500 uppercase tracking-widest mt-1">PASTIKAN KREDENSIAL VALID.</p>
               </div>
-              <button onClick={() => setIsModalOpen(false)} className="bg-slate-100 p-2 rounded-full text-slate-400 hover:text-red-500 hover:bg-red-50 transition-colors">
-                <X size={20} />
+              <button onClick={() => setIsModalOpen(false)} className="bg-white border-2 border-black p-2 text-black hover:bg-black hover:text-white transition-all shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:translate-y-0.5 active:shadow-none">
+                <X size={24} strokeWidth={3} />
               </button>
             </div>
 
-            <form onSubmit={handleAddStock} className="space-y-5">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <form onSubmit={handleAddStock} className="space-y-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 <div>
-                  <label className="block text-[10px] sm:text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Aplikasi</label>
-                  <select className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-base sm:text-sm text-slate-800 font-semibold outline-none focus:border-orange-500 focus:ring-2 focus:ring-orange-500/20"
+                  <label className="block text-xs font-black text-black uppercase tracking-widest mb-2">APLIKASI</label>
+                  <select className="w-full bg-white border-2 border-black rounded-none px-4 py-3 text-sm text-black font-black outline-none focus:bg-black focus:text-white transition-colors uppercase tracking-widest"
                     value={newApp} onChange={(e) => setNewApp(e.target.value)}>
-                    <option value="Canva">Canva Pro</option>
-                    <option value="CapCut">CapCut Pro</option>
-                    <option value="Netflix">Netflix</option>
-                    <option value="Spotify">Spotify</option>
+                    <option value="Canva">CANVA PRO</option>
+                    <option value="CapCut">CAPCUT PRO</option>
+                    <option value="Netflix">NETFLIX</option>
+                    <option value="Spotify">SPOTIFY</option>
                   </select>
                 </div>
                 <div>
-                  <label className="block text-[10px] sm:text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Tipe Akun</label>
-                  <select className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-base sm:text-sm text-slate-800 font-semibold outline-none focus:border-orange-500 focus:ring-2 focus:ring-orange-500/20"
+                  <label className="block text-xs font-black text-black uppercase tracking-widest mb-2">TIPE AKUN</label>
+                  <select className="w-full bg-white border-2 border-black rounded-none px-4 py-3 text-sm text-black font-black outline-none focus:bg-black focus:text-white transition-colors uppercase tracking-widest"
                     value={newType} onChange={(e) => setNewType(e.target.value)}>
-                    <option value="Private">Private</option>
-                    <option value="Sharing">Sharing</option>
-                    <option value="Family">Family</option>
-                    <option value="Owner">Owner</option>
-                    <option value="Member">Member</option>
+                    <option value="Private">PRIVATE</option>
+                    <option value="Sharing">SHARING</option>
+                    <option value="Family">FAMILY</option>
+                    <option value="Owner">OWNER</option>
+                    <option value="Member">MEMBER</option>
                   </select>
                 </div>
               </div>
 
               <div>
-                <label className="block text-[10px] sm:text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Masa Berlaku</label>
-                <select className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-base sm:text-sm text-slate-800 font-semibold outline-none focus:border-orange-500 focus:ring-2 focus:ring-orange-500/20"
+                <label className="block text-xs font-black text-black uppercase tracking-widest mb-2">MASA BERLAKU</label>
+                <select className="w-full bg-white border-2 border-black rounded-none px-4 py-3 text-sm text-black font-black outline-none focus:bg-black focus:text-white transition-colors uppercase tracking-widest"
                   value={newDuration} onChange={(e) => setNewDuration(e.target.value)}>
-                  <option value="7 Hari">7 Hari</option>
-                  <option value="1 Bulan">1 Bulan</option>
-                  <option value="3 Bulan">3 Bulan</option>
-                  <option value="6 Bulan">6 Bulan</option>
-                  <option value="1 Tahun">1 Tahun</option>
-                  <option value="Lifetime">Lifetime / Selamanya</option>
+                  <option value="7 Hari">7 HARI</option>
+                  <option value="1 Bulan">1 BULAN</option>
+                  <option value="3 Bulan">3 BULAN</option>
+                  <option value="6 Bulan">6 BULAN</option>
+                  <option value="1 Tahun">1 TAHUN</option>
+                  <option value="Lifetime">LIFETIME / SELAMANYA</option>
                 </select>
               </div>
 
-              <hr className="border-slate-100 my-2" />
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 pt-4 border-t-2 border-dashed border-black">
                 <div>
-                  <label className="block text-[10px] sm:text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Email / Username</label>
-                  <input required type="text" placeholder="user@email.com"
-                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-base sm:text-sm text-slate-800 outline-none focus:border-orange-500 focus:ring-2 focus:ring-orange-500/20 font-mono"
+                  <label className="block text-xs font-black text-black uppercase tracking-widest mb-2">EMAIL / USERNAME</label>
+                  <input required type="text" placeholder="USER@EMAIL.COM"
+                    className="w-full bg-white border-2 border-black rounded-none px-4 py-3 text-sm text-black outline-none focus:bg-black focus:text-white transition-colors font-black uppercase tracking-widest"
                     value={newEmail} onChange={(e) => setNewEmail(e.target.value)} />
                 </div>
                 <div>
-                  <label className="block text-[10px] sm:text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Password</label>
-                  <input required type="text" placeholder="Pass123!@#"
-                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-base sm:text-sm text-slate-800 outline-none focus:border-orange-500 focus:ring-2 focus:ring-orange-500/20 font-mono"
+                  <label className="block text-xs font-black text-black uppercase tracking-widest mb-2">PASSWORD</label>
+                  <input required type="text" placeholder="PASS123!@#"
+                    className="w-full bg-white border-2 border-black rounded-none px-4 py-3 text-sm text-black outline-none focus:bg-black focus:text-white transition-colors font-black uppercase tracking-widest"
                     value={newPassword} onChange={(e) => setNewPassword(e.target.value)} />
                 </div>
               </div>
 
               <button type="submit" disabled={saving}
-                className="w-full bg-slate-900 hover:bg-orange-500 text-white font-black py-4 sm:py-3.5 rounded-xl transition-all shadow-lg hover:shadow-orange-500/30 mt-6 sm:mt-4 mb-2 disabled:opacity-50 flex items-center justify-center gap-2">
-                {saving ? <><Loader2 size={18} className="animate-spin" /> Menyimpan...</> : "Simpan ke Gudang"}
+                className="w-full bg-black text-white font-black py-4 border-2 border-black uppercase tracking-widest transition-all shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:bg-white hover:text-black mt-8 disabled:opacity-50 flex items-center justify-center gap-2 active:translate-y-1 active:shadow-none">
+                {saving ? <><Loader2 size={20} strokeWidth={3} className="animate-spin" /> MENYIMPAN...</> : "SIMPAN KE GUDANG"}
               </button>
             </form>
           </div>

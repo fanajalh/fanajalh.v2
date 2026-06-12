@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Palette, Smartphone, Printer, Sparkles, ChevronLeft, Search, Zap, ArrowRight } from "lucide-react"
 import Link from "next/link"
 import { PackagePopup } from "@/components/cart"
@@ -15,6 +15,22 @@ export default function LayananPage() {
   const [activeCategory, setActiveCategory] = useState("poster")
   const [popupOpen, setPopupOpen] = useState(false)
   const [selectedService, setSelectedService] = useState<ServiceInfo | null>(null)
+  
+  const [dbServices, setDbServices] = useState<any[]>([])
+  const [emptyMessage, setEmptyMessage] = useState("Maaf, layanan untuk kategori ini sedang tidak tersedia atau libur sementara.")
+
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem("websiteSettings")
+      if (saved) {
+        const parsed = JSON.parse(saved)
+        if (parsed.services) setDbServices(parsed.services)
+        if (parsed.emptyStateMessage) setEmptyMessage(parsed.emptyStateMessage)
+      }
+    } catch (e) {
+      console.error(e)
+    }
+  }, [])
 
   const categories = [
     { id: "poster", label: "Poster & Banner", icon: Palette },
@@ -156,53 +172,85 @@ export default function LayananPage() {
 
       {/* 3. LIST LAYANAN */}
       <div className="px-4 mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
-        {services[activeCategory as keyof typeof services].map((service, index) => (
-          <div 
-            key={index} 
-            className="bg-white rounded-[2rem] p-5 md:p-6 shadow-[0_4px_20px_rgba(0,0,0,0.03)] border border-slate-100 flex flex-col active:scale-[0.98] transition-all duration-200"
-          >
-            <div className="flex gap-4 mb-4">
-              <div className="w-14 h-14 bg-orange-50 text-orange-500 rounded-[1.2rem] flex items-center justify-center shrink-0 border border-orange-100/50">
-                <Sparkles size={24} strokeWidth={2} />
-              </div>
-              
-              <div className="flex-1 pt-0.5">
-                <div className="flex justify-between items-start mb-1">
-                  <h3 className="text-[15px] font-extrabold text-slate-800 tracking-tight leading-snug pr-2">
-                    {service.title}
-                  </h3>
-                  {service.popular && (
-                    <span className="shrink-0 bg-red-100 text-red-600 text-[9px] font-black uppercase tracking-widest px-2 py-1 rounded-md flex items-center gap-1">
-                      <Zap size={10} className="fill-current" /> Populer
-                    </span>
-                  )}
-                </div>
-                <p className="text-[12px] font-medium text-slate-500 leading-relaxed line-clamp-2">
-                  {service.description}
-                </p>
-              </div>
-            </div>
+        {(() => {
+          const currentCategoryServices = services[activeCategory as keyof typeof services];
+          const visibleServices = currentCategoryServices.filter(service => {
+            const matchedService = dbServices.find((s: any) => s.name.toLowerCase() === service.title.toLowerCase())
+            return matchedService ? matchedService.active : true
+          });
 
-            <div className="w-full border-t border-dashed border-slate-200 my-4 flex-grow" />
-
-            <div className="flex items-center justify-between mt-auto">
-              <div>
-                <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-0.5">Mulai Dari</p>
-                <div className="flex items-center gap-0.5">
-                  <span className="text-[13px] font-bold text-slate-800">Rp</span>
-                  <span className="text-lg font-black text-slate-800">{service.price}</span>
+          if (visibleServices.length === 0) {
+            return (
+              <div className="col-span-full p-10 flex flex-col items-center justify-center text-center bg-white rounded-[2rem] border border-slate-100 shadow-[0_4px_20px_rgba(0,0,0,0.03)] mt-2">
+                <div className="w-16 h-16 bg-slate-50 text-slate-400 rounded-full flex items-center justify-center mb-4 border border-slate-100">
+                  <span className="text-3xl">🚧</span>
                 </div>
+                <h3 className="text-[17px] font-extrabold text-slate-800 tracking-tight mb-2">Layanan Sedang Tutup</h3>
+                <p className="text-sm font-medium text-slate-500 leading-relaxed max-w-sm">{emptyMessage}</p>
               </div>
-              
-              <button 
-                onClick={() => handlePesan(service)}
-                className="bg-orange-600 hover:bg-orange-700 text-white px-5 py-2.5 rounded-full text-[13px] font-extrabold transition-colors active:scale-95 outline-none flex items-center gap-1.5 shadow-sm shadow-orange-600/30"
+            )
+          }
+
+          return visibleServices.map((service, index) => {
+            const matchedService = dbServices.find((s: any) => s.name.toLowerCase() === service.title.toLowerCase())
+            const displayPrice = matchedService ? new Intl.NumberFormat("id-ID").format(matchedService.price) : service.price
+            const customStatus = matchedService?.customStatus
+
+            return (
+              <div 
+                key={index} 
+                className="bg-white rounded-[2rem] p-5 md:p-6 shadow-[0_4px_20px_rgba(0,0,0,0.03)] border border-slate-100 flex flex-col active:scale-[0.98] transition-all duration-200"
               >
-                Pesan <ArrowRight size={14} strokeWidth={3} />
-              </button>
-            </div>
-          </div>
-        ))}
+                <div className="flex gap-4 mb-4">
+                  <div className="w-14 h-14 bg-orange-50 text-orange-500 rounded-[1.2rem] flex items-center justify-center shrink-0 border border-orange-100/50">
+                    <Sparkles size={24} strokeWidth={2} />
+                  </div>
+                  
+                  <div className="flex-1 pt-0.5">
+                    <div className="flex justify-between items-start mb-1">
+                      <h3 className="text-[15px] font-extrabold text-slate-800 tracking-tight leading-snug pr-2">
+                        {service.title}
+                      </h3>
+                      {service.popular && (
+                        <span className="shrink-0 bg-red-100 text-red-600 text-[9px] font-black uppercase tracking-widest px-2 py-1 rounded-md flex items-center gap-1">
+                          <Zap size={10} className="fill-current" /> Populer
+                        </span>
+                      )}
+                    </div>
+                    <p className="text-[12px] font-medium text-slate-500 leading-relaxed line-clamp-2">
+                      {service.description}
+                    </p>
+                  </div>
+                </div>
+
+                <div className="w-full border-t border-dashed border-slate-200 my-4 flex-grow" />
+
+                <div className="flex items-center justify-between mt-auto">
+                  <div>
+                    <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-0.5">Mulai Dari</p>
+                    <div className="flex items-center gap-0.5">
+                      {customStatus ? (
+                        <span className="text-[12px] font-extrabold text-red-500 bg-red-50 px-2 py-1 rounded-md border border-red-100">{customStatus}</span>
+                      ) : (
+                        <>
+                          <span className="text-[13px] font-bold text-slate-800">Rp</span>
+                          <span className="text-lg font-black text-slate-800">{displayPrice}</span>
+                        </>
+                      )}
+                    </div>
+                  </div>
+                  
+                  <button 
+                    onClick={() => handlePesan(service)}
+                    className="bg-orange-600 hover:bg-orange-700 text-white px-5 py-2.5 rounded-full text-[13px] font-extrabold transition-colors active:scale-95 outline-none flex items-center gap-1.5 shadow-sm shadow-orange-600/30"
+                  >
+                    Pesan <ArrowRight size={14} strokeWidth={3} />
+                  </button>
+                </div>
+              </div>
+            )
+          })
+        })()}
       </div>
       
       </div>

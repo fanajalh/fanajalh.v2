@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Transition } from "@headlessui/react";
+
 import { Send, User, Mail, Tag, FileText, CheckCircle, X, Sparkles, Loader2, MessageSquare } from "lucide-react";
 import Swal from "sweetalert2";
 
@@ -209,22 +209,14 @@ export default function SuggestionForm() {
       </section>
 
       {/* --- SUCCESS POPUP MODAL --- */}
-      <Transition
-        show={showSuccessPopup}
-        enter="transition-opacity ease-out duration-300"
-        enterFrom="opacity-0"
-        enterTo="opacity-100"
-        leave="transition-opacity ease-in duration-200"
-        leaveFrom="opacity-100"
-        leaveTo="opacity-0"
-      >
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+      {showSuccessPopup && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 animate-in fade-in duration-300">
           <div
             className="absolute inset-0 bg-gray-900/40 backdrop-blur-sm"
             onClick={() => setShowSuccessPopup(false)}
           />
 
-          <div className="relative bg-white rounded-[2.5rem] shadow-2xl p-8 max-w-sm w-full text-center transform transition-all border border-gray-100">
+          <div className="relative bg-white rounded-[2.5rem] shadow-2xl p-8 max-w-sm w-full text-center transform transition-all border border-gray-100 animate-in zoom-in-95 duration-300">
             <button
               onClick={() => setShowSuccessPopup(false)}
               className="absolute top-5 right-5 p-2 rounded-full hover:bg-gray-50 text-gray-400 hover:text-gray-600 transition-colors"
@@ -254,7 +246,7 @@ export default function SuggestionForm() {
             </p>
           </div>
         </div>
-      </Transition>
+      )}
 
       <style jsx global>{`
         @keyframes shrink {

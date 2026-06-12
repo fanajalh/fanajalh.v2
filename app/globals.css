@@ -3,16 +3,60 @@
 @tailwind utilities;
 
 @layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 240 10% 4%;
+    --card: 0 0% 98%;
+    --card-foreground: 240 10% 4%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 10% 4%;
+    --primary: 240 5.9% 10%;
+    --primary-foreground: 0 0% 98%;
+    --secondary: 240 4.8% 95.9%;
+    --secondary-foreground: 240 5.9% 10%;
+    --muted: 240 4.8% 95.9%;
+    --muted-foreground: 240 3.8% 46.1%;
+    --accent: 240 4.8% 95.9%;
+    --accent-foreground: 240 5.9% 10%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 5.9% 90%;
+    --input: 240 5.9% 90%;
+    --ring: 240 5% 64.9%;
+    --radius: 0.25rem;
+  }
+
+  .dark {
+    --background: 240 10% 4%;
+    --foreground: 0 0% 98%;
+    --card: 240 10% 6%;
+    --card-foreground: 0 0% 98%;
+    --popover: 240 10% 6%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 0 0% 98%;
+    --primary-foreground: 240 5.9% 10%;
+    --secondary: 240 4% 16%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 240 5% 15%;
+    --muted-foreground: 240 5% 65%;
+    --accent: 240 4% 16%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 0 0% 15%;
+    --input: 0 0% 15%;
+    --ring: 240 5% 85%;
+  }
   * {
-    @apply border-gray-200 font-sans font-semibold;
+    @apply border-border font-sans font-medium;
   }
   body {
-    @apply bg-white text-gray-900 overflow-x-hidden font-sans font-semibold;
+    @apply bg-background text-foreground overflow-x-hidden font-sans font-medium antialiased;
     -webkit-tap-highlight-color: transparent;
-    overscroll-behavior-y: none; /* Prevents pull-to-refresh native bounce on desktop, feels more app-like */
+    overscroll-behavior-y: none;
   }
   h1, h2, h3, h4, h5, h6 {
-    @apply font-normal !important;
+    @apply font-semibold tracking-tight !important;
   }
 }
 
@@ -44,12 +88,12 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #fb923c;
+  @apply bg-black dark:bg-white;
   border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #f97316;
+  @apply bg-gray-800 dark:bg-gray-200;
 }
 
 /* Smooth scrolling */

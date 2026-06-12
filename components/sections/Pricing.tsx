@@ -1,19 +1,35 @@
 "use client"
 
+import { useState, useEffect } from "react"
 import Link from "next/link"
 import { CheckCircle2, X, Star, ArrowRight, Sparkles, Zap, Crown, HelpCircle } from "lucide-react"
 
 export default function Pricing() {
+  const [dbServices, setDbServices] = useState<any[]>([])
+  const [emptyMessage, setEmptyMessage] = useState("Maaf, layanan kami sedang dalam mode libur/tutup sementara.")
+
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem("websiteSettings")
+      if (saved) {
+        const parsed = JSON.parse(saved)
+        if (parsed.services) setDbServices(parsed.services)
+        if (parsed.emptyStateMessage) setEmptyMessage(parsed.emptyStateMessage)
+      }
+    } catch (e) {
+      console.error(e)
+    }
+  }, [])
   const plans = [
     {
       name: "Basic",
-      description: "Cocok untuk kebutuhan personal atau tugas.",
+      description: "Untuk kebutuhan personal atau tugas harian.",
       monthlyPrice: 15000,
       icon: Zap,
       features: [
-        "1 Pilihan Desain Poster",
-        "2x Revisi Gratis",
-        "Format File (JPG / PNG)",
+        "1 Pilihan Layout Poster",
+        "2x Revisi Minor",
+        "Format Digital (JPG/PNG)",
         "Resolusi Standar",
         "Pengerjaan 2-3 Hari",
         "Support via Chat",
@@ -21,52 +37,52 @@ export default function Pricing() {
       notIncluded: [
         "Source File (PSD/AI)", 
         "Desain Super Kompleks", 
-        "Pengerjaan Kilat (1 Hari)", 
+        "Pengerjaan Kilat", 
         "Konsultasi Konsep"
       ],
+      buttonStyle: "bg-white dark:bg-black text-black dark:text-white hover:bg-gray-100 dark:hover:bg-white/10 border border-gray-200 dark:border-white/10",
+      buttonText: "Mulai Project",
       popular: false,
-      buttonText: "Pilih Basic",
-      buttonStyle: "bg-orange-50 text-orange-600 hover:bg-orange-100",
     },
     {
       name: "Professional",
-      description: "Paling pas untuk promosi event & branding.",
+      description: "Pilihan utama untuk branding dan promosi UMKM.",
       monthlyPrice: 20000,
       icon: Sparkles,
       features: [
         "1 Desain Poster Premium",
-        "5x Revisi Gratis",
-        "Semua Format (JPG, PNG, PDF)",
-        "Resolusi Tinggi (High-Res)",
+        "5x Revisi",
+        "Multi-Format (JPG, PNG, PDF)",
+        "Resolusi Tinggi (Print Ready)",
         "Source File Included",
         "Pengerjaan 2-3 Hari",
         "Konsultasi Arah Desain",
-        "Support Prioritas",
+        "Priority Support",
       ],
-      notIncluded: ["Pengerjaan Kilat (Same Day)"],
-      popular: true,
+      notIncluded: ["Pengerjaan Kilat (24 Jam)"],
+      buttonStyle: "bg-black dark:bg-white text-white dark:text-black hover:bg-white dark:hover:bg-black hover:text-black dark:hover:text-white border border-black dark:border-white transition-colors",
       buttonText: "Pilih Professional",
-      buttonStyle: "bg-orange-500 text-white hover:bg-orange-600 shadow-lg shadow-orange-500/25",
+      popular: true,
     },
     {
       name: "Enterprise",
-      description: "Solusi lengkap untuk skala komersial.",
+      description: "Solusi end-to-end untuk skala komersial besar.",
       monthlyPrice: 25000,
       icon: Crown,
       features: [
         "1 Desain Poster Eksklusif",
-        "Revisi Sepuasnya (Unlimited)",
-        "Semua Format + Link Template",
+        "Revisi Sepuasnya",
+        "Semua Format + Template Base",
         "Resolusi Ultra HD 4K",
-        "Bisa Pengerjaan Kilat",
+        "Prioritas Pengerjaan Kilat",
         "Dedicated Designer",
-        "24/7 Priority Support",
+        "24/7 VIP Support",
         "Lisensi Komersial Bebas",
       ],
       notIncluded: [],
+      buttonStyle: "bg-white dark:bg-black text-black dark:text-white hover:bg-gray-100 dark:hover:bg-white/10 border border-gray-200 dark:border-white/10",
+      buttonText: "Pilih Enterprise",
       popular: false,
-      buttonText: "Hubungi Kami",
-      buttonStyle: "bg-gray-900 text-white hover:bg-gray-800",
     },
   ]
 
@@ -80,93 +96,124 @@ export default function Pricing() {
   }
 
   return (
-    <section id="pricing" className="relative py-24 lg:py-32 bg-white overflow-hidden selection:bg-orange-100 selection:text-orange-900">
+    <section id="pricing" className="relative py-24 lg:py-32 bg-gray-50 dark:bg-black overflow-hidden selection:bg-black dark:selection:bg-white selection:text-white dark:selection:text-black border-t border-gray-200 dark:border-white/10">
       
-      {/* Subtle Background Elements */}
-      <div className="absolute top-0 right-1/4 w-[500px] h-[500px] bg-[#FFF5EC] rounded-full blur-[100px] opacity-60 pointer-events-none" />
-
       <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-10 relative z-10">
         
         {/* ================= HEADER SECTION ================= */}
-        <div className="text-center mb-16 md:mb-20 space-y-4">
-          <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-orange-50 border border-orange-100 rounded-full">
-            <Sparkles className="w-4 h-4 text-orange-500" />
-            <span className="text-xs font-bold text-orange-600 uppercase tracking-widest">
+        <div className="text-center mb-20 space-y-4">
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-white dark:bg-white/5 border border-gray-200 dark:border-white/10">
+            <Sparkles className="w-3.5 h-3.5 text-black dark:text-white" />
+            <span className="text-[10px] font-bold text-black dark:text-white uppercase tracking-[0.2em]">
               Investasi Visual
             </span>
           </div>
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-gray-900 tracking-tight">
-            Pilih Paket <span className="text-orange-500">Harga</span>
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-black dark:text-white tracking-tight">
+            Transparan & Terjangkau
           </h2>
-          <p className="text-lg md:text-xl text-gray-500 font-medium max-w-2xl mx-auto">
-            Harga transparan tanpa biaya tersembunyi. Tingkatkan kualitas visual bisnis Anda dengan budget yang masuk akal.
+          <p className="text-lg md:text-xl text-gray-500 dark:text-gray-400 font-medium max-w-2xl mx-auto">
+            Harga jelas tanpa biaya tersembunyi. Tingkatkan kualitas visual bisnis Anda dengan ROI yang masuk akal.
           </p>
         </div>
 
         {/* ================= PRICING CARDS ================= */}
-        <div className="grid lg:grid-cols-3 gap-8 items-stretch max-w-6xl mx-auto">
-          {plans.map((plan, index) => (
+        {(() => {
+          const visiblePlans = plans.filter(plan => {
+            const matchedPlan = dbServices.find((s: any) => s.name.toLowerCase() === plan.name.toLowerCase())
+            return matchedPlan ? matchedPlan.active : true
+          });
+
+          if (visiblePlans.length === 0) {
+            return (
+              <div className="p-16 flex flex-col items-center justify-center text-center border border-gray-200 dark:border-white/10 bg-white dark:bg-black max-w-3xl mx-auto">
+                <div className="w-16 h-16 bg-gray-100 dark:bg-white/5 flex items-center justify-center mb-6">
+                  <span className="text-2xl">🚧</span>
+                </div>
+                <h3 className="text-2xl font-black text-black dark:text-white uppercase tracking-widest mb-2">Pemesanan Sedang Tutup</h3>
+                <p className="text-sm font-bold text-gray-500 dark:text-gray-400 uppercase tracking-widest">{emptyMessage}</p>
+              </div>
+            )
+          }
+
+          return (
+            <div className="grid lg:grid-cols-3 gap-0 items-stretch max-w-6xl mx-auto border-l border-t border-gray-200 dark:border-white/10 bg-white dark:bg-black">
+              {plans.map((plan, index) => {
+            const matchedPlan = dbServices.find((s: any) => s.name.toLowerCase() === plan.name.toLowerCase())
+            const displayPrice = matchedPlan ? matchedPlan.price : plan.monthlyPrice
+            const customStatus = matchedPlan?.customStatus
+            const isActive = matchedPlan ? matchedPlan.active : true
+
+            if (!isActive) return null
+
+            return (
             <div
               key={index}
-              className={`relative flex flex-col bg-white rounded-[2.5rem] transition-all duration-500 hover:-translate-y-2 p-8 md:p-10 ${
-                plan.popular 
-                  ? "border-2 border-orange-500 shadow-2xl shadow-orange-900/10 lg:scale-105 z-20" 
-                  : "border border-gray-100 shadow-sm hover:shadow-xl hover:shadow-gray-200 z-10"
+              className={`relative flex flex-col bg-white dark:bg-black transition-all duration-300 hover:bg-gray-50 dark:hover:bg-white/5 p-8 md:p-10 border-r border-b border-gray-200 dark:border-white/10 ${
+                plan.popular ? "z-20 shadow-2xl scale-[1.02] border border-black dark:border-white" : "z-10"
               }`}
             >
               {/* Popular Badge */}
               {plan.popular && (
-                <div className="absolute -top-4 left-1/2 -translate-x-1/2">
-                  <div className="bg-gradient-to-r from-orange-600 to-orange-400 text-white px-5 py-1.5 rounded-full text-xs font-black uppercase tracking-widest flex items-center gap-1.5 shadow-md">
-                    <Star size={14} className="fill-current" />
+                <div className="absolute top-0 right-0">
+                  <div className="bg-black dark:bg-white text-white dark:text-black px-5 py-2 text-[10px] font-black uppercase tracking-widest flex items-center gap-1.5">
+                    <Star size={12} className="fill-current" />
                     Best Seller
                   </div>
                 </div>
               )}
 
               {/* Card Header */}
-              <div className="flex justify-between items-start mb-6">
+              <div className="flex justify-between items-start mb-8 pt-4">
                 <div>
-                  <h3 className="text-2xl font-black text-gray-900">{plan.name}</h3>
-                  <p className="text-sm font-medium text-gray-500 mt-2 line-clamp-2 pr-4">{plan.description}</p>
+                  <h3 className="text-2xl font-bold text-black dark:text-white">{plan.name}</h3>
+                  <p className="text-sm font-medium text-gray-500 dark:text-gray-400 mt-2 line-clamp-2 pr-4">{plan.description}</p>
                 </div>
-                <div className={`p-3 rounded-2xl flex-shrink-0 ${plan.popular ? 'bg-orange-100 text-orange-600' : 'bg-gray-50 text-gray-400'}`}>
+                <div className={`p-3 border flex-shrink-0 ${plan.popular ? 'bg-black dark:bg-white text-white dark:text-black border-black dark:border-white' : 'bg-white dark:bg-black text-black dark:text-white border-gray-200 dark:border-white/10'}`}>
                   <plan.icon size={24} />
                 </div>
               </div>
 
-              {/* Price */}
-              <div className="mb-8 flex items-baseline gap-1">
-                <span className="text-4xl md:text-5xl font-black text-gray-900 tracking-tight">
-                  {formatPrice(plan.monthlyPrice).replace("Rp", "")}
-                </span>
-                <div className="flex flex-col">
-                  <span className="text-sm font-bold text-gray-400">IDR</span>
-                  <span className="text-xs font-medium text-gray-500">/ project</span>
+                <div className="mb-8 relative z-10 pt-4">
+                  <div className="flex items-baseline gap-2 mb-1">
+                    {customStatus ? (
+                      <span className="text-sm font-black text-red-500 uppercase tracking-widest border border-red-500 px-2 py-1 bg-red-50 dark:bg-red-900/20">{customStatus}</span>
+                    ) : (
+                      <>
+                        <span className="text-5xl font-bold text-black dark:text-white tracking-tighter">
+                          {formatPrice(displayPrice).replace("Rp", "").trim()}
+                        </span>
+                        <span className="text-lg font-bold text-gray-500 dark:text-gray-400">IDR</span>
+                      </>
+                    )}
+                  </div>
+                  <span className="text-[10px] font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest">
+                    / PROJECT
+                  </span>
                 </div>
-              </div>
 
-              <div className="h-px w-full bg-gray-100 mb-8" />
+              <div className="h-px w-full bg-gray-200 dark:bg-white/10 mb-8" />
 
               {/* Features List */}
-              <div className="flex-1 space-y-6 mb-10">
-                <div className="space-y-3.5">
-                  <p className="text-xs font-black text-gray-900 uppercase tracking-wider mb-4">Yang Anda Dapatkan:</p>
+              <div className="flex-1 space-y-8 mb-10">
+                <div className="space-y-4">
+                  <p className="text-[10px] font-bold text-black dark:text-white uppercase tracking-widest mb-4">Yang Anda Dapatkan:</p>
                   {plan.features.map((feature, idx) => (
                     <div key={idx} className="flex items-start gap-3">
-                      <CheckCircle2 size={20} className="text-orange-500 flex-shrink-0 mt-0.5" />
-                      <span className="text-sm font-medium text-gray-700">{feature}</span>
+                      <div className="w-5 h-5 bg-gray-100 dark:bg-white/5 flex items-center justify-center flex-shrink-0 mt-0.5 border border-gray-200 dark:border-white/10">
+                        <CheckCircle2 size={12} className="text-black dark:text-white" />
+                      </div>
+                      <span className="text-sm font-medium text-gray-700 dark:text-gray-300">{feature}</span>
                     </div>
                   ))}
                 </div>
 
                 {plan.notIncluded.length > 0 && (
-                  <div className="space-y-3.5 pt-4">
-                    <p className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-4">Tidak Termasuk:</p>
+                  <div className="space-y-4 pt-6 border-t border-gray-100 dark:border-white/10">
+                    <p className="text-[10px] font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-4">Tidak Termasuk:</p>
                     {plan.notIncluded.map((feature, idx) => (
                       <div key={idx} className="flex items-start gap-3 opacity-60">
                         <X size={20} className="text-gray-400 flex-shrink-0 mt-0.5" />
-                        <span className="text-sm font-medium text-gray-500">{feature}</span>
+                        <span className="text-sm font-medium text-gray-500 dark:text-gray-400">{feature}</span>
                       </div>
                     ))}
                   </div>
@@ -176,26 +223,29 @@ export default function Pricing() {
               {/* CTA Button */}
               <Link
                 href="/order"
-                className={`w-full flex items-center justify-center gap-2 py-4 rounded-2xl font-bold transition-all duration-300 ${plan.buttonStyle}`}
+                className={`w-full flex items-center justify-center gap-2 py-4 rounded-none font-bold transition-all duration-300 group/btn ${plan.buttonStyle}`}
               >
                 {plan.buttonText}
-                <ArrowRight size={18} />
+                <ArrowRight size={18} className="group-hover/btn:translate-x-1 transition-transform" />
               </Link>
             </div>
-          ))}
-        </div>
+            )
+          })}
+            </div>
+          )
+        })()}
 
         {/* ================= FAQ SECTION ================= */}
         <div className="mt-32 max-w-4xl mx-auto">
-          <div className="text-center mb-12">
-            <div className="inline-flex items-center justify-center p-3 bg-gray-50 rounded-2xl mb-4">
-              <HelpCircle className="w-6 h-6 text-orange-500" />
+          <div className="text-center mb-16 space-y-4">
+            <div className="inline-flex items-center justify-center p-3 bg-white dark:bg-white/5 border border-gray-200 dark:border-white/10 mb-2">
+              <HelpCircle className="w-5 h-5 text-black dark:text-white" />
             </div>
-            <h3 className="text-3xl font-black text-gray-900">Pertanyaan Populer</h3>
-            <p className="text-gray-500 mt-2 font-medium">Masih ragu? Temukan jawabannya di sini.</p>
+            <h3 className="text-3xl md:text-4xl font-bold text-black dark:text-white tracking-tight">F.A.Q</h3>
+            <p className="text-gray-500 dark:text-gray-400 font-medium">Masih ragu? Temukan jawabannya di sini.</p>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-6">
+          <div className="grid md:grid-cols-2 gap-0 border-t border-l border-gray-200 dark:border-white/10 bg-white dark:bg-black">
             {[
               {
                 q: "Apakah ada biaya tersembunyi?",
@@ -207,16 +257,16 @@ export default function Pricing() {
               },
               {
                 q: "Berapa lama proses pengerjaan?",
-                a: "Rata-rata 2-3 hari kerja. Namun, jika Anda memilih paket Enterprise atau menambah fitur Rush Order, bisa selesai kurang dari 24 jam."
+                a: "Rata-rata 2-3 hari kerja. Jika Anda memilih paket Enterprise atau menambah fitur Rush Order, bisa selesai kurang dari 24 jam."
               },
               {
                 q: "Bagaimana jika saya tidak suka hasilnya?",
-                a: "Tenang saja! Setiap paket sudah mencakup jatah revisi (bahkan unlimited untuk Enterprise) agar hasil akhirnya benar-benar sesuai keinginan Anda."
+                a: "Setiap paket sudah mencakup jatah revisi (bahkan unlimited untuk Enterprise) agar hasil akhirnya benar-benar sesuai dengan brand guidelines Anda."
               }
             ].map((faq, i) => (
-              <div key={i} className="bg-white p-6 rounded-[1.5rem] border border-gray-100 shadow-sm hover:shadow-md transition-shadow">
-                <h4 className="text-lg font-bold text-gray-900 mb-2">{faq.q}</h4>
-                <p className="text-sm text-gray-500 leading-relaxed font-medium">{faq.a}</p>
+              <div key={i} className="bg-white dark:bg-black p-6 lg:p-8 border-r border-b border-gray-200 dark:border-white/10 hover:bg-gray-50 dark:hover:bg-white/5 transition-colors">
+                <h4 className="text-lg font-bold text-black dark:text-white mb-3">{faq.q}</h4>
+                <p className="text-sm text-gray-500 dark:text-gray-400 leading-relaxed font-medium">{faq.a}</p>
               </div>
             ))}
           </div>

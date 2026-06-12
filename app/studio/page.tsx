@@ -74,54 +74,25 @@ const FALLBACK_FRAMES: Record<string, string> = {}
 function StepIndicator({ currentStep }: { currentStep: 1 | 2 | 3 }) {
   const steps = [
     { num: 1, label: "Ambil Foto", icon: Camera },
-    { num: 2, label: "Edit", icon: Wand2 },
-    { num: 3, label: "Hasil", icon: Download },
+    { num: 2, label: "Edit Foto", icon: Wand2 },
+    { num: 3, label: "Hasil Akhir", icon: Download },
   ]
 
   return (
-    <div className="flex items-center justify-center gap-1 px-4 py-3">
+    <div className="flex flex-wrap items-center border-b-2 border-black dark:border-white bg-white dark:bg-black">
       {steps.map((step, idx) => {
         const Icon = step.icon
         const isActive = currentStep === step.num
         const isDone = currentStep > step.num
 
         return (
-          <div key={step.num} className="flex items-center gap-1">
-            <div className="flex items-center gap-1.5">
-              <div
-                className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-black transition-all duration-500 ${
-                  isActive
-                    ? "bg-orange-500 text-white shadow-lg shadow-orange-500/30 scale-110"
-                    : isDone
-                    ? "bg-emerald-500 text-white shadow-sm"
-                    : "bg-slate-100 text-slate-400"
-                }`}
-              >
-                {isDone ? (
-                  <CheckCircle2 className="w-4 h-4" />
-                ) : (
-                  <Icon className="w-3.5 h-3.5" />
-                )}
-              </div>
-              <span
-                className={`text-[10px] font-extrabold uppercase tracking-wider hidden sm:block transition-colors duration-300 ${
-                  isActive
-                    ? "text-orange-600"
-                    : isDone
-                    ? "text-emerald-600"
-                    : "text-slate-400"
-                }`}
-              >
-                {step.label}
+          <div key={step.num} className={`flex-1 flex items-center justify-center p-3 sm:p-4 border-r-2 last:border-r-0 border-black dark:border-white transition-colors ${isActive ? 'bg-black text-white dark:bg-white dark:text-black' : isDone ? 'bg-gray-100 text-black dark:bg-white/10 dark:text-white' : 'bg-white text-gray-400 dark:bg-black dark:text-gray-600'}`}>
+            <div className="flex items-center gap-2">
+              <Icon className="w-4 h-4" />
+              <span className="text-[10px] md:text-xs font-black uppercase tracking-widest hidden sm:block">
+                {step.num}. {step.label}
               </span>
             </div>
-            {idx < steps.length - 1 && (
-              <div
-                className={`w-8 sm:w-12 h-0.5 rounded-full mx-1 transition-colors duration-500 ${
-                  isDone ? "bg-emerald-400" : "bg-slate-200"
-                }`}
-              />
-            )}
           </div>
         )
       })}
@@ -498,28 +469,30 @@ function StudioPageContent() {
   // RENDER
   // ============================================================
   return (
-    <div className="bg-[#f4f6f9] min-h-screen font-sans select-none w-full relative overflow-x-hidden">
+    <div className="bg-white dark:bg-black min-h-screen font-sans select-none w-full relative overflow-x-hidden selection:bg-black selection:text-white dark:selection:bg-white dark:selection:text-black">
+      {/* Background Decor (Grid tipis) */}
+      <div className="absolute inset-0 bg-[linear-gradient(rgba(0,0,0,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(0,0,0,0.03)_1px,transparent_1px)] dark:bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),dark:linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:64px_64px] pointer-events-none z-0"></div>
 
       {/* HEADER */}
-      <header className="sticky top-0 z-40 w-full bg-white/80 backdrop-blur-xl border-b border-slate-200/50 px-5 h-14 flex items-center justify-between">
+      <header className="sticky top-0 z-40 w-full bg-white dark:bg-black border-b-2 border-black dark:border-white px-5 h-16 flex items-center justify-between">
         <div className="flex items-center gap-3">
           {currentStep === 1 ? (
-            <Link href="/frames" className="w-9 h-9 flex items-center justify-center rounded-full bg-slate-100 flex-shrink-0 text-slate-500 hover:bg-slate-200 transition-colors">
-              <ArrowLeft className="w-4 h-4" />
+            <Link href="/frames" className="w-10 h-10 flex items-center justify-center bg-transparent border-2 border-black dark:border-white text-black dark:text-white hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-colors">
+              <ArrowLeft className="w-5 h-5" />
             </Link>
           ) : (
             <button
               onClick={() => goToStep((currentStep - 1) as 1 | 2)}
-              className="w-9 h-9 flex items-center justify-center rounded-full bg-slate-100 flex-shrink-0 text-slate-500 hover:bg-orange-100 hover:text-orange-600 transition-colors"
+              className="w-10 h-10 flex items-center justify-center bg-transparent border-2 border-black dark:border-white text-black dark:text-white hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-colors"
             >
-              <ChevronLeft className="w-4 h-4" />
+              <ChevronLeft className="w-5 h-5" />
             </button>
           )}
           <div className="flex items-center gap-2">
-            <div className="bg-orange-500 p-1.5 rounded-lg shadow-sm shadow-orange-200/50">
-              <Camera className="w-3.5 h-3.5 text-white" />
+            <div className="bg-black dark:bg-white p-1.5 border border-black dark:border-white">
+              <Camera className="w-4 h-4 text-white dark:text-black" />
             </div>
-            <h1 className="font-extrabold text-slate-800 text-[14px]">Fanajah Studio</h1>
+            <h1 className="font-black text-black dark:text-white text-[15px] uppercase tracking-widest">Studio</h1>
           </div>
         </div>
 
@@ -528,26 +501,26 @@ function StudioPageContent() {
           <button
             onClick={() => goToStep(2)}
             disabled={photos.length === 0}
-            className="bg-orange-500 hover:bg-orange-600 text-white shadow-md shadow-orange-500/20 active:scale-95 text-[10px] font-black uppercase tracking-widest px-4 py-2 rounded-xl flex items-center gap-1.5 transition-all disabled:opacity-40 disabled:shadow-none"
+            className="bg-black dark:bg-white text-white dark:text-black hover:bg-transparent dark:hover:bg-transparent hover:text-black dark:hover:text-white border-2 border-black dark:border-white active:scale-95 text-[10px] font-black uppercase tracking-widest px-6 py-3 flex items-center gap-2 transition-all disabled:opacity-50"
           >
-            Lanjut <ChevronRight className="w-3.5 h-3.5" />
+            Lanjut <ChevronRight className="w-4 h-4" />
           </button>
         )}
         {currentStep === 2 && (
           <button
             onClick={() => goToStep(3)}
             disabled={photos.length === 0}
-            className="bg-emerald-500 hover:bg-emerald-600 text-white shadow-md shadow-emerald-500/20 active:scale-95 text-[10px] font-black uppercase tracking-widest px-4 py-2 rounded-xl flex items-center gap-1.5 transition-all disabled:opacity-40 disabled:shadow-none"
+            className="bg-black dark:bg-white text-white dark:text-black hover:bg-transparent dark:hover:bg-transparent hover:text-black dark:hover:text-white border-2 border-black dark:border-white active:scale-95 text-[10px] font-black uppercase tracking-widest px-6 py-3 flex items-center gap-2 transition-all disabled:opacity-50"
           >
-            Selesai <CheckCircle2 className="w-3.5 h-3.5" />
+            Selesai <CheckCircle2 className="w-4 h-4" />
           </button>
         )}
         {currentStep === 3 && (
           <button
             onClick={() => goToStep(2)}
-            className="bg-slate-700 hover:bg-slate-800 text-white shadow-md active:scale-95 text-[10px] font-black uppercase tracking-widest px-4 py-2 rounded-xl flex items-center gap-1.5 transition-all"
+            className="bg-transparent border-2 border-black dark:border-white text-black dark:text-white hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black active:scale-95 text-[10px] font-black uppercase tracking-widest px-6 py-3 flex items-center gap-2 transition-all"
           >
-            <Wand2 className="w-3.5 h-3.5" /> Edit Lagi
+            <Wand2 className="w-4 h-4" /> Edit Lagi
           </button>
         )}
       </header>
@@ -572,33 +545,33 @@ function StudioPageContent() {
             </div>
 
             {isProcessing ? (
-              <div className="bg-white rounded-[2rem] p-12 shadow-sm border border-slate-100 flex flex-col items-center justify-center space-y-4">
-                <Loader2 className="w-8 h-8 text-orange-500 animate-spin" />
+              <div className="bg-white dark:bg-black border-4 border-black dark:border-white flex flex-col items-center justify-center space-y-4 p-12 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] dark:shadow-[8px_8px_0px_0px_rgba(255,255,255,1)]">
+                <Loader2 className="w-8 h-8 text-black dark:text-white animate-spin" />
                 <div className="text-center">
-                  <h3 className="font-extrabold text-slate-700">Menyiapkan Studio</h3>
-                  <p className="text-xs font-medium text-slate-400 mt-1">Sedang memproses frame...</p>
+                  <h3 className="font-black text-black dark:text-white uppercase tracking-widest">Menyiapkan Studio</h3>
+                  <p className="text-xs font-bold text-gray-500 dark:text-gray-400 mt-1 uppercase tracking-wider">Sedang memproses frame...</p>
                 </div>
               </div>
             ) : (
               <>
                 {/* Progress */}
-                <div className="bg-white rounded-2xl p-4 shadow-sm border border-slate-100">
-                  <div className="flex justify-between items-center mb-2">
-                    <span className="text-[10px] font-extrabold text-slate-400 uppercase tracking-widest flex items-center gap-1.5">
-                      <Sparkles className="w-3 h-3 text-orange-400" /> Progress Foto
+                <div className="bg-white dark:bg-black p-4 border-2 border-black dark:border-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,1)]">
+                  <div className="flex justify-between items-center mb-3">
+                    <span className="text-[10px] font-black text-black dark:text-white uppercase tracking-widest flex items-center gap-1.5">
+                      <Sparkles className="w-3 h-3" /> Progress Foto
                     </span>
-                    <span className="text-sm font-black text-slate-700">
-                      {photos.length} <span className="text-slate-300">/</span> {transparentBoxes.length || "?"}
+                    <span className="text-sm font-black text-black dark:text-white">
+                      {photos.length} <span className="text-gray-400">/</span> {transparentBoxes.length || "?"}
                     </span>
                   </div>
-                  <div className="h-2.5 w-full bg-slate-100 rounded-full overflow-hidden">
+                  <div className="h-3 w-full bg-gray-100 dark:bg-white/10 border-2 border-black dark:border-white overflow-hidden p-[1px]">
                     <div
-                      className="h-full bg-gradient-to-r from-orange-400 to-pink-500 rounded-full transition-all duration-700 ease-out"
+                      className="h-full bg-black dark:bg-white transition-all duration-700 ease-out"
                       style={{ width: `${transparentBoxes.length ? (photos.length / transparentBoxes.length) * 100 : 0}%` }}
                     />
                   </div>
                   {photos.length >= transparentBoxes.length && transparentBoxes.length > 0 && (
-                    <div className="flex items-center gap-2 mt-3 text-emerald-600 text-xs font-bold animate-in fade-in slide-in-from-bottom-2">
+                    <div className="flex items-center gap-2 mt-4 text-black dark:text-white text-xs font-black uppercase tracking-widest animate-in fade-in slide-in-from-bottom-2 bg-gray-100 dark:bg-white/10 p-2 border-2 border-black dark:border-white">
                       <CheckCircle2 className="w-4 h-4" />
                       <span>Semua slot terisi! Klik &quot;Lanjut&quot; untuk edit.</span>
                     </div>
@@ -610,16 +583,19 @@ function StudioPageContent() {
                   onPhotoAdd={addPhoto}
                   boxCount={transparentBoxes.length}
                   uploadedPhotos={photos.length}
+                  photos={photos}
+                  onNextStep={() => goToStep(2)}
+                  onPhotoRemove={removePhoto}
                 />
 
                 {/* Photo Grid Preview */}
                 <div className="space-y-3">
                   <div className="flex items-center justify-between px-1">
-                    <h3 className="text-[11px] font-extrabold text-slate-500 uppercase tracking-widest flex items-center gap-1.5">
-                      <Eye className="w-3.5 h-3.5 text-orange-500" /> Foto yang Diambil
+                    <h3 className="text-[11px] font-black text-black dark:text-white uppercase tracking-widest flex items-center gap-1.5">
+                      <Eye className="w-3.5 h-3.5" /> Foto yang Diambil
                     </h3>
                     {photos.length > 0 && (
-                      <button onClick={clearAllPhotos} className="text-[10px] items-center gap-1 font-bold text-red-500 hover:bg-red-50 px-2 py-1 rounded-md transition-colors flex">
+                      <button onClick={clearAllPhotos} className="text-[10px] items-center gap-1 font-black uppercase tracking-widest text-black dark:text-white border-2 border-black dark:border-white hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black px-2 py-1 transition-colors flex">
                         <Trash2 className="w-3 h-3" /> Hapus Semua
                       </button>
                     )}
@@ -628,9 +604,9 @@ function StudioPageContent() {
                   {photos.length > 0 ? (
                     <div className="flex flex-wrap gap-3">
                       {photos.map((photo, idx) => (
-                        <div
+                         <div
                           key={photo.id}
-                          className="relative group bg-white rounded-xl overflow-hidden border border-slate-100 shadow-sm hover:shadow-md hover:border-orange-200 transition-all w-20 h-20 sm:w-24 sm:h-24 shrink-0"
+                          className="relative group bg-gray-50 dark:bg-white/5 border-2 border-black dark:border-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] dark:shadow-[2px_2px_0px_0px_rgba(255,255,255,1)] w-20 h-20 sm:w-24 sm:h-24 shrink-0 overflow-hidden"
                         >
                           <img
                             src={photo.src}
@@ -638,13 +614,13 @@ function StudioPageContent() {
                             className="w-full h-full object-cover"
                           />
                           {/* Overlay badge */}
-                          <div className="absolute top-1.5 left-1.5 bg-black/60 backdrop-blur-md text-white text-[8px] font-black px-1.5 py-0.5 rounded-md uppercase tracking-wider">
+                          <div className="absolute top-1 left-1 bg-white dark:bg-black border border-black dark:border-white text-black dark:text-white text-[8px] font-black px-1.5 py-0.5 uppercase tracking-wider">
                             Slot {idx + 1}
                           </div>
                           {/* Delete button */}
                           <button
                             onClick={() => removePhoto(photo.id)}
-                            className="absolute top-1.5 right-1.5 w-6 h-6 bg-red-500/90 backdrop-blur-md text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 active:scale-90 transition-all hover:bg-red-600"
+                            className="absolute top-1 right-1 w-6 h-6 bg-white dark:bg-black border border-black dark:border-white text-black dark:text-white flex items-center justify-center opacity-0 group-hover:opacity-100 hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-all"
                           >
                             <Trash2 className="w-3 h-3" />
                           </button>
@@ -652,10 +628,10 @@ function StudioPageContent() {
                       ))}
                     </div>
                   ) : (
-                    <div className="border-2 border-dashed border-slate-200 bg-slate-50/50 rounded-2xl flex flex-col items-center justify-center py-10 px-4 text-center">
-                      <ImageIcon className="w-8 h-8 text-slate-300 mb-2" />
-                      <p className="text-xs font-bold text-slate-400">Belum ada foto</p>
-                      <p className="text-[10px] text-slate-400 mt-1">Gunakan kamera atau upload untuk mulai.</p>
+                    <div className="border-2 border-dashed border-black dark:border-white bg-transparent flex flex-col items-center justify-center py-10 px-4 text-center">
+                      <ImageIcon className="w-8 h-8 text-black dark:text-white mb-2" />
+                      <p className="text-xs font-black uppercase tracking-widest text-black dark:text-white">Belum ada foto</p>
+                      <p className="text-[10px] font-bold text-gray-500 dark:text-gray-400 mt-1 uppercase tracking-wider">Gunakan kamera atau upload untuk mulai.</p>
                     </div>
                   )}
                 </div>
@@ -666,7 +642,7 @@ function StudioPageContent() {
             {photos.length > 0 && (
               <button
                 onClick={() => goToStep(2)}
-                className="w-full py-4 bg-gradient-to-r from-orange-500 to-pink-500 text-white font-extrabold text-sm rounded-2xl shadow-lg shadow-orange-500/25 hover:shadow-xl active:scale-[0.98] transition-all flex items-center justify-center gap-2"
+                className="w-full py-4 bg-black dark:bg-white text-white dark:text-black border-2 border-black dark:border-white font-black text-sm uppercase tracking-widest shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] dark:shadow-[6px_6px_0px_0px_rgba(255,255,255,1)] hover:translate-y-1 hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] dark:hover:shadow-[2px_2px_0px_0px_rgba(255,255,255,1)] transition-all flex items-center justify-center gap-2"
               >
                 Lanjut ke Edit <ArrowRight className="w-4 h-4" />
               </button>
@@ -679,116 +655,126 @@ function StudioPageContent() {
           <main className="max-w-6xl mx-auto p-4 md:p-8 grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-10 items-start pb-32">
 
             {/* CANVAS AREA */}
-            <section className="relative z-10 w-full lg:col-span-8 order-1">
+            <section className="relative z-10 w-full lg:col-span-7 order-1">
               {isProcessing ? (
-                <div className="w-full aspect-[3/4] flex flex-col items-center justify-center bg-white border border-slate-100 rounded-[2rem] shadow-sm">
-                  <Loader2 className="w-8 h-8 text-orange-500 animate-spin mb-3" />
-                  <p className="text-xs font-bold text-slate-400">Menganalisa Frame...</p>
+                <div className="w-full aspect-[3/4] flex flex-col items-center justify-center bg-white dark:bg-black border-4 border-black dark:border-white shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] dark:shadow-[8px_8px_0px_0px_rgba(255,255,255,1)]">
+                  <Loader2 className="w-8 h-8 text-black dark:text-white animate-spin mb-3" />
+                  <p className="text-xs font-black uppercase tracking-widest text-black dark:text-white">Menganalisa Frame...</p>
                 </div>
               ) : (
-                <div className="w-full bg-white p-3 md:p-5 rounded-[2rem] shadow-[0_8px_30px_rgba(0,0,0,0.04)] border border-slate-100 relative">
-                  <div className="bg-slate-50 rounded-[1.5rem] p-3 flex items-center justify-center w-full min-h-[400px] md:min-h-[600px] border border-orange-50 overflow-hidden relative">
-                    <CanvasComposer
-                      canvasRef={canvasRef}
-                      frameImage={frameImage}
-                      photos={photos}
-                      transparentBoxes={transparentBoxes}
-                      photoAdjustments={photoAdjustments}
-                      stickers={stickers}
-                      setStickers={setStickers}
-                    />
-                  </div>
-                  <div className="mt-4 flex flex-wrap justify-center gap-4 md:gap-6 text-[9px] md:text-[11px] font-black text-slate-400 uppercase tracking-widest pb-1">
-                    <span className="flex items-center gap-1.5"><Sparkles className="w-3 h-3 text-orange-400" /> Layer Stiker</span>
-                    <span className="flex items-center gap-1.5"><Sparkles className="w-3 h-3 text-pink-400" /> Filter Canggih</span>
+                <div className="w-full bg-gray-50 dark:bg-white/5 p-4 md:p-6 border-4 border-black dark:border-white shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] dark:shadow-[8px_8px_0px_0px_rgba(255,255,255,1)] relative flex flex-col items-center justify-center min-h-[400px]">
+                  <CanvasComposer
+                    canvasRef={canvasRef}
+                    frameImage={frameImage}
+                    photos={photos}
+                    transparentBoxes={transparentBoxes}
+                    photoAdjustments={photoAdjustments}
+                    stickers={stickers}
+                    setStickers={setStickers}
+                  />
+                  <div className="mt-6 flex flex-wrap justify-center gap-4 md:gap-6 text-[9px] md:text-[11px] font-black text-black dark:text-white uppercase tracking-widest pb-1">
+                    <span className="flex items-center gap-1.5"><Sparkles className="w-3 h-3" /> Layer Stiker</span>
+                    <span className="flex items-center gap-1.5"><Sparkles className="w-3 h-3" /> Filter Canggih</span>
                   </div>
                 </div>
               )}
             </section>
 
             {/* TOOLS COLUMN */}
-            <div className="flex flex-col gap-5 lg:col-span-4 order-2">
+            <div className="flex flex-col gap-5 lg:col-span-5 order-2">
               {/* LAYER MANAGEMENT */}
-              <section className="bg-white rounded-[1.5rem] p-5 shadow-sm border border-slate-100">
-                <div className="flex items-center gap-2 mb-4">
-                  <Layers className="w-4 h-4 text-pink-500" />
-                  <h3 className="font-extrabold text-[13px] text-slate-800">LAYERS FOTO</h3>
+              <section className="space-y-3">
+                <div className="flex items-center gap-2 border-b-2 border-black dark:border-white pb-2 px-1">
+                  <Settings2 className="w-5 h-5 text-black dark:text-white" />
+                  <h3 className="font-black text-sm text-black dark:text-white uppercase tracking-widest">Pengaturan Foto</h3>
                 </div>
+                
+                <div className="bg-white dark:bg-black border-2 border-black dark:border-white p-4 md:p-5 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,1)]">
+                  <p className="text-[10px] text-gray-500 dark:text-gray-400 font-bold mb-4 uppercase tracking-wider leading-relaxed">
+                    Gunakan tombol <strong className="text-black dark:text-white">Edit</strong> untuk geser, zoom, dan memberi filter warna pada masing-masing foto.
+                  </p>
 
-                <ScrollArea className="h-[250px] md:h-[350px] bg-slate-50 rounded-[1.2rem] p-2 border border-slate-100">
-                  {photos.length > 0 ? (
-                    <div className="space-y-2">
-                      {photos.map((photo, idx) => (
-                        <div key={photo.id} className="flex items-center gap-2.5 p-2 bg-white border border-slate-100 rounded-xl shadow-sm hover:border-orange-200 transition-colors">
-                          <img src={photo.src} alt="Uploaded" className="w-12 h-12 rounded-lg object-cover bg-slate-100" />
-                          <div className="flex-1 min-w-0">
-                            <p className="text-[9px] font-black uppercase text-orange-500">Slot {idx + 1}</p>
-                            <p className="text-xs font-bold text-slate-700 truncate">Foto {idx + 1}</p>
-                          </div>
+                  <ScrollArea className="h-[300px] md:h-[400px] pr-3">
+                    {photos.length > 0 ? (
+                      <div className="space-y-3">
+                        {photos.map((photo, idx) => (
+                          <div key={photo.id} className="flex flex-col sm:flex-row sm:items-center gap-3 p-3 bg-white dark:bg-black border-2 border-black dark:border-white hover:bg-gray-50 dark:hover:bg-white/10 transition-colors shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] dark:shadow-[2px_2px_0px_0px_rgba(255,255,255,1)]">
+                            <div className="flex items-center gap-3 flex-1 min-w-0">
+                              <img src={photo.src} alt="Uploaded" className="w-12 h-12 md:w-14 md:h-14 border-2 border-black dark:border-white object-cover bg-gray-100 dark:bg-white/10 shrink-0" />
+                              <div className="flex-1 min-w-0">
+                                <p className="text-[10px] font-black uppercase tracking-widest text-black dark:text-white truncate">Slot {idx + 1}</p>
+                                <p className="text-xs font-bold text-gray-500 dark:text-gray-400 truncate">Foto {idx + 1}</p>
+                              </div>
+                            </div>
 
-                          {/* ACTION BUTTONS */}
-                          <div className="flex gap-1 shrink-0">
-                            <button
-                              onClick={() => setEditingPhotoId(photo.id)}
-                              className="w-8 h-8 flex items-center justify-center rounded-lg bg-orange-50 text-orange-500 hover:bg-orange-100 hover:text-orange-600 active:scale-90 transition-colors"
-                              title="Edit & Filter"
-                            >
-                              <Settings2 size={14} strokeWidth={2.5} />
-                            </button>
-                            <button
-                              onClick={() => movePhoto(idx, idx - 1)}
-                              disabled={idx === 0}
-                              className="w-8 h-8 flex items-center justify-center rounded-lg bg-slate-50 text-slate-400 hover:bg-orange-50 hover:text-orange-500 active:scale-90 disabled:opacity-30 disabled:hover:bg-transparent disabled:hover:text-slate-400 transition-colors"
-                              title="Pindah ke Atas"
-                            >
-                              <MoveUp size={14} strokeWidth={2.5} />
-                            </button>
-                            <button
-                              onClick={() => movePhoto(idx, idx + 1)}
-                              disabled={idx === photos.length - 1}
-                              className="w-8 h-8 flex items-center justify-center rounded-lg bg-slate-50 text-slate-400 hover:bg-orange-50 hover:text-orange-500 active:scale-90 disabled:opacity-30 disabled:hover:bg-transparent disabled:hover:text-slate-400 transition-colors"
-                              title="Pindah ke Bawah"
-                            >
-                              <MoveDown size={14} strokeWidth={2.5} />
-                            </button>
-                            <button
-                              onClick={() => removePhoto(photo.id)}
-                              className="w-8 h-8 flex items-center justify-center rounded-lg bg-slate-50 text-slate-400 hover:bg-red-50 hover:text-red-500 active:scale-90 transition-colors"
-                              title="Hapus"
-                            >
-                              <Trash2 size={14} strokeWidth={2.5} />
-                            </button>
+                            {/* ACTION BUTTONS */}
+                            <div className="flex flex-wrap items-center gap-1.5 shrink-0">
+                              <button
+                                onClick={() => setEditingPhotoId(photo.id)}
+                                className="flex-1 sm:flex-none px-3 h-9 flex items-center justify-center border-2 border-black dark:border-white bg-black dark:bg-white text-white dark:text-black hover:bg-white hover:text-black dark:hover:bg-black dark:hover:text-white active:scale-95 transition-colors text-[10px] font-black uppercase tracking-widest gap-1.5"
+                                title="Edit Foto & Filter"
+                              >
+                                <Settings2 size={14} strokeWidth={3} />
+                                <span>Edit</span>
+                              </button>
+                              <button
+                                onClick={() => movePhoto(idx, idx - 1)}
+                                disabled={idx === 0}
+                                className="w-9 h-9 flex items-center justify-center border-2 border-black dark:border-white bg-white dark:bg-black text-black dark:text-white hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black active:scale-95 disabled:opacity-30 disabled:hover:bg-transparent transition-colors"
+                                title="Pindah ke Atas"
+                              >
+                                <MoveUp size={14} strokeWidth={2.5} />
+                              </button>
+                              <button
+                                onClick={() => movePhoto(idx, idx + 1)}
+                                disabled={idx === photos.length - 1}
+                                className="w-9 h-9 flex items-center justify-center border-2 border-black dark:border-white bg-white dark:bg-black text-black dark:text-white hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black active:scale-95 disabled:opacity-30 disabled:hover:bg-transparent transition-colors"
+                                title="Pindah ke Bawah"
+                              >
+                                <MoveDown size={14} strokeWidth={2.5} />
+                              </button>
+                              <button
+                                onClick={() => removePhoto(photo.id)}
+                                className="w-9 h-9 flex items-center justify-center border-2 border-black dark:border-white bg-red-500 text-white hover:bg-white hover:text-red-500 dark:hover:bg-black active:scale-95 transition-colors"
+                                title="Hapus"
+                              >
+                                <Trash2 size={14} strokeWidth={2.5} />
+                              </button>
+                            </div>
                           </div>
-                        </div>
-                      ))}
-                    </div>
-                  ) : (
-                    <div className="flex flex-col items-center justify-center h-full opacity-40">
-                      <ImageIcon size={28} className="mb-2" />
-                      <span className="text-xs font-bold">Belum ada foto</span>
-                    </div>
-                  )}
-                </ScrollArea>
+                        ))}
+                      </div>
+                    ) : (
+                      <div className="flex flex-col items-center justify-center h-full opacity-40 bg-gray-50 dark:bg-white/5 border-2 border-dashed border-black dark:border-white py-12">
+                        <ImageIcon size={32} className="mb-3" />
+                        <span className="text-xs font-black uppercase tracking-widest text-black dark:text-white">Belum ada foto</span>
+                      </div>
+                    )}
+                  </ScrollArea>
+                </div>
               </section>
 
               {/* ADD MORE PHOTOS */}
-              <section className="bg-white rounded-[1.5rem] p-5 shadow-sm border border-slate-100">
-                <div className="flex items-center gap-2 mb-3">
-                  <Plus className="w-4 h-4 text-orange-500" />
-                  <h3 className="font-extrabold text-[13px] text-slate-800">TAMBAH FOTO</h3>
+              <section className="space-y-3">
+                <div className="flex items-center gap-2 border-b-2 border-black dark:border-white pb-2 px-1">
+                  <Camera className="w-5 h-5 text-black dark:text-white" />
+                  <h3 className="font-black text-sm text-black dark:text-white uppercase tracking-widest">Ambil Foto Ulang</h3>
                 </div>
                 <PhotoUploader
                   onPhotoAdd={addPhoto}
                   boxCount={transparentBoxes.length}
                   uploadedPhotos={photos.length}
+                  photos={photos}
+                  onNextStep={() => goToStep(2)}
+                  onPhotoRemove={removePhoto}
                 />
               </section>
 
-              {/* FINISH BUTTON (Mobile) */}
+              {/* FINISH BUTTON */}
               <button
                 onClick={() => goToStep(3)}
                 disabled={photos.length === 0}
-                className="w-full py-4 bg-gradient-to-r from-emerald-500 to-emerald-600 text-white font-extrabold text-sm rounded-2xl shadow-lg shadow-emerald-500/25 hover:shadow-xl active:scale-[0.98] transition-all flex items-center justify-center gap-2 disabled:opacity-40 disabled:shadow-none lg:hidden"
+                className="w-full py-4 mt-4 bg-black dark:bg-white text-white dark:text-black border-2 border-black dark:border-white font-black text-sm uppercase tracking-widest shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] dark:shadow-[6px_6px_0px_0px_rgba(255,255,255,1)] hover:translate-y-1 hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] dark:hover:shadow-[2px_2px_0px_0px_rgba(255,255,255,1)] transition-all flex items-center justify-center gap-2 disabled:opacity-40 disabled:shadow-none"
               >
                 <CheckCircle2 className="w-4 h-4" /> Selesai — Lihat Hasil
               </button>
@@ -798,105 +784,113 @@ function StudioPageContent() {
 
         {/* ==================== STEP 3: RESULT ==================== */}
         {currentStep === 3 && (
-          <main className="max-w-4xl mx-auto p-4 md:p-8 pb-32 space-y-6">
+          <main className="max-w-4xl mx-auto p-4 md:p-8 pb-32 space-y-6 relative z-10">
 
             {/* Title */}
-            <div className="text-center space-y-1">
-              <h2 className="text-2xl font-black text-slate-800">🎉 Foto Kamu Sudah Jadi!</h2>
-              <p className="text-sm text-slate-500">Simpan, bagikan, atau buat GIF dari foto-foto kamu</p>
+            <div className="text-center space-y-2 border-2 border-black dark:border-white p-6 bg-white dark:bg-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,1)]">
+              <h2 className="text-2xl font-black text-black dark:text-white uppercase tracking-widest">🎉 Foto Kamu Sudah Jadi!</h2>
+              <p className="text-sm font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Simpan, bagikan, atau buat GIF dari foto-foto kamu</p>
             </div>
 
             {/* Canvas Preview (read-only) */}
-            <div className="bg-white p-4 md:p-6 rounded-[2rem] shadow-[0_8px_30px_rgba(0,0,0,0.04)] border border-slate-100">
-              <div className="bg-slate-50 rounded-[1.5rem] p-3 flex items-center justify-center w-full min-h-[300px] md:min-h-[500px] border border-orange-50 overflow-hidden">
-                <CanvasComposer
-                  canvasRef={canvasRef}
-                  frameImage={frameImage}
-                  photos={photos}
-                  transparentBoxes={transparentBoxes}
-                  photoAdjustments={photoAdjustments}
-                  stickers={stickers}
-                  setStickers={setStickers}
-                />
-              </div>
+            <div className="w-full bg-gray-50 dark:bg-white/5 p-4 md:p-6 border-4 border-black dark:border-white shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] dark:shadow-[8px_8px_0px_0px_rgba(255,255,255,1)] relative flex items-center justify-center min-h-[300px]">
+              <CanvasComposer
+                canvasRef={canvasRef}
+                frameImage={frameImage}
+                photos={photos}
+                transparentBoxes={transparentBoxes}
+                photoAdjustments={photoAdjustments}
+                stickers={stickers}
+                setStickers={setStickers}
+              />
             </div>
 
             {/* Action Buttons Grid */}
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
               <button
                 onClick={downloadComposite}
-                className="flex flex-col items-center gap-3 p-5 bg-white rounded-2xl border border-slate-100 shadow-sm hover:shadow-md hover:border-orange-200 active:scale-95 transition-all group"
+                className="flex flex-col items-center gap-3 p-5 bg-white dark:bg-black border-2 border-black dark:border-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,1)] hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black active:translate-y-1 active:shadow-[0px_0px_0px_0px_rgba(0,0,0,1)] transition-all group"
               >
-                <div className="w-14 h-14 bg-gradient-to-br from-orange-400 to-orange-500 rounded-2xl flex items-center justify-center shadow-lg shadow-orange-500/20 group-hover:scale-110 transition-transform">
-                  <Download className="text-white" size={24} />
+                <div className="w-14 h-14 bg-transparent border-2 border-black dark:border-white group-hover:border-white dark:group-hover:border-black flex items-center justify-center group-hover:scale-110 transition-transform">
+                  <Download className="text-black dark:text-white group-hover:text-white dark:group-hover:text-black" size={24} />
                 </div>
-                <span className="text-[10px] font-black text-slate-600 uppercase tracking-wider group-hover:text-orange-600 transition-colors">Download</span>
+                <span className="text-[10px] font-black uppercase tracking-wider transition-colors">Download</span>
               </button>
 
               <button
                 onClick={handleGenerateGif}
                 disabled={photos.length === 0}
-                className="flex flex-col items-center gap-3 p-5 bg-white rounded-2xl border border-slate-100 shadow-sm hover:shadow-md hover:border-purple-200 active:scale-95 transition-all group disabled:opacity-40"
+                className="flex flex-col items-center gap-3 p-5 bg-white dark:bg-black border-2 border-black dark:border-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,1)] hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black active:translate-y-1 active:shadow-[0px_0px_0px_0px_rgba(0,0,0,1)] transition-all group disabled:opacity-40 disabled:hover:bg-white disabled:hover:text-black disabled:dark:hover:bg-black disabled:dark:hover:text-white"
               >
-                <div className="w-14 h-14 bg-gradient-to-br from-purple-400 to-purple-500 rounded-2xl flex items-center justify-center shadow-lg shadow-purple-500/20 group-hover:scale-110 transition-transform">
-                  <Film className="text-white" size={24} />
+                <div className="w-14 h-14 bg-transparent border-2 border-black dark:border-white group-hover:border-white dark:group-hover:border-black flex items-center justify-center group-hover:scale-110 transition-transform">
+                  <Film className="text-black dark:text-white group-hover:text-white dark:group-hover:text-black" size={24} />
                 </div>
-                <span className="text-[10px] font-black text-slate-600 uppercase tracking-wider group-hover:text-purple-600 transition-colors">Live Photo</span>
+                <span className="text-[10px] font-black uppercase tracking-wider transition-colors">Live Photo</span>
               </button>
 
               <button
                 onClick={handleGenerateQr}
-                className="flex flex-col items-center gap-3 p-5 bg-white rounded-2xl border border-slate-100 shadow-sm hover:shadow-md hover:border-emerald-200 active:scale-95 transition-all group"
+                className="flex flex-col items-center gap-3 p-5 bg-white dark:bg-black border-2 border-black dark:border-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,1)] hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black active:translate-y-1 active:shadow-[0px_0px_0px_0px_rgba(0,0,0,1)] transition-all group"
               >
-                <div className="w-14 h-14 bg-gradient-to-br from-emerald-400 to-emerald-500 rounded-2xl flex items-center justify-center shadow-lg shadow-emerald-500/20 group-hover:scale-110 transition-transform">
-                  <QrCode className="text-white" size={24} />
+                <div className="w-14 h-14 bg-transparent border-2 border-black dark:border-white group-hover:border-white dark:group-hover:border-black flex items-center justify-center group-hover:scale-110 transition-transform">
+                  <QrCode className="text-black dark:text-white group-hover:text-white dark:group-hover:text-black" size={24} />
                 </div>
-                <span className="text-[10px] font-black text-slate-600 uppercase tracking-wider group-hover:text-emerald-600 transition-colors">Scan QR</span>
+                <span className="text-[10px] font-black uppercase tracking-wider transition-colors">Scan QR</span>
               </button>
 
               <button
                 onClick={() => goToStep(2)}
-                className="flex flex-col items-center gap-3 p-5 bg-white rounded-2xl border border-slate-100 shadow-sm hover:shadow-md hover:border-slate-300 active:scale-95 transition-all group"
+                className="flex flex-col items-center gap-3 p-5 bg-white dark:bg-black border-2 border-black dark:border-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,1)] hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black active:translate-y-1 active:shadow-[0px_0px_0px_0px_rgba(0,0,0,1)] transition-all group"
               >
-                <div className="w-14 h-14 bg-gradient-to-br from-slate-500 to-slate-600 rounded-2xl flex items-center justify-center shadow-lg shadow-slate-500/20 group-hover:scale-110 transition-transform">
-                  <Wand2 className="text-white" size={24} />
+                <div className="w-14 h-14 bg-transparent border-2 border-black dark:border-white group-hover:border-white dark:group-hover:border-black flex items-center justify-center group-hover:scale-110 transition-transform">
+                  <Wand2 className="text-black dark:text-white group-hover:text-white dark:group-hover:text-black" size={24} />
                 </div>
-                <span className="text-[10px] font-black text-slate-600 uppercase tracking-wider group-hover:text-slate-800 transition-colors">Edit Lagi</span>
+                <span className="text-[10px] font-black uppercase tracking-wider transition-colors">Edit Lagi</span>
               </button>
             </div>
 
             {/* Email Section */}
-            <div className="bg-white rounded-2xl p-5 md:p-6 shadow-sm border border-slate-100 space-y-4">
-              <div className="flex items-center gap-2">
-                <Mail className="w-4 h-4 text-orange-500" />
-                <h3 className="font-extrabold text-[13px] text-slate-800 uppercase tracking-wider">Kirim ke Email</h3>
+            <div className="bg-white dark:bg-black p-5 md:p-6 border-2 border-black dark:border-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,1)] space-y-4">
+              <div className="flex items-center gap-2 border-b-2 border-black dark:border-white pb-2">
+                <Mail className="w-4 h-4 text-black dark:text-white" />
+                <h3 className="font-black text-[13px] text-black dark:text-white uppercase tracking-wider">Kirim ke Email</h3>
               </div>
               <div className="flex gap-2">
                 <div className="relative flex-1">
-                  <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
+                  <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400" size={16} />
                   <input
                     type="email"
                     placeholder="Masukkan alamat email..."
                     value={emailInput}
                     onChange={(e) => setEmailInput(e.target.value)}
-                    className="w-full bg-slate-50 border border-slate-200 text-slate-800 pl-10 pr-4 py-3 rounded-xl outline-none focus:border-orange-400 focus:bg-white focus:ring-2 focus:ring-orange-500/10 transition-all text-sm placeholder:text-slate-400"
+                    className="w-full bg-transparent border-2 border-black dark:border-white text-black dark:text-white pl-10 pr-4 py-3 outline-none focus:bg-gray-50 dark:focus:bg-white/5 transition-all text-sm font-bold placeholder:text-gray-400"
                   />
                 </div>
                 <button
                   onClick={handleSendEmail}
                   disabled={isSendingEmail}
-                  className="bg-orange-500 hover:bg-orange-600 text-white px-5 rounded-xl font-bold text-sm shadow-lg shadow-orange-500/20 active:scale-95 transition-all disabled:opacity-50 flex items-center justify-center min-w-[90px]"
+                  className="bg-black dark:bg-white text-white dark:text-black border-2 border-black dark:border-white px-5 font-black uppercase tracking-widest text-sm shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,1)] hover:translate-y-1 hover:shadow-[0px_0px_0px_0px_rgba(0,0,0,1)] dark:hover:shadow-[0px_0px_0px_0px_rgba(255,255,255,1)] transition-all disabled:opacity-50 flex items-center justify-center min-w-[90px]"
                 >
                   {isSendingEmail ? <Loader2 className="w-4 h-4 animate-spin" /> : "Kirim"}
                 </button>
               </div>
 
               {emailSuccess && (
-                <div className="flex items-center gap-2 text-emerald-600 text-xs font-medium bg-emerald-50 p-3 rounded-lg border border-emerald-200 animate-in fade-in slide-in-from-bottom-2">
+                <div className="flex items-center gap-2 text-black dark:text-white text-xs font-black uppercase tracking-widest bg-gray-100 dark:bg-white/10 p-3 border-2 border-black dark:border-white animate-in fade-in slide-in-from-bottom-2">
                   <CheckCircle2 size={16} />
                   <span>Foto berhasil dikirim ke emailmu!</span>
                 </div>
               )}
+            </div>
+
+            {/* Selesai Button */}
+            <div className="pt-4">
+              <Link
+                href="/frames"
+                className="w-full py-4 bg-black dark:bg-white text-white dark:text-black border-4 border-black dark:border-white font-black text-lg uppercase tracking-widest shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] dark:shadow-[8px_8px_0px_0px_rgba(255,255,255,1)] hover:translate-y-1 hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:hover:shadow-[4px_4px_0px_0px_rgba(255,255,255,1)] transition-all flex items-center justify-center gap-3"
+              >
+                Selesai & Kembali ke Awal <CheckCircle2 size={20} />
+              </Link>
             </div>
           </main>
         )}
@@ -904,11 +898,11 @@ function StudioPageContent() {
 
       {/* ================= MODAL EDITOR FOTO ================= */}
       {editingPhotoId && photoToEdit && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm animate-in fade-in duration-300">
-          <div className="w-full max-w-[400px] animate-in zoom-in-95 duration-300 relative">
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-white/80 dark:bg-black/80 backdrop-blur-sm animate-in fade-in duration-300">
+          <div className="w-full max-w-[400px] md:max-w-4xl animate-in zoom-in-95 duration-300 relative border-4 border-black dark:border-white shadow-[15px_15px_0px_0px_rgba(0,0,0,1)] dark:shadow-[15px_15px_0px_0px_rgba(255,255,255,1)] bg-white dark:bg-black p-0 md:p-4">
             <button
               onClick={() => setEditingPhotoId(null)}
-              className="absolute -top-12 right-0 w-10 h-10 bg-white/20 hover:bg-red-500 text-white rounded-full flex items-center justify-center transition-colors backdrop-blur-md"
+              className="absolute -top-4 -right-4 w-10 h-10 bg-black text-white dark:bg-white dark:text-black border-2 border-black dark:border-white hover:bg-white hover:text-black dark:hover:bg-black dark:hover:text-white flex items-center justify-center transition-colors shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,1)] z-10"
             >
               <X size={20} strokeWidth={2.5} />
             </button>
@@ -923,53 +917,53 @@ function StudioPageContent() {
 
       {/* ================= MODAL QR CODE ================= */}
       {showQrModal && (
-        <div className="fixed inset-0 z-[120] flex items-center justify-center p-4 bg-slate-950/90 backdrop-blur-md animate-in fade-in duration-200">
-          <div className="bg-white p-8 rounded-[2rem] w-full max-w-sm text-center shadow-2xl relative animate-in zoom-in-95 duration-300">
+        <div className="fixed inset-0 z-[120] flex items-center justify-center p-4 bg-white/80 dark:bg-black/80 backdrop-blur-sm animate-in fade-in duration-200">
+          <div className="bg-white dark:bg-black p-8 border-4 border-black dark:border-white w-full max-w-sm text-center shadow-[15px_15px_0px_0px_rgba(0,0,0,1)] dark:shadow-[15px_15px_0px_0px_rgba(255,255,255,1)] relative animate-in zoom-in-95 duration-300">
             <button
               onClick={() => setShowQrModal(false)}
-              className="absolute top-4 right-4 w-8 h-8 flex items-center justify-center rounded-full bg-slate-100 text-slate-500 hover:bg-red-50 hover:text-red-500 transition-colors"
+              className="absolute top-4 right-4 w-8 h-8 flex items-center justify-center border-2 border-black dark:border-white bg-transparent hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-colors"
             >
               <X size={16} strokeWidth={3} />
             </button>
 
-            <div className="w-14 h-14 bg-gradient-to-tr from-emerald-500 to-emerald-400 rounded-2xl flex items-center justify-center mx-auto mb-5 shadow-lg shadow-emerald-500/30">
-              <QrCode size={28} className="text-white" />
+            <div className="w-14 h-14 bg-black dark:bg-white border-2 border-black dark:border-white flex items-center justify-center mx-auto mb-5 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,1)]">
+              <QrCode size={28} className="text-white dark:text-black" />
             </div>
-            <h3 className="text-xl font-black text-slate-900 mb-1">Scan QR Code</h3>
-            <p className="text-slate-500 text-xs mb-6">Scan dengan HP untuk download foto langsung</p>
+            <h3 className="text-xl font-black text-black dark:text-white mb-1 uppercase tracking-widest">Scan QR Code</h3>
+            <p className="text-gray-500 dark:text-gray-400 text-[10px] font-bold uppercase tracking-wider mb-6">Scan dengan HP untuk download foto langsung</p>
 
             {isGeneratingQr ? (
               <div className="py-12 flex flex-col items-center gap-3">
-                <Loader2 className="w-10 h-10 text-emerald-500 animate-spin" />
-                <p className="text-xs font-bold text-slate-400">Membuat QR Code...</p>
+                <Loader2 className="w-10 h-10 text-black dark:text-white animate-spin" />
+                <p className="text-[10px] font-black uppercase tracking-widest text-black dark:text-white">Membuat QR Code...</p>
               </div>
             ) : qrDataUrl ? (
               <div className="space-y-4">
-                <div className="bg-white p-4 rounded-2xl border-2 border-slate-100 inline-block shadow-sm">
+                <div className="bg-white p-4 border-2 border-black inline-block shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img src={qrDataUrl} alt="QR Code" className="w-56 h-56 mx-auto" />
                 </div>
                 {qrShareUrl && (
-                  <div className="bg-slate-50 rounded-xl p-3 border border-slate-200">
-                    <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Link Share</p>
-                    <p className="text-xs text-slate-600 font-mono break-all">{qrShareUrl}</p>
+                  <div className="bg-gray-50 dark:bg-white/5 p-3 border-2 border-black dark:border-white">
+                    <p className="text-[10px] font-black text-black dark:text-white uppercase tracking-widest mb-1 border-b-2 border-black dark:border-white pb-1">Link Share</p>
+                    <p className="text-[11px] text-gray-600 dark:text-gray-300 font-bold break-all mt-2">{qrShareUrl}</p>
                   </div>
                 )}
                 <div className="flex gap-2">
                   <button
                     onClick={downloadQr}
-                    className="flex-1 py-3 bg-slate-900 text-white font-bold text-sm rounded-xl hover:bg-slate-800 transition-all active:scale-95 flex items-center justify-center gap-2"
+                    className="flex-1 py-3 bg-white dark:bg-black text-black dark:text-white border-2 border-black dark:border-white font-black text-[11px] uppercase tracking-widest hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-all flex items-center justify-center gap-2"
                   >
-                    <Download size={16} /> Simpan QR
+                    <Download size={14} /> Simpan QR
                   </button>
                   <button
                     onClick={() => { if (qrShareUrl) navigator.clipboard.writeText(qrShareUrl).then(() => alert("Link disalin!")) }}
-                    className="flex-1 py-3 bg-emerald-500 text-white font-bold text-sm rounded-xl hover:bg-emerald-600 transition-all active:scale-95 flex items-center justify-center gap-2"
+                    className="flex-1 py-3 bg-black dark:bg-white text-white dark:text-black border-2 border-black dark:border-white font-black text-[11px] uppercase tracking-widest hover:bg-transparent hover:text-black dark:hover:text-white transition-all flex items-center justify-center gap-2"
                   >
-                    <Share2 size={16} /> Salin Link
+                    <Share2 size={14} /> Salin Link
                   </button>
                 </div>
-                <p className="text-[10px] text-slate-400 mt-2">Link berlaku 24 jam</p>
+                <p className="text-[10px] text-gray-500 dark:text-gray-400 mt-2 font-bold uppercase tracking-wider">Link berlaku 24 jam</p>
               </div>
             ) : null}
           </div>
@@ -978,51 +972,68 @@ function StudioPageContent() {
 
       {/* ================= MODAL GIF ================= */}
       {showGifModal && (
-        <div className="fixed inset-0 z-[120] flex items-center justify-center p-4 bg-slate-950/90 backdrop-blur-md animate-in fade-in duration-200">
-          <div className="bg-white p-8 rounded-[2rem] w-full max-w-sm text-center shadow-2xl relative animate-in zoom-in-95 duration-300">
+        <div className="fixed inset-0 z-[120] flex items-center justify-center p-4 bg-white/80 dark:bg-black/80 backdrop-blur-sm animate-in fade-in duration-200">
+          <div className="bg-white dark:bg-black p-6 md:p-8 border-4 border-black dark:border-white w-full max-w-sm md:max-w-3xl text-center md:text-left shadow-[15px_15px_0px_0px_rgba(0,0,0,1)] dark:shadow-[15px_15px_0px_0px_rgba(255,255,255,1)] relative animate-in zoom-in-95 duration-300">
             <button
               onClick={() => setShowGifModal(false)}
-              className="absolute top-4 right-4 w-8 h-8 flex items-center justify-center rounded-full bg-slate-100 text-slate-500 hover:bg-red-50 hover:text-red-500 transition-colors"
+              className="absolute top-4 right-4 w-8 h-8 flex items-center justify-center border-2 border-black dark:border-white bg-transparent hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-colors z-10"
             >
               <X size={16} strokeWidth={3} />
             </button>
 
-            <div className="w-14 h-14 bg-gradient-to-tr from-purple-500 to-purple-400 rounded-2xl flex items-center justify-center mx-auto mb-5 shadow-lg shadow-purple-500/30">
-              <Film size={28} className="text-white" />
-            </div>
-            <h3 className="text-xl font-black text-slate-900 mb-1">Live Photo GIF</h3>
-            <p className="text-slate-500 text-xs mb-6">Foto-foto kamu jadi animasi live photo!</p>
+            <div className="flex flex-col md:flex-row gap-6 md:gap-10 items-center">
+              
+              {/* LEFT COLUMN: PREVIEW/LOADING */}
+              <div className="w-full md:w-1/2 flex items-center justify-center">
+                {isGeneratingGif ? (
+                  <div className="py-12 flex flex-col items-center justify-center gap-6 w-full min-h-[300px] bg-gray-50 dark:bg-white/5 border-2 border-dashed border-black dark:border-white">
+                    <Loader2 className="w-12 h-12 text-black dark:text-white animate-spin" />
+                    <div className="w-full max-w-[200px]">
+                      <div className="flex justify-between items-end mb-2">
+                        <span className="text-[8px] font-black text-black dark:text-white uppercase tracking-widest">{getGifLoadingText(gifProgress)}</span>
+                        <span className="text-[10px] font-black text-black dark:text-white">{gifProgress}%</span>
+                      </div>
+                      <div className="h-3 bg-gray-100 dark:bg-white/10 border-2 border-black dark:border-white overflow-hidden p-[1px]">
+                        <div
+                          className="h-full bg-black dark:bg-white transition-all duration-500"
+                          style={{ width: `${gifProgress}%` }}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                ) : gifDataUrl ? (
+                  <div className="bg-gray-50 dark:bg-white/5 border-2 border-black dark:border-white overflow-hidden p-2 w-full shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] dark:shadow-[8px_8px_0px_0px_rgba(255,255,255,1)]">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src={gifDataUrl} alt="GIF Preview" className="w-full border-2 border-black dark:border-white object-contain" />
+                  </div>
+                ) : (
+                  <div className="w-full aspect-[3/4] bg-gray-100 dark:bg-white/5 border-2 border-dashed border-black dark:border-white flex items-center justify-center">
+                    <Film className="w-8 h-8 opacity-20" />
+                  </div>
+                )}
+              </div>
 
-            {isGeneratingGif ? (
-              <div className="py-8 flex flex-col items-center gap-4">
-                <Loader2 className="w-10 h-10 text-purple-500 animate-spin" />
-                <div className="w-full max-w-[200px]">
-                  <div className="flex justify-between items-end mb-1.5">
-                    <span className="text-[10px] font-extrabold text-slate-400 uppercase tracking-widest">{getGifLoadingText(gifProgress)}</span>
-                    <span className="text-[10px] font-black text-purple-600">{gifProgress}%</span>
-                  </div>
-                  <div className="h-2 bg-slate-100 rounded-full overflow-hidden">
-                    <div
-                      className="h-full bg-gradient-to-r from-purple-500 to-pink-500 rounded-full transition-all duration-500"
-                      style={{ width: `${gifProgress}%` }}
-                    />
-                  </div>
+              {/* RIGHT COLUMN: INFO & ACTIONS */}
+              <div className="w-full md:w-1/2 flex flex-col items-center md:items-start mt-2 md:mt-0">
+                <div className="w-14 h-14 bg-black dark:bg-white border-2 border-black dark:border-white flex items-center justify-center mb-5 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,1)]">
+                  <Film size={28} className="text-white dark:text-black" />
                 </div>
+                <h3 className="text-2xl font-black text-black dark:text-white mb-2 uppercase tracking-widest">Live Photo GIF</h3>
+                <p className="text-gray-500 dark:text-gray-400 text-[11px] font-bold uppercase tracking-wider mb-8 text-center md:text-left leading-relaxed max-w-sm">
+                  Foto-foto kamu kini jadi animasi keren! Simpan dan bagikan momen seru ini.
+                </p>
+
+                {gifDataUrl && !isGeneratingGif && (
+                  <button
+                    onClick={downloadGif}
+                    className="w-full py-4 bg-black dark:bg-white text-white dark:text-black border-2 border-black dark:border-white font-black text-xs uppercase tracking-widest shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] dark:shadow-[6px_6px_0px_0px_rgba(255,255,255,1)] hover:translate-y-1 hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] dark:hover:shadow-[2px_2px_0px_0px_rgba(255,255,255,1)] transition-all flex items-center justify-center gap-2"
+                  >
+                    <Download size={18} /> Download GIF
+                  </button>
+                )}
               </div>
-            ) : gifDataUrl ? (
-              <div className="space-y-4">
-                <div className="bg-slate-50 rounded-2xl border border-slate-200 overflow-hidden p-2">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={gifDataUrl} alt="GIF Preview" className="w-full rounded-xl" />
-                </div>
-                <button
-                  onClick={downloadGif}
-                  className="w-full py-3.5 bg-gradient-to-r from-purple-500 to-pink-500 text-white font-bold text-sm rounded-xl shadow-lg shadow-purple-500/25 hover:shadow-xl transition-all active:scale-95 flex items-center justify-center gap-2"
-                >
-                  <Download size={18} /> Download GIF
-                </button>
-              </div>
-            ) : null}
+
+            </div>
           </div>
         </div>
       )}
@@ -1033,7 +1044,7 @@ function StudioPageContent() {
 
 export default function StudioPage() {
   return (
-    <Suspense fallback={<div className="min-h-screen bg-[#f4f6f9] flex items-center justify-center"><Loader2 className="w-10 h-10 animate-spin text-orange-500" /></div>}>
+    <Suspense fallback={<div className="min-h-screen bg-white dark:bg-black border-8 border-black dark:border-white m-4 flex items-center justify-center"><Loader2 className="w-10 h-10 animate-spin text-black dark:text-white" /></div>}>
       <StudioPageContent />
     </Suspense>
   )

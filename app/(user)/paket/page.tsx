@@ -4,13 +4,28 @@ import { useRouter } from "next/navigation"
 import { MobileHeader } from "@/components/MobileHeader"
 import { Check, Star, ArrowRight, Sparkles, Zap, Crown, ShoppingCart, Loader2 } from "lucide-react"
 import { useCart } from "@/components/cart"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 
 export default function PaketPage() {
   const router = useRouter()
   const { addItem, setIsOpen } = useCart()
   const [addedPlan, setAddedPlan] = useState<string | null>(null)
   const [navigatingTo, setNavigatingTo] = useState<string | null>(null)
+  const [dbServices, setDbServices] = useState<any[]>([])
+  const [emptyMessage, setEmptyMessage] = useState("Maaf, layanan kami sedang dalam mode libur/tutup sementara.")
+
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem("websiteSettings")
+      if (saved) {
+        const parsed = JSON.parse(saved)
+        if (parsed.services) setDbServices(parsed.services)
+        if (parsed.emptyStateMessage) setEmptyMessage(parsed.emptyStateMessage)
+      }
+    } catch (e) {
+      console.error(e)
+    }
+  }, [])
 
   const formatPrice = (price: number) => {
     return new Intl.NumberFormat("id-ID").format(price)
@@ -104,47 +119,77 @@ export default function PaketPage() {
 
       {/* Pricing Cards List */}
       <div className="px-5 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-2">
-        {plans.map((plan, index) => {
-          const Icon = plan.icon
-          return (
-            <div 
-              key={index} 
-              className={`relative rounded-[2rem] p-7 border transition-transform duration-300 ${plan.cardClass} ${plan.popular ? 'scale-[1.02] z-10' : 'active:scale-[0.98]'}`}
-            >
-              
-              {/* Bestseller Floating Badge */}
-              {plan.popular && (
-                <div className="absolute -top-4 inset-x-0 flex justify-center">
-                  <div className="bg-gradient-to-r from-amber-400 to-yellow-500 text-yellow-950 px-4 py-1.5 text-[11px] font-black uppercase tracking-widest rounded-full shadow-lg flex items-center gap-1.5 border border-yellow-300">
-                    <Star size={12} className="fill-current" />
-                    Pilihan Favorit
+        {(() => {
+          const visiblePlans = plans.filter(plan => {
+            const matchedPlan = dbServices.find((s: any) => s.name.toLowerCase() === plan.name.toLowerCase())
+            return matchedPlan ? matchedPlan.active : true
+          });
+
+          if (visiblePlans.length === 0) {
+            return (
+              <div className="col-span-full p-10 flex flex-col items-center justify-center text-center bg-white rounded-[2rem] border border-slate-100 shadow-[0_4px_20px_rgba(0,0,0,0.03)] mt-2">
+                <div className="w-16 h-16 bg-slate-50 text-slate-400 rounded-full flex items-center justify-center mb-4 border border-slate-100">
+                  <span className="text-3xl">🚧</span>
+                </div>
+                <h3 className="text-[17px] font-extrabold text-slate-800 tracking-tight mb-2">Pemesanan Sedang Tutup</h3>
+                <p className="text-sm font-medium text-slate-500 leading-relaxed max-w-sm">{emptyMessage}</p>
+              </div>
+            )
+          }
+
+          return visiblePlans.map((plan, index) => {
+            const Icon = plan.icon
+            const matchedPlan = dbServices.find((s: any) => s.name.toLowerCase() === plan.name.toLowerCase())
+            const displayPrice = matchedPlan ? matchedPlan.price : plan.price
+            const customStatus = matchedPlan?.customStatus
+
+            return (
+              <div 
+                key={index} 
+                className={`relative rounded-[2rem] p-7 border transition-transform duration-300 ${plan.cardClass} ${plan.popular ? 'scale-[1.02] z-10' : 'active:scale-[0.98]'}`}
+              >
+                
+                {/* Bestseller Floating Badge */}
+                {plan.popular && (
+                  <div className="absolute -top-4 inset-x-0 flex justify-center">
+                    <div className="bg-gradient-to-r from-amber-400 to-yellow-500 text-yellow-950 px-4 py-1.5 text-[11px] font-black uppercase tracking-widest rounded-full shadow-lg flex items-center gap-1.5 border border-yellow-300">
+                      <Star size={12} className="fill-current" />
+                      Pilihan Favorit
+                    </div>
+                  </div>
+                )}
+
+                {/* Header Card (Icon & Title) */}
+                <div className="flex justify-between items-start mb-6">
+                  <div>
+                    <h3 className="text-xl font-extrabold tracking-tight">{plan.name}</h3>
+                    <p className={`text-[12px] mt-1.5 font-medium ${plan.popular ? 'text-orange-100' : 'text-slate-500'}`}>
+                      {plan.description}
+                    </p>
+                  </div>
+                  <div className={`p-3.5 rounded-2xl flex items-center justify-center shrink-0 shadow-sm ${plan.iconBox}`}>
+                    <Icon size={22} strokeWidth={2.5} />
                   </div>
                 </div>
-              )}
 
-              {/* Header Card (Icon & Title) */}
-              <div className="flex justify-between items-start mb-6">
-                <div>
-                  <h3 className="text-xl font-extrabold tracking-tight">{plan.name}</h3>
-                  <p className={`text-[12px] mt-1.5 font-medium ${plan.popular ? 'text-orange-100' : 'text-slate-500'}`}>
-                    {plan.description}
-                  </p>
+                {/* Price Display (Apple Style Layout) */}
+                <div className="flex items-start gap-1 mb-7">
+                  {customStatus ? (
+                    <span className={`text-[15px] font-extrabold px-3 py-1.5 rounded-md border ${plan.popular ? 'bg-orange-700/50 text-white border-orange-400' : 'bg-red-50 text-red-500 border-red-100'}`}>
+                      {customStatus}
+                    </span>
+                  ) : (
+                    <>
+                      <span className={`text-sm font-bold mt-1.5 ${plan.popular ? 'text-orange-200' : 'text-slate-400'}`}>Rp</span>
+                      <span className={`text-[42px] font-black tracking-tighter leading-none ${plan.priceColor}`}>
+                        {formatPrice(displayPrice)}
+                      </span>
+                      <span className={`text-[10px] font-bold self-end mb-1.5 ml-1 uppercase tracking-widest ${plan.popular ? 'text-orange-200' : 'text-slate-400'}`}>
+                        / Proyek
+                      </span>
+                    </>
+                  )}
                 </div>
-                <div className={`p-3.5 rounded-2xl flex items-center justify-center shrink-0 shadow-sm ${plan.iconBox}`}>
-                  <Icon size={22} strokeWidth={2.5} />
-                </div>
-              </div>
-
-              {/* Price Display (Apple Style Layout) */}
-              <div className="flex items-start gap-1 mb-7">
-                <span className={`text-sm font-bold mt-1.5 ${plan.popular ? 'text-orange-200' : 'text-slate-400'}`}>Rp</span>
-                <span className={`text-[42px] font-black tracking-tighter leading-none ${plan.priceColor}`}>
-                  {formatPrice(plan.price)}
-                </span>
-                <span className={`text-[10px] font-bold self-end mb-1.5 ml-1 uppercase tracking-widest ${plan.popular ? 'text-orange-200' : 'text-slate-400'}`}>
-                  / Proyek
-                </span>
-              </div>
 
               {/* Features List */}
               <div className="space-y-3.5 mb-8">
@@ -194,7 +239,8 @@ export default function PaketPage() {
               </div>
             </div>
           )
-        })}
+        })
+        })()}
       </div>
       </div>
 

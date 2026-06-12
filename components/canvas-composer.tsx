@@ -145,44 +145,49 @@ export default function CanvasComposer({
 
           // Delete Handle (Top Right)
           ctx.beginPath()
-          ctx.arc(s.size / 2 + 2, -s.size / 2 - 2, 20, 0, Math.PI * 2)
+          ctx.arc(s.size / 2 + 10, -s.size / 2 - 10, 80, 0, Math.PI * 2)
           ctx.fillStyle = "#ef4444"
           ctx.fill()
           ctx.strokeStyle = "#ffffff"
+          ctx.lineWidth = 6
           ctx.stroke()
           ctx.beginPath()
-          ctx.moveTo(s.size / 2 - 6, -s.size / 2 - 10)
-          ctx.lineTo(s.size / 2 + 10, -s.size / 2 + 6)
-          ctx.moveTo(s.size / 2 + 10, -s.size / 2 - 10)
-          ctx.lineTo(s.size / 2 - 6, -s.size / 2 + 6)
+          ctx.moveTo(s.size / 2 - 14, -s.size / 2 - 34)
+          ctx.lineTo(s.size / 2 + 34, -s.size / 2 + 14)
+          ctx.moveTo(s.size / 2 + 34, -s.size / 2 - 34)
+          ctx.lineTo(s.size / 2 - 14, -s.size / 2 + 14)
           ctx.strokeStyle = "#ffffff"
-          ctx.lineWidth = 3
+          ctx.lineWidth = 10
           ctx.stroke()
           ctx.lineWidth = 2
 
           // Resize Handle (Bottom Right)
           ctx.beginPath()
-          ctx.arc(s.size / 2 + 2, s.size / 2 + 2, 20, 0, Math.PI * 2)
+          ctx.arc(s.size / 2 + 10, s.size / 2 + 10, 80, 0, Math.PI * 2)
           ctx.fillStyle = "#0ea5e9"
           ctx.fill()
           ctx.strokeStyle = "#ffffff"
+          ctx.lineWidth = 6
           ctx.stroke()
           ctx.beginPath()
-          ctx.arc(s.size / 2 + 2, s.size / 2 + 2, 6, 0, Math.PI * 2)
+          ctx.arc(s.size / 2 + 10, s.size / 2 + 10, 24, 0, Math.PI * 2)
           ctx.fillStyle = "#ffffff"
           ctx.fill()
+          ctx.lineWidth = 2
 
           // Rotate Handle (Bottom Center)
           ctx.beginPath()
-          ctx.arc(0, s.size / 2 + 32, 20, 0, Math.PI * 2)
+          ctx.arc(0, s.size / 2 + 90, 80, 0, Math.PI * 2)
           ctx.fillStyle = "#10b981"
           ctx.fill()
           ctx.strokeStyle = "#ffffff"
+          ctx.lineWidth = 6
           ctx.stroke()
           ctx.beginPath()
-          ctx.arc(0, s.size / 2 + 32, 6, 0, Math.PI * 2)
+          ctx.arc(0, s.size / 2 + 90, 24, 0, Math.PI * 2)
           ctx.fillStyle = "#ffffff"
           ctx.fill()
+          ctx.lineWidth = 2
         }
         ctx.restore()
       })
@@ -201,9 +206,9 @@ export default function CanvasComposer({
       const angle = (s.rotation * Math.PI) / 180
       const rx = dx * Math.cos(-angle) - dy * Math.sin(-angle)
       const ry = dx * Math.sin(-angle) + dy * Math.cos(-angle)
-      if (Math.hypot(rx - (s.size / 2 + 2), ry - (-s.size / 2 - 2)) <= 25) return { id: s.id, type: "delete" }
-      if (Math.hypot(rx - 0, ry - (s.size / 2 + 32)) <= 25) return { id: s.id, type: "rotate" }
-      if (Math.hypot(rx - (s.size / 2 + 2), ry - (s.size / 2 + 2)) <= 25) return { id: s.id, type: "resize" }
+      if (Math.hypot(rx - (s.size / 2 + 10), ry - (-s.size / 2 - 10)) <= 100) return { id: s.id, type: "delete" }
+      if (Math.hypot(rx - 0, ry - (s.size / 2 + 90)) <= 100) return { id: s.id, type: "rotate" }
+      if (Math.hypot(rx - (s.size / 2 + 10), ry - (s.size / 2 + 10)) <= 100) return { id: s.id, type: "resize" }
       if (rx >= -s.size / 2 && rx <= s.size / 2 && ry >= -s.size / 2 && ry <= s.size / 2) return { id: s.id, type: "drag" }
     }
     return null
@@ -246,55 +251,55 @@ export default function CanvasComposer({
   }
 
   return (
-    <div className="flex flex-col items-center w-full max-w-2xl mx-auto space-y-6">
-      <Card className="p-2 bg-white border-none shadow-2xl rounded-[2.2rem] overflow-hidden">
+    <div className="flex flex-col items-center w-full max-w-[450px] mx-auto space-y-5">
+      <div className="w-full bg-white dark:bg-black border-4 border-black dark:border-white p-1.5 md:p-2 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] dark:shadow-[8px_8px_0px_0px_rgba(255,255,255,1)] overflow-hidden flex items-center justify-center">
         <canvas
-          ref={canvasRef} className="max-w-full h-auto cursor-crosshair touch-none rounded-xl"
+          ref={canvasRef} className="max-w-full h-auto max-h-[65vh] cursor-crosshair touch-none"
           onMouseDown={e => onStart(e.clientX, e.clientY)} onMouseMove={e => onMove(e.clientX, e.clientY)} onMouseUp={() => setAction(null)}
           onTouchStart={e => onStart(e.touches[0].clientX, e.touches[0].clientY)} onTouchMove={e => onMove(e.touches[0].clientX, e.touches[0].clientY)} onTouchEnd={() => setAction(null)}
         />
-      </Card>
+      </div>
 
-      <Card className="w-full max-w-md p-3 bg-white/90 backdrop-blur-xl border-none shadow-lg rounded-full flex items-center justify-between px-6 border border-orange-50 relative z-30">
+      <Card className="w-full p-2 bg-white dark:bg-black border-4 border-black dark:border-white rounded-none shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,1)] flex items-center justify-between px-4 relative z-30">
         <Popover>
           <PopoverTrigger asChild>
-            <Button className="bg-gradient-to-r from-orange-500 to-pink-500 hover:from-orange-600 hover:to-pink-600 text-white rounded-full h-11 px-6 font-bold shadow-lg shadow-orange-200 transition-all active:scale-95">
+            <Button className="bg-black dark:bg-white text-white dark:text-black hover:bg-white hover:text-black dark:hover:bg-black dark:hover:text-white border-2 border-black dark:border-white rounded-none h-11 px-6 font-black uppercase tracking-widest shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,1)] transition-all active:translate-y-1">
               <Plus className="w-4 h-4 mr-2" /> Stiker
             </Button>
           </PopoverTrigger>
-          <PopoverContent className="w-[280px] p-4 rounded-[2rem] shadow-2xl shadow-orange-100 border-none bg-white/95 backdrop-blur-xl z-50 transform origin-bottom" sideOffset={20}>
+          <PopoverContent className="w-[280px] p-4 rounded-none shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] dark:shadow-[8px_8px_0px_0px_rgba(255,255,255,1)] border-4 border-black dark:border-white bg-white dark:bg-black z-50 transform origin-bottom" sideOffset={20}>
             <div className="space-y-4">
               <div>
-                <h4 className="text-[10px] font-extrabold text-slate-400 uppercase tracking-widest mb-3 flex items-center gap-1.5"><Sparkles className="w-3.5 h-3.5 text-orange-400" /> Stiker Lucu</h4>
+                <h4 className="text-[10px] font-black text-black dark:text-white uppercase tracking-widest mb-3 flex items-center gap-1.5"><Sparkles className="w-3.5 h-3.5 text-black dark:text-white" /> Stiker Lucu</h4>
                 <div className="grid grid-cols-4 gap-2">
                   {DEFAULT_EMOJIS.map((emoji) => (
                     <button
                       key={emoji}
                       onClick={() => setStickers(prev => [...prev, { id: crypto.randomUUID(), src: createEmojiSticker(emoji), x: 40, y: 40, size: 250, rotation: 0 }])}
-                      className="w-12 h-12 flex items-center justify-center text-3xl hover:bg-orange-100 rounded-2xl transition-all active:scale-90 hover:scale-110"
+                      className="w-12 h-12 flex items-center justify-center text-3xl hover:bg-gray-100 dark:hover:bg-white/10 rounded-none border-2 border-transparent hover:border-black dark:hover:border-white transition-all active:translate-y-1 hover:scale-110"
                     >
                       {emoji}
                     </button>
                   ))}
                 </div>
               </div>
-              <Separator className="bg-slate-100" />
-              <Button onClick={() => fileInputRef.current?.click()} variant="outline" className="w-full rounded-2xl border-dashed border-2 border-slate-200 hover:border-orange-300 hover:bg-orange-50 hover:text-orange-600 text-slate-600 font-bold h-12 active:scale-95 transition-all">
+              <Separator className="bg-black dark:bg-white h-0.5" />
+              <Button onClick={() => fileInputRef.current?.click()} variant="outline" className="w-full rounded-none border-dashed border-2 border-black dark:border-white hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black text-black dark:text-white font-black h-12 transition-all uppercase tracking-widest">
                 <Upload className="w-4 h-4 mr-2" /> Atau Upload Gambar
               </Button>
             </div>
           </PopoverContent>
         </Popover>
-        <Separator orientation="vertical" className="h-6 bg-orange-100" />
+        <Separator orientation="vertical" className="h-6 bg-black dark:bg-white w-0.5" />
         <TooltipProvider>
-          <div className="flex bg-orange-50 p-1.5 rounded-2xl border border-orange-100 gap-1">
-            <Tooltip><TooltipTrigger asChild><Button variant="ghost" size="icon" disabled={!activeId} onClick={() => changeZ("up")} className="text-orange-600 hover:bg-white"><ArrowUp className="w-4 h-4" /></Button></TooltipTrigger><TooltipContent>Ke Depan</TooltipContent></Tooltip>
-            <Tooltip><TooltipTrigger asChild><Button variant="ghost" size="icon" disabled={!activeId} onClick={() => changeZ("down")} className="text-orange-600 hover:bg-white"><ArrowDown className="w-4 h-4" /></Button></TooltipTrigger><TooltipContent>Ke Belakang</TooltipContent></Tooltip>
+          <div className="flex bg-gray-100 dark:bg-white/10 p-1.5 rounded-none border-2 border-black dark:border-white gap-1">
+            <Tooltip><TooltipTrigger asChild><Button variant="ghost" size="icon" disabled={!activeId} onClick={() => changeZ("up")} className="text-black dark:text-white hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black rounded-none"><ArrowUp className="w-4 h-4" /></Button></TooltipTrigger><TooltipContent className="rounded-none border-2 border-black font-bold uppercase">Ke Depan</TooltipContent></Tooltip>
+            <Tooltip><TooltipTrigger asChild><Button variant="ghost" size="icon" disabled={!activeId} onClick={() => changeZ("down")} className="text-black dark:text-white hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black rounded-none"><ArrowDown className="w-4 h-4" /></Button></TooltipTrigger><TooltipContent className="rounded-none border-2 border-black font-bold uppercase">Ke Belakang</TooltipContent></Tooltip>
           </div>
         </TooltipProvider>
       </Card>
 
-      <div className="flex gap-6 text-[10px] font-bold text-orange-400 uppercase tracking-widest opacity-60">
+      <div className="flex gap-6 text-[10px] font-black text-black dark:text-white uppercase tracking-widest">
         <span className="flex items-center gap-2"><Move className="w-3 h-3" /> Geser</span>
         <span className="flex items-center gap-2"><RefreshCw className="w-3 h-3" /> Putar</span>
         <span className="flex items-center gap-2"><Maximize2 className="w-3 h-3" /> Ukuran</span>

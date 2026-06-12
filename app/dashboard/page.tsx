@@ -226,36 +226,36 @@ export default function Dashboard() {
 
   // --- RENDER ---
   return (
-    <div className="min-h-screen bg-[#FAFAFA] text-slate-900 pb-24 select-none">
+    <div className="min-h-screen bg-gray-50 text-black pb-24 select-none">
       {/* Top Navbar */}
-      <nav className="sticky top-0 z-[40] bg-white/80 backdrop-blur-md border-b border-gray-100 py-3 px-4 mb-6">
+      <nav className="sticky top-0 z-[40] bg-white border-b-4 border-black py-4 px-4 mb-8">
         <div className="max-w-7xl mx-auto flex justify-between items-center gap-4">
-          <div className="flex items-center gap-3">
-            <div className={`w-10 h-10 ${GRADIENT_ORANGE} rounded-[1.2rem] flex items-center justify-center shadow-lg shadow-orange-500/20 shrink-0`}>
-              <Palette className="w-5 h-5 text-white" />
+          <div className="flex items-center gap-4">
+            <div className="w-12 h-12 bg-black border-2 border-black rounded-none flex items-center justify-center shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] shrink-0 transform -rotate-3">
+              <Palette className="w-6 h-6 text-white" />
             </div>
             <div>
-              <h1 className="text-lg font-black tracking-tight text-gray-900 leading-none">JokiPoster <span className="text-[#FF7A00]">Admin</span></h1>
-              <div className="flex items-center gap-2 mt-1">
+              <h1 className="text-xl font-black tracking-widest uppercase text-black leading-none">JokiPoster <span className="text-orange-500 underline decoration-black decoration-4 underline-offset-4">Admin</span></h1>
+              <div className="flex items-center gap-2 mt-2">
                 {connectionStatus === "connected" ? (
-                  <span className="flex items-center gap-1 text-[9px] font-bold uppercase tracking-wider text-emerald-500 bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-100">
-                    <div className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse" /> Live
+                  <span className="flex items-center gap-1.5 text-[10px] font-black uppercase tracking-widest text-black bg-white px-2 py-1 border-2 border-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
+                    <div className="w-2 h-2 bg-emerald-500 border border-black animate-pulse" /> Live
                   </span>
                 ) : (
-                  <span className="flex items-center gap-1 text-[9px] font-bold uppercase tracking-wider text-amber-500 bg-amber-50 px-2 py-0.5 rounded-md border border-amber-100">
-                    <WifiOff size={10} /> Demo
+                  <span className="flex items-center gap-1.5 text-[10px] font-black uppercase tracking-widest text-black bg-white px-2 py-1 border-2 border-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
+                    <WifiOff size={12} strokeWidth={3} /> Demo
                   </span>
                 )}
               </div>
             </div>
           </div>
-          <div className="flex items-center gap-2">
-            <button onClick={() => { fetchOrders(); fetchAnalytics() }} className="p-2.5 text-gray-400 hover:text-orange-500 hover:bg-orange-50 rounded-xl transition-all" title="Refresh Data">
-              <RefreshCw size={20} />
+          <div className="flex items-center gap-3">
+            <button onClick={() => { fetchOrders(); fetchAnalytics() }} className="p-2.5 bg-white border-2 border-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:translate-y-0.5 hover:shadow-[1px_1px_0px_0px_rgba(0,0,0,1)] transition-all active:scale-95" title="Refresh Data">
+              <RefreshCw size={20} strokeWidth={3} className="text-black" />
             </button>
-            <div className="h-6 w-px bg-gray-200 mx-1 hidden sm:block" />
-            <button onClick={handleLogout} disabled={loggingOut} className="hidden sm:flex items-center gap-2 px-4 py-2 bg-slate-900 text-white font-bold rounded-xl hover:bg-slate-800 transition-all active:scale-95 disabled:opacity-50">
-              <LogOut size={16} /> <span className="text-xs">{loggingOut ? "Keluar..." : "Logout"}</span>
+            <div className="h-8 w-1 bg-black mx-1 hidden sm:block" />
+            <button onClick={handleLogout} disabled={loggingOut} className="hidden sm:flex items-center gap-2 px-5 py-2.5 bg-white text-black border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] font-black uppercase tracking-widest hover:bg-black hover:text-white hover:translate-y-1 hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-all active:scale-95 disabled:opacity-50">
+              <LogOut size={18} strokeWidth={3} /> <span className="text-xs">{loggingOut ? "KELUAR..." : "LOGOUT"}</span>
             </button>
           </div>
         </div>
@@ -270,9 +270,9 @@ export default function Dashboard() {
         )}
 
         {/* Dynamic Title based on Active Tab */}
-        <div className="mb-6">
-          <h2 className="text-2xl font-black text-slate-800 tracking-tight">{currentTabInfo.label}</h2>
-          <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mt-0.5">Kelola data {currentTabInfo.label}</p>
+        <div className="mb-8 border-l-8 border-black pl-4">
+          <h2 className="text-3xl font-black text-black uppercase tracking-widest">{currentTabInfo.label}</h2>
+          <p className="text-xs font-bold text-gray-500 uppercase tracking-widest mt-1">Kelola data {currentTabInfo.label}</p>
         </div>
 
         {/* Tab Content */}
@@ -302,36 +302,30 @@ export default function Dashboard() {
       <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-40">
         <button 
           onClick={() => setIsMenuOpen(true)}
-          className="flex items-center gap-2.5 bg-slate-900 text-white px-6 py-3.5 rounded-full shadow-[0_10px_30px_rgba(0,0,0,0.3)] hover:bg-black active:scale-95 transition-all border border-slate-700 outline-none"
+          className="flex items-center gap-3 bg-white text-black border-4 border-black px-6 py-4 rounded-none shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] hover:translate-y-1 hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:bg-black hover:text-white transition-all outline-none group"
         >
-          <LayoutGrid size={20} className="text-orange-400" />
-          <span className="font-extrabold text-[13px] uppercase tracking-wider">Menu Navigasi</span>
+          <LayoutGrid size={24} strokeWidth={3} className="text-black group-hover:text-white transition-colors" />
+          <span className="font-black text-sm uppercase tracking-widest">Menu Navigasi</span>
         </button>
       </div>
 
       {/* ==================== FLOATING OVERLAY MENU (BENTO GRID) ==================== */}
       {isMenuOpen && (
-        <div className="fixed inset-0 z-50 flex items-end justify-center p-4 bg-slate-900/40 backdrop-blur-sm animate-in fade-in duration-200">
-          <div className="bg-white rounded-[2.5rem] p-6 shadow-2xl w-full max-w-[420px] animate-in slide-in-from-bottom-10 duration-300 relative overflow-hidden">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-200">
+          <div className="bg-white border-4 border-black p-6 shadow-[15px_15px_0px_0px_rgba(0,0,0,1)] w-full max-w-[500px] animate-in zoom-in-95 duration-200 relative overflow-hidden rounded-none">
             
-            {/* Dekorasi Background Menu */}
-            <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-orange-50 to-transparent pointer-events-none" />
-
-            {/* Handle Bar */}
-            <div className="w-12 h-1.5 bg-slate-200 rounded-full mx-auto mb-6 relative z-10" />
-            
-            <div className="flex justify-between items-center mb-6 relative z-10">
+            <div className="flex justify-between items-start mb-8 relative z-10 border-b-4 border-black pb-4">
               <div>
-                <h2 className="text-xl font-extrabold text-slate-900 tracking-tight">Pintas Admin</h2>
-                <p className="text-xs font-semibold text-slate-500 mt-0.5">Pilih modul yang ingin dikelola</p>
+                <h2 className="text-2xl font-black text-black uppercase tracking-widest">Pintas Admin</h2>
+                <p className="text-[11px] font-bold text-gray-500 uppercase tracking-widest mt-1">Pilih modul yang ingin dikelola</p>
               </div>
-              <button onClick={() => setIsMenuOpen(false)} className="bg-slate-100 text-slate-500 hover:bg-red-50 hover:text-red-500 transition-colors rounded-full p-2 active:scale-90">
-                <X size={20} strokeWidth={2.5} />
+              <button onClick={() => setIsMenuOpen(false)} className="bg-white text-black border-2 border-black hover:bg-black hover:text-white transition-all rounded-none p-2 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:translate-y-0.5 hover:shadow-[0px_0px_0px_0px_rgba(0,0,0,1)] active:scale-95">
+                <X size={24} strokeWidth={3} />
               </button>
             </div>
             
             {/* Grid Navigasi */}
-            <div className="grid grid-cols-4 gap-2 mb-6 relative z-10">
+            <div className="grid grid-cols-3 sm:grid-cols-4 gap-3 mb-6 relative z-10">
               {TABS.map((tab) => {
                 const Icon = TAB_ICONS[tab.id]
                 const isActive = activeTab === tab.id
@@ -339,16 +333,18 @@ export default function Dashboard() {
                   <button 
                     key={tab.id} 
                     onClick={() => { setActiveTab(tab.id); setIsMenuOpen(false); }} 
-                    className={`group flex flex-col items-center gap-2 p-2 rounded-2xl transition-all active:scale-95 outline-none ${isActive ? 'bg-orange-50' : 'hover:bg-slate-50'}`}
-                  >
-                    <div className={`w-14 h-14 rounded-[1.2rem] flex items-center justify-center transition-colors border ${
+                    className={`group flex flex-col items-center gap-3 p-3 rounded-none transition-all outline-none border-2 border-black ${
                       isActive 
-                        ? 'bg-orange-500 text-white border-orange-600 shadow-[0_8px_20px_rgba(249,115,22,0.3)]' 
-                        : `bg-slate-50 text-slate-600 border-slate-100 group-hover:bg-${tab.color}-100 group-hover:text-${tab.color}-600 group-hover:border-${tab.color}-200`
+                        ? 'bg-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] translate-y-1' 
+                        : 'bg-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-y-1 hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:bg-gray-50'
+                    }`}
+                  >
+                    <div className={`flex items-center justify-center transition-colors ${
+                      isActive ? 'text-white' : 'text-black'
                     }`}>
-                      <Icon className="w-6 h-6" strokeWidth={isActive ? 2.5 : 2} />
+                      <Icon className="w-8 h-8" strokeWidth={isActive ? 3 : 2.5} />
                     </div>
-                    <span className={`text-[10px] font-extrabold text-center ${isActive ? 'text-orange-600' : 'text-slate-600'}`}>
+                    <span className={`text-[9px] sm:text-[10px] font-black text-center uppercase tracking-widest ${isActive ? 'text-white' : 'text-black'}`}>
                       {tab.label}
                     </span>
                   </button>
@@ -357,8 +353,8 @@ export default function Dashboard() {
             </div>
 
             {/* Extra Action (Mobile Logout) */}
-            <button onClick={handleLogout} className="sm:hidden w-full py-4 bg-red-50 text-red-600 font-extrabold rounded-[1.2rem] text-[13px] active:scale-95 outline-none flex justify-center items-center gap-2 relative z-10">
-              <LogOut size={16} strokeWidth={2.5} /> Keluar dari Admin
+            <button onClick={handleLogout} className="sm:hidden w-full py-4 bg-white text-black border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] font-black uppercase tracking-widest text-[13px] active:scale-95 outline-none flex justify-center items-center gap-2 relative z-10 hover:bg-black hover:text-white transition-all hover:translate-y-1 hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] mt-4">
+              <LogOut size={18} strokeWidth={3} /> KELUAR DARI ADMIN
             </button>
           </div>
         </div>

@@ -3,7 +3,7 @@
 import type React from "react"
 import { useState } from "react"
 import Link from "next/link"
-import { Eye, EyeOff, Palette, Loader2, ArrowLeft } from "lucide-react"
+import { Eye, EyeOff, Palette, Loader2, ArrowLeft, Mail, Lock } from "lucide-react"
 import { toast } from "sonner"
 import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/ui/input-otp"
 
@@ -96,25 +96,21 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen bg-white flex flex-col items-center justify-center relative overflow-hidden">
-      <div className="absolute top-[-10%] right-[-10%] w-96 h-96 bg-orange-400 rounded-full mix-blend-multiply filter blur-[80px] opacity-20 animate-blob" />
-      <div className="absolute bottom-[-10%] left-[-10%] w-96 h-96 bg-yellow-400 rounded-full mix-blend-multiply filter blur-[80px] opacity-20 animate-blob animation-delay-2000" />
-
-      <div className="w-full max-w-md px-8 pt-10 pb-16 z-10 flex flex-col h-full justify-between">
-        <div className="flex-1 flex flex-col justify-center">
-          <div className="text-center mb-12">
-            <div className="mx-auto w-20 h-20 bg-gradient-to-tr from-orange-600 to-orange-400 rounded-3xl flex items-center justify-center shadow-xl shadow-orange-500/30 mb-6 transform -rotate-6 hover:rotate-0 transition-transform duration-300">
-              <Palette className="w-10 h-10 text-white" />
-            </div>
-            <h1 className="text-3xl font-black text-slate-900 tracking-tight">
-              {step === "otp" ? "Kode verifikasi" : "Welcome Back"}
-            </h1>
-            <p className="text-slate-500 mt-2 font-medium">
-              {step === "otp"
-                ? "Masukkan 6 digit dari email Anda."
-                : "Log in to manage your spaces."}
-            </p>
+    <div className="min-h-screen bg-gray-50 flex flex-col items-center justify-center relative p-4">
+      <div className="w-full max-w-lg bg-white border-4 border-black p-8 md:p-10 shadow-[15px_15px_0px_0px_rgba(0,0,0,1)]">
+        <div className="text-center mb-10">
+          <div className="mx-auto w-16 h-16 bg-black border-2 border-black flex items-center justify-center shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] mb-6 transform -rotate-3 hover:rotate-0 transition-transform duration-300">
+            <Palette className="w-8 h-8 text-white" />
           </div>
+          <h1 className="text-3xl font-black text-black uppercase tracking-widest">
+            {step === "otp" ? "Verifikasi" : "Admin Login"}
+          </h1>
+          <p className="text-sm font-bold text-gray-500 uppercase tracking-widest mt-2">
+            {step === "otp"
+              ? "Masukkan 6 digit dari email"
+              : "Masuk untuk kelola pesanan"}
+          </p>
+        </div>
 
           <form onSubmit={handleSubmit} className="space-y-5">
             {step === "otp" && (
@@ -125,24 +121,24 @@ export default function LoginPage() {
                     setStep("cred")
                     setOtpValue("")
                   }}
-                  className="flex items-center gap-2 text-sm font-bold text-slate-500 hover:text-slate-800"
+                  className="flex items-center gap-2 text-xs font-black text-black uppercase tracking-widest hover:translate-x-1 transition-transform"
                 >
-                  <ArrowLeft size={18} /> Kembali
+                  <ArrowLeft size={16} strokeWidth={3} /> Kembali
                 </button>
-                <div className="flex justify-center py-2">
+                <div className="flex justify-center py-4">
                   <InputOTP maxLength={6} value={otpValue} onChange={setOtpValue}>
-                    <InputOTPGroup>
-                      <InputOTPSlot index={0} />
-                      <InputOTPSlot index={1} />
-                      <InputOTPSlot index={2} />
-                      <InputOTPSlot index={3} />
-                      <InputOTPSlot index={4} />
-                      <InputOTPSlot index={5} />
+                    <InputOTPGroup className="gap-2">
+                      <InputOTPSlot index={0} className="border-2 border-black rounded-none shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] text-lg font-black" />
+                      <InputOTPSlot index={1} className="border-2 border-black rounded-none shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] text-lg font-black" />
+                      <InputOTPSlot index={2} className="border-2 border-black rounded-none shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] text-lg font-black" />
+                      <InputOTPSlot index={3} className="border-2 border-black rounded-none shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] text-lg font-black" />
+                      <InputOTPSlot index={4} className="border-2 border-black rounded-none shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] text-lg font-black" />
+                      <InputOTPSlot index={5} className="border-2 border-black rounded-none shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] text-lg font-black" />
                     </InputOTPGroup>
                   </InputOTP>
                 </div>
-                <p className="text-center text-xs text-slate-400">
-                  <button type="button" className="text-orange-600 font-bold" onClick={() => void sendOtp()}>
+                <p className="text-center mt-2">
+                  <button type="button" className="text-xs font-black text-black uppercase tracking-widest border-b-2 border-black hover:bg-black hover:text-white transition-all px-1" onClick={() => void sendOtp()}>
                     Kirim ulang kode
                   </button>
                 </p>
@@ -151,10 +147,10 @@ export default function LoginPage() {
 
             {step === "cred" && (
               <>
-                <div className="space-y-1">
-                  <label className="text-xs font-bold text-slate-400 uppercase tracking-wider ml-1">
-                    Email
-                  </label>
+                <div className="group flex items-stretch border-2 border-black focus-within:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all bg-white">
+                  <div className="w-14 flex items-center justify-center bg-gray-100 border-r-2 border-black shrink-0 text-black group-focus-within:bg-black group-focus-within:text-white transition-colors">
+                    <Mail size={20} strokeWidth={2.5} />
+                  </div>
                   <input
                     type="email"
                     name="email"
@@ -163,16 +159,16 @@ export default function LoginPage() {
                     required
                     disabled={loading || sendingOtp}
                     autoComplete="email"
-                    className="w-full px-5 py-4 bg-slate-50 border border-slate-100 rounded-2xl text-slate-900 text-base font-semibold placeholder:font-normal placeholder:text-slate-400 focus:bg-white focus:outline-none focus:ring-4 focus:ring-orange-500/10 focus:border-orange-500 transition-all disabled:opacity-50"
-                    placeholder="admin@domain.com"
+                    className="w-full px-4 py-3.5 bg-transparent text-black font-bold placeholder:font-bold placeholder:text-gray-300 focus:outline-none focus:ring-0 transition-all disabled:opacity-50 text-sm md:text-base"
+                    placeholder="ALAMAT EMAIL"
                   />
                 </div>
 
-                <div className="space-y-1">
-                  <label className="text-xs font-bold text-slate-400 uppercase tracking-wider ml-1">
-                    Password
-                  </label>
-                  <div className="relative">
+                <div className="group flex items-stretch border-2 border-black focus-within:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all bg-white">
+                  <div className="w-14 flex items-center justify-center bg-gray-100 border-r-2 border-black shrink-0 text-black group-focus-within:bg-black group-focus-within:text-white transition-colors">
+                    <Lock size={20} strokeWidth={2.5} />
+                  </div>
+                  <div className="relative flex-1 flex">
                     <input
                       type={showPassword ? "text" : "password"}
                       name="password"
@@ -181,26 +177,26 @@ export default function LoginPage() {
                       required
                       disabled={loading || sendingOtp}
                       autoComplete="current-password"
-                      className="w-full px-5 py-4 bg-slate-50 border border-slate-100 rounded-2xl text-slate-900 text-base font-semibold placeholder:font-normal placeholder:text-slate-400 focus:bg-white focus:outline-none focus:ring-4 focus:ring-orange-500/10 focus:border-orange-500 transition-all pr-14 disabled:opacity-50"
-                      placeholder="••••••••"
+                      className="w-full px-4 py-3.5 bg-transparent text-black font-bold placeholder:font-bold placeholder:text-gray-300 focus:outline-none focus:ring-0 transition-all pr-12 disabled:opacity-50 text-sm md:text-base"
+                      placeholder="PASSWORD"
                     />
                     <button
                       type="button"
                       onClick={() => setShowPassword(!showPassword)}
                       disabled={loading || sendingOtp}
-                      className="absolute right-4 top-1/2 transform -translate-y-1/2 p-1 text-slate-400 hover:text-orange-500 transition-colors focus:outline-none disabled:opacity-50 select-none"
+                      className="absolute right-3 top-1/2 transform -translate-y-1/2 p-1 text-black hover:scale-110 transition-transform focus:outline-none disabled:opacity-50 select-none bg-white"
                     >
-                      {showPassword ? <EyeOff size={22} /> : <Eye size={22} />}
+                      {showPassword ? <EyeOff size={20} strokeWidth={2.5} /> : <Eye size={20} strokeWidth={2.5} />}
                     </button>
                   </div>
                 </div>
 
-                <div className="flex justify-end pt-2">
+                <div className="flex justify-end pt-1">
                   <Link
                     href="/forgot-password"
-                    className="text-sm font-bold text-orange-500 hover:text-orange-600 transition-colors"
+                    className="text-[10px] font-black text-gray-500 hover:text-black uppercase tracking-widest transition-colors border-b border-transparent hover:border-black"
                   >
-                    Forgot Password?
+                    Lupa Password?
                   </Link>
                 </div>
               </>
@@ -214,29 +210,28 @@ export default function LoginPage() {
                   sendingOtp ||
                   (step === "otp" && otpValue.length !== 6)
                 }
-                className="w-full relative flex items-center justify-center py-4 bg-slate-900 text-white rounded-2xl font-bold text-lg shadow-xl shadow-slate-900/20 hover:bg-slate-800 transition-all active:scale-[0.98] disabled:opacity-70 disabled:cursor-not-allowed select-none"
+                className="w-full relative flex items-center justify-center py-4 bg-black text-white border-2 border-black rounded-none font-black text-sm uppercase tracking-widest shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:translate-y-1 hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-all disabled:opacity-70 disabled:cursor-not-allowed select-none"
               >
                 {loading || sendingOtp ? (
                   <>
-                    <Loader2 className="w-6 h-6 animate-spin mr-2" />
-                    {sendingOtp ? "Mengirim…" : "Signing In..."}
+                    <Loader2 className="w-5 h-5 animate-spin mr-2" />
+                    {sendingOtp ? "MENGIRIM…" : "SIGNING IN..."}
                   </>
                 ) : step === "cred" ? (
-                  "Kirim kode ke email"
+                  "KIRIM KODE KE EMAIL"
                 ) : (
-                  "Sign In"
+                  "SIGN IN"
                 )}
               </button>
             </div>
           </form>
-        </div>
 
-        <div className="text-center mt-10">
+        <div className="text-center mt-8">
           <Link
             href="/"
-            className="inline-flex items-center text-sm font-bold text-slate-500 hover:text-slate-900 transition-colors select-none"
+            className="inline-flex items-center text-[11px] font-black text-black uppercase tracking-widest hover:underline decoration-2 underline-offset-4 select-none transition-all"
           >
-            Back to Homepage
+            KEMBALI KE BERANDA
           </Link>
         </div>
       </div>

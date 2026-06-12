@@ -39,7 +39,7 @@ export function UserBottomNav() {
         </Link>
 
         {/* TENGAH: Floating Home Button */}
-        <Link href="/" className="flex flex-col items-center justify-center w-full group relative -top-7 active:scale-90 transition-transform z-50">
+        <Link href="/home" className="flex flex-col items-center justify-center w-full group relative -top-7 active:scale-90 transition-transform z-50">
           <div className="w-[60px] h-[60px] bg-orange-600 rounded-full flex items-center justify-center text-white shadow-[0_8px_20px_rgba(234,88,12,0.4)] border-[6px] border-white transition-colors animate-nav-float group-hover:bg-orange-700">
             <Home size={26} strokeWidth={2.5} />
           </div>

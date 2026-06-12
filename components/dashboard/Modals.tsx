@@ -14,55 +14,56 @@ interface OrderDetailProps {
 export function OrderDetailModal({ order, onClose, onEdit, onSendWhatsApp }: OrderDetailProps) {
   return (
     <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-50" onClick={onClose}>
-      <div className="bg-white rounded-2xl max-w-lg w-full max-h-[85vh] overflow-y-auto shadow-2xl" onClick={(e) => e.stopPropagation()}>
-        <div className="sticky top-0 bg-white p-5 border-b border-gray-100 flex justify-between items-center rounded-t-2xl">
+      <div className="bg-white rounded-none max-w-lg w-full max-h-[85vh] overflow-y-auto shadow-[15px_15px_0px_0px_rgba(0,0,0,1)] border-4 border-black" onClick={(e) => e.stopPropagation()}>
+        <div className="sticky top-0 bg-white p-5 border-b-4 border-black flex justify-between items-center rounded-none z-10">
           <div>
-            <h3 className="font-black text-gray-900">{order.order_number}</h3>
-            <span className={`text-[10px] font-black uppercase px-2 py-0.5 rounded-md border ${statusColor(order.status)}`}>
+            <h3 className="font-black text-black text-xl uppercase tracking-widest">{order.order_number}</h3>
+            <span className={`mt-1 inline-block text-[10px] font-black uppercase px-2 py-1 border-2 border-current shadow-[2px_2px_0px_0px_currentColor] ${statusColor(order.status)}`}>
               {statusLabel(order.status)}
             </span>
           </div>
-          <button onClick={onClose} className="p-2 hover:bg-gray-100 rounded-xl text-gray-400"><X size={20} /></button>
+          <button onClick={onClose} className="p-2 border-2 border-black bg-white text-black hover:bg-black hover:text-white rounded-none shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:translate-y-0.5 active:shadow-none transition-all"><X size={20} strokeWidth={3} /></button>
         </div>
-        <div className="p-5 space-y-4">
+        <div className="p-5 space-y-5">
           <div className="grid grid-cols-2 gap-4">
-            <div>
-              <p className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-1"><User size={10} className="inline" /> Nama</p>
-              <p className="text-sm font-bold text-gray-800">{order.name}</p>
+            <div className="bg-gray-50 p-3 border-2 border-black">
+              <p className="text-[10px] font-black text-gray-500 uppercase tracking-widest mb-1"><User size={12} strokeWidth={3} className="inline mr-1" /> NAMA</p>
+              <p className="text-sm font-black text-black uppercase tracking-widest">{order.name}</p>
             </div>
-            <div>
-              <p className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-1"><Mail size={10} className="inline" /> Email</p>
-              <p className="text-sm font-bold text-gray-800">{order.email}</p>
+            <div className="bg-gray-50 p-3 border-2 border-black">
+              <p className="text-[10px] font-black text-gray-500 uppercase tracking-widest mb-1"><Mail size={12} strokeWidth={3} className="inline mr-1" /> EMAIL</p>
+              <p className="text-sm font-black text-black uppercase tracking-widest break-words">{order.email}</p>
             </div>
-            <div>
-              <p className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-1"><Phone size={10} className="inline" /> Telepon</p>
-              <p className="text-sm font-bold text-gray-800">{order.phone}</p>
+            <div className="bg-gray-50 p-3 border-2 border-black">
+              <p className="text-[10px] font-black text-gray-500 uppercase tracking-widest mb-1"><Phone size={12} strokeWidth={3} className="inline mr-1" /> TELEPON</p>
+              <p className="text-sm font-black text-black uppercase tracking-widest">{order.phone}</p>
             </div>
-            <div>
-              <p className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-1"><Package size={10} className="inline" /> Layanan</p>
-              <p className="text-sm font-bold text-gray-800">{order.service} · {order.package}</p>
+            <div className="bg-gray-50 p-3 border-2 border-black">
+              <p className="text-[10px] font-black text-gray-500 uppercase tracking-widest mb-1"><Package size={12} strokeWidth={3} className="inline mr-1" /> LAYANAN</p>
+              <p className="text-sm font-black text-black uppercase tracking-widest">{order.service}</p>
+              <p className="text-[10px] font-bold mt-1 text-gray-600">{order.package}</p>
             </div>
           </div>
           {order.title && (
-            <div>
-              <p className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-1">Judul Desain</p>
-              <p className="text-sm text-gray-800">{order.title}</p>
+            <div className="bg-gray-50 p-3 border-2 border-black">
+              <p className="text-[10px] font-black text-gray-500 uppercase tracking-widest mb-1">JUDUL DESAIN</p>
+              <p className="text-sm font-black text-black uppercase tracking-widest">{order.title}</p>
             </div>
           )}
           {order.description && (
-            <div>
-              <p className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-1">Deskripsi</p>
-              <p className="text-sm text-gray-600">{order.description}</p>
+            <div className="bg-gray-50 p-3 border-2 border-black">
+              <p className="text-[10px] font-black text-gray-500 uppercase tracking-widest mb-1">DESKRIPSI</p>
+              <p className="text-sm font-bold text-gray-800">{order.description}</p>
             </div>
           )}
-          <div className="pt-3 border-t border-gray-100 flex justify-between items-center">
-            <p className="text-lg font-black text-gray-900">{formatCurrency(order.total_price)}</p>
+          <div className="pt-4 border-t-4 border-black flex justify-between items-center">
+            <p className="text-2xl font-black text-black">{formatCurrency(order.total_price)}</p>
             <div className="flex gap-2">
-              <button onClick={() => onSendWhatsApp(order.phone, order.order_number)} className="flex items-center gap-1.5 px-4 py-2 bg-green-50 text-green-600 rounded-xl text-sm font-bold border border-green-200 hover:bg-green-100">
-                <MessageCircle size={14} /> WhatsApp
+              <button onClick={() => onSendWhatsApp(order.phone, order.order_number)} className="flex items-center gap-2 px-4 py-3 bg-green-400 text-black rounded-none text-xs font-black uppercase tracking-widest border-2 border-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:bg-white active:translate-y-0.5 active:shadow-none transition-all">
+                <MessageCircle size={16} strokeWidth={3} /> WHATSAPP
               </button>
-              <button onClick={() => { onClose(); onEdit(order) }} className="flex items-center gap-1.5 px-4 py-2 bg-gray-900 text-white rounded-xl text-sm font-bold hover:bg-gray-800">
-                <Edit size={14} /> Edit
+              <button onClick={() => { onClose(); onEdit(order) }} className="flex items-center gap-2 px-4 py-3 bg-black text-white rounded-none text-xs font-black uppercase tracking-widest border-2 border-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:bg-white hover:text-black active:translate-y-0.5 active:shadow-none transition-all">
+                <Edit size={16} strokeWidth={3} /> EDIT
               </button>
             </div>
           </div>
@@ -85,18 +86,18 @@ export function EditOrderModal({ order, setOrder, onClose, onSave }: EditOrderPr
 
   return (
     <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-50" onClick={onClose}>
-      <div className="bg-white rounded-2xl max-w-md w-full shadow-2xl" onClick={(e) => e.stopPropagation()}>
-        <div className="p-5 border-b border-gray-100 flex justify-between items-center">
-          <h3 className="font-black text-gray-900">Edit {order.order_number}</h3>
-          <button onClick={onClose} className="p-2 hover:bg-gray-100 rounded-xl text-gray-400"><X size={20} /></button>
+      <div className="bg-white rounded-none max-w-md w-full shadow-[15px_15px_0px_0px_rgba(0,0,0,1)] border-4 border-black" onClick={(e) => e.stopPropagation()}>
+        <div className="p-5 border-b-4 border-black flex justify-between items-center bg-white z-10">
+          <h3 className="font-black text-black text-xl uppercase tracking-widest">EDIT {order.order_number}</h3>
+          <button onClick={onClose} className="p-2 border-2 border-black bg-white text-black hover:bg-black hover:text-white rounded-none shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:translate-y-0.5 active:shadow-none transition-all"><X size={20} strokeWidth={3} /></button>
         </div>
-        <div className="p-5 space-y-4">
+        <div className="p-5 space-y-5">
           <div>
-            <label className="block text-xs font-bold text-gray-400 uppercase tracking-widest mb-2">Status</label>
+            <label className="block text-[11px] font-black text-black uppercase tracking-widest mb-2">STATUS PESANAN</label>
             <select
               value={order.status}
               onChange={(e) => setOrder({ ...order, status: e.target.value as Order["status"] })}
-              className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm font-bold outline-none focus:border-orange-500"
+              className="w-full px-4 py-3 bg-white border-2 border-black rounded-none text-sm font-black uppercase tracking-widest outline-none focus:bg-black focus:text-white transition-colors cursor-pointer appearance-none"
             >
               {statusOptions.map((s) => (
                 <option key={s} value={s}>{statusLabel(s)}</option>
@@ -104,18 +105,18 @@ export function EditOrderModal({ order, setOrder, onClose, onSave }: EditOrderPr
             </select>
           </div>
           <div>
-            <label className="block text-xs font-bold text-gray-400 uppercase tracking-widest mb-2">Total Harga</label>
+            <label className="block text-[11px] font-black text-black uppercase tracking-widest mb-2">TOTAL HARGA</label>
             <input
               type="number" value={order.total_price}
               onChange={(e) => setOrder({ ...order, total_price: Number(e.target.value) })}
-              className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm font-bold outline-none focus:border-orange-500"
+              className="w-full px-4 py-3 bg-white border-2 border-black rounded-none text-sm font-black outline-none focus:ring-0 focus:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all"
             />
           </div>
-          <div className="flex gap-2 justify-end pt-3">
-            <button onClick={onClose} className="px-4 py-2.5 bg-gray-100 text-gray-600 rounded-xl text-sm font-bold">Batal</button>
+          <div className="flex gap-2 justify-end pt-4 border-t-4 border-black">
+            <button onClick={onClose} className="px-5 py-3 bg-white text-black border-2 border-black rounded-none text-xs font-black uppercase tracking-widest hover:bg-gray-100 transition-colors">BATAL</button>
             <button onClick={() => onSave(String(order.id), { status: order.status, total_price: order.total_price })}
-              className="flex items-center gap-1.5 px-5 py-2.5 bg-gray-900 text-white rounded-xl text-sm font-bold hover:bg-gray-800 active:scale-95">
-              <Save size={14} /> Simpan
+              className="flex items-center gap-2 px-6 py-3 bg-black text-white border-2 border-black rounded-none text-xs font-black uppercase tracking-widest hover:bg-white hover:text-black transition-all shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] active:translate-y-1 active:shadow-none">
+              <Save size={16} strokeWidth={3} /> SIMPAN
             </button>
           </div>
         </div>
@@ -136,39 +137,39 @@ interface SuggestionModalProps {
 export function SuggestionModal({ suggestion, response, setResponse, onClose, onSubmit }: SuggestionModalProps) {
   return (
     <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-50" onClick={onClose}>
-      <div className="bg-white rounded-2xl max-w-md w-full shadow-2xl" onClick={(e) => e.stopPropagation()}>
-        <div className="p-5 border-b border-gray-100 flex justify-between items-center">
-          <h3 className="font-black text-gray-900">Detail Saran</h3>
-          <button onClick={onClose} className="p-2 hover:bg-gray-100 rounded-xl text-gray-400"><X size={20} /></button>
+      <div className="bg-white rounded-none max-w-md w-full shadow-[15px_15px_0px_0px_rgba(0,0,0,1)] border-4 border-black" onClick={(e) => e.stopPropagation()}>
+        <div className="p-5 border-b-4 border-black flex justify-between items-center bg-white z-10">
+          <h3 className="font-black text-black text-xl uppercase tracking-widest">DETAIL SARAN</h3>
+          <button onClick={onClose} className="p-2 border-2 border-black bg-white text-black hover:bg-black hover:text-white rounded-none shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:translate-y-0.5 active:shadow-none transition-all"><X size={20} strokeWidth={3} /></button>
         </div>
-        <div className="p-5 space-y-4">
-          <div>
-            <p className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-1">Dari</p>
-            <p className="text-sm font-bold text-gray-800">{suggestion.nama || "Anonim"}</p>
-            <p className="text-xs text-gray-400">{suggestion.user_email}</p>
+        <div className="p-5 space-y-5">
+          <div className="bg-gray-50 p-3 border-2 border-black">
+            <p className="text-[10px] font-black text-gray-500 uppercase tracking-widest mb-1">DARI</p>
+            <p className="text-sm font-black text-black uppercase tracking-widest">{suggestion.nama || "ANONIM"}</p>
+            <p className="text-xs font-bold text-gray-500 uppercase tracking-widest">{suggestion.user_email}</p>
+          </div>
+          <div className="bg-gray-50 p-3 border-2 border-black">
+            <p className="text-[10px] font-black text-gray-500 uppercase tracking-widest mb-1">KATEGORI</p>
+            <p className="text-sm font-black text-black uppercase tracking-widest">{suggestion.category}</p>
           </div>
           <div>
-            <p className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-1">Kategori</p>
-            <p className="text-sm text-gray-800">{suggestion.category}</p>
+            <p className="text-[10px] font-black text-black uppercase tracking-widest mb-2">ISI SARAN</p>
+            <p className="text-sm font-bold text-black bg-white border-2 border-black p-4 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">{suggestion.saran}</p>
           </div>
           <div>
-            <p className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-1">Isi Saran</p>
-            <p className="text-sm text-gray-600 bg-gray-50 p-3 rounded-xl">{suggestion.saran}</p>
-          </div>
-          <div>
-            <label className="block text-xs font-bold text-gray-400 uppercase tracking-widest mb-2">Respon Admin</label>
+            <label className="block text-[11px] font-black text-black uppercase tracking-widest mb-2">RESPON ADMIN</label>
             <textarea
               value={response}
               onChange={(e) => setResponse(e.target.value)}
-              rows={3}
-              placeholder="Tulis respon..."
-              className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm outline-none focus:border-orange-500 resize-none"
+              rows={4}
+              placeholder="TULIS RESPON..."
+              className="w-full px-4 py-3 bg-white border-2 border-black rounded-none text-sm font-bold outline-none focus:ring-0 focus:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all resize-none uppercase"
             />
           </div>
-          <div className="flex gap-2 justify-end pt-2">
-            <button onClick={onClose} className="px-4 py-2.5 bg-gray-100 text-gray-600 rounded-xl text-sm font-bold">Batal</button>
-            <button onClick={onSubmit} className="px-5 py-2.5 bg-gray-900 text-white rounded-xl text-sm font-bold hover:bg-gray-800 active:scale-95">
-              Simpan & Review
+          <div className="flex gap-2 justify-end pt-4 border-t-4 border-black">
+            <button onClick={onClose} className="px-5 py-3 bg-white text-black border-2 border-black rounded-none text-xs font-black uppercase tracking-widest hover:bg-gray-100 transition-colors">BATAL</button>
+            <button onClick={onSubmit} className="px-6 py-3 bg-black text-white border-2 border-black rounded-none text-xs font-black uppercase tracking-widest hover:bg-white hover:text-black transition-all shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] active:translate-y-1 active:shadow-none">
+              SIMPAN & REVIEW
             </button>
           </div>
         </div>

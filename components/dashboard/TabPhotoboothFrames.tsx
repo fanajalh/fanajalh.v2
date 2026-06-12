@@ -158,9 +158,9 @@ export default function TabPhotoboothFrames() {
 
   if (loading) {
     return (
-      <div className="flex flex-col items-center justify-center py-24">
-        <Loader2 className="w-8 h-8 animate-spin text-orange-500 mb-3" />
-        <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">Memuat frame…</p>
+      <div className="flex flex-col items-center justify-center py-24 bg-white border-4 border-dashed border-black mt-4">
+        <Loader2 className="w-10 h-10 animate-spin text-black mb-4" strokeWidth={3} />
+        <p className="text-xs font-black text-black uppercase tracking-widest">MEMUAT FRAME…</p>
       </div>
     )
   }
@@ -168,128 +168,131 @@ export default function TabPhotoboothFrames() {
   return (
     <div className="space-y-6">
       {/* Stats Bar */}
-      <div className="grid grid-cols-3 gap-3">
-        <div className="bg-white border border-slate-200 rounded-2xl p-4 text-center">
-          <p className="text-3xl font-black text-slate-900">{rows.length}</p>
-          <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1">Total Frame</p>
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <div className="bg-white border-4 border-black rounded-none p-5 text-center shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+          <p className="text-4xl font-black text-black">{rows.length}</p>
+          <p className="text-xs font-black text-gray-500 uppercase tracking-widest mt-2 border-t-2 border-black pt-2">TOTAL FRAME</p>
         </div>
-        <div className="bg-white border border-slate-200 rounded-2xl p-4 text-center">
-          <p className="text-3xl font-black text-orange-500">{adminUploadCount}</p>
-          <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1">Admin Upload</p>
+        <div className="bg-white border-4 border-black rounded-none p-5 text-center shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+          <p className="text-4xl font-black text-black">{adminUploadCount}</p>
+          <p className="text-xs font-black text-gray-500 uppercase tracking-widest mt-2 border-t-2 border-black pt-2">ADMIN UPLOAD</p>
         </div>
-        <div className="bg-white border border-blue-100 rounded-2xl p-4 text-center">
-          <p className="text-3xl font-black text-blue-500">{userUploadCount}</p>
-          <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1">User Upload</p>
+        <div className="bg-white border-4 border-black rounded-none p-5 text-center shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+          <p className="text-4xl font-black text-black">{userUploadCount}</p>
+          <p className="text-xs font-black text-gray-500 uppercase tracking-widest mt-2 border-t-2 border-black pt-2">USER UPLOAD</p>
         </div>
       </div>
 
-      <div className="flex flex-wrap items-center justify-between gap-3">
-        <div className="flex gap-2">
+      <div className="flex flex-col md:flex-row items-center justify-between gap-4 bg-white p-5 border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] rounded-none">
+        <div className="flex bg-white overflow-x-auto no-scrollbar w-full md:w-auto border-4 border-black">
           {(["all", "admin", "user"] as const).map((f) => (
             <button
               key={f}
               type="button"
               onClick={() => setFilter(f)}
-              className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all border ${
+              className={`flex-1 md:flex-none px-6 py-3 text-xs font-black uppercase tracking-widest transition-all border-r-4 border-black last:border-r-0 whitespace-nowrap ${
                 filter === f
-                  ? "bg-orange-50 border-orange-300 text-orange-700"
-                  : "bg-white border-slate-200 text-slate-500 hover:bg-slate-50"
+                  ? "bg-black text-white"
+                  : "bg-white text-black hover:bg-gray-200"
               }`}
             >
-              {f === "all" ? `Semua (${rows.length})` : f === "admin" ? `Admin (${adminUploadCount})` : `User (${userUploadCount})`}
+              {f === "all" ? `SEMUA (${rows.length})` : f === "admin" ? `ADMIN (${adminUploadCount})` : `USER (${userUploadCount})`}
             </button>
           ))}
         </div>
-        <div className="flex gap-2">
+        <div className="flex gap-4 w-full md:w-auto">
           <button
             type="button"
             onClick={() => fetchRows()}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-xl border border-slate-200 text-slate-700 font-bold text-sm hover:bg-slate-50"
+            className="flex-1 md:flex-none inline-flex items-center justify-center gap-2 px-6 py-3 rounded-none border-4 border-black bg-white text-black font-black uppercase tracking-widest text-xs hover:bg-gray-200 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] active:translate-y-1 active:shadow-none transition-all"
           >
-            <RefreshCw size={16} /> Refresh
+            <RefreshCw size={18} strokeWidth={3} /> REFRESH
           </button>
           <button
             type="button"
             onClick={openNew}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-orange-500 text-white font-bold text-sm hover:bg-orange-600 shadow-lg shadow-orange-500/20"
+            className="flex-1 md:flex-none inline-flex items-center justify-center gap-2 px-6 py-3 rounded-none bg-yellow-400 border-4 border-black text-black font-black uppercase tracking-widest text-xs hover:bg-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] active:translate-y-1 active:shadow-none transition-all"
           >
-            <Plus size={18} /> Frame baru
+            <Plus size={20} strokeWidth={3} /> FRAME BARU
           </button>
         </div>
       </div>
 
-      <div className="grid gap-4 md:grid-cols-2">
+      <div className="grid gap-6 md:grid-cols-2">
         {filteredRows.map((r) => (
           <div
             key={r.id}
-            className={`bg-white border rounded-2xl p-4 flex gap-4 shadow-sm transition-all ${
-              !r.is_active ? "border-amber-200 bg-amber-50/30 opacity-75" : r.uploaded_by ? "border-blue-200" : "border-slate-200"
+            className={`bg-white border-4 border-black rounded-none p-5 flex flex-col sm:flex-row gap-5 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:-translate-y-1 hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] transition-all ${
+              !r.is_active ? "opacity-75 bg-gray-100" : ""
             }`}
           >
-            <div className="w-24 h-32 shrink-0 bg-slate-50 rounded-xl overflow-hidden border border-slate-100 flex items-center justify-center">
+            <div className="w-full sm:w-28 sm:h-36 shrink-0 bg-white border-2 border-black p-2 flex items-center justify-center shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src={r.image_url} alt="" className="max-w-full max-h-full object-contain" />
             </div>
-            <div className="flex-1 min-w-0">
+            <div className="flex-1 min-w-0 flex flex-col">
               <div className="flex items-start justify-between gap-2">
-                <div>
-                  <p className="font-black text-slate-900 truncate">{r.name}</p>
-                  <p className="text-[11px] font-mono text-slate-500">{r.slug}</p>
+                <div className="min-w-0">
+                  <p className="font-black text-xl text-black truncate uppercase tracking-widest">{r.name}</p>
+                  <p className="text-[10px] font-black text-gray-500 uppercase tracking-widest truncate">{r.slug}</p>
                 </div>
-                <div className="flex items-center gap-1.5 shrink-0">
+                <div className="flex items-center gap-2 shrink-0 flex-wrap justify-end">
                   {r.uploaded_by ? (
-                    <span className="inline-flex items-center gap-1 text-[9px] font-black uppercase text-blue-600 bg-blue-50 px-2 py-0.5 rounded-lg border border-blue-100">
-                      <User size={10} /> User
+                    <span className="inline-flex items-center gap-1 text-[10px] font-black uppercase text-white bg-blue-500 px-2 py-1 border-2 border-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
+                      <User size={12} strokeWidth={3} /> USER
                     </span>
                   ) : (
-                    <span className="inline-flex items-center gap-1 text-[9px] font-black uppercase text-orange-600 bg-orange-50 px-2 py-0.5 rounded-lg border border-orange-100">
-                      Admin
+                    <span className="inline-flex items-center gap-1 text-[10px] font-black uppercase text-black bg-yellow-400 px-2 py-1 border-2 border-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
+                      ADMIN
                     </span>
                   )}
                   {!r.is_active && (
-                    <span className="text-[9px] font-bold uppercase text-amber-600 bg-amber-50 px-2 py-0.5 rounded-lg border border-amber-100">
+                    <span className="text-[10px] font-black uppercase text-white bg-red-500 px-2 py-1 border-2 border-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
                       OFF
                     </span>
                   )}
                 </div>
               </div>
-              <p className="text-xs text-slate-600 line-clamp-2 mt-1">{r.description || "—"}</p>
-              <p className="text-[10px] text-slate-400 mt-1">
-                {r.slots} slot · urut {r.sort_order}
-                {r.uploader_name && (
-                  <span className="ml-2 text-blue-500">· oleh {r.uploader_name}</span>
-                )}
-              </p>
-              <div className="flex gap-2 mt-3 flex-wrap">
-                <button
-                  type="button"
-                  onClick={() => toggleActive(r)}
-                  className={`text-xs font-bold inline-flex items-center gap-1 px-2 py-1 rounded-lg transition-colors ${
-                    r.is_active
-                      ? "text-amber-600 bg-amber-50 hover:bg-amber-100"
-                      : "text-emerald-600 bg-emerald-50 hover:bg-emerald-100"
-                  }`}
-                >
-                  {r.is_active ? (
-                    <><ToggleRight size={14} /> Nonaktifkan</>
-                  ) : (
-                    <><ToggleLeft size={14} /> Aktifkan</>
+              <p className="text-xs text-gray-600 line-clamp-2 mt-3 font-bold uppercase tracking-widest flex-1">{r.description || "—"}</p>
+              
+              <div className="border-t-2 border-dashed border-black pt-3 mt-3">
+                <p className="text-[10px] text-black font-black uppercase tracking-widest mb-3">
+                  {r.slots} SLOT &bull; URUT {r.sort_order}
+                  {r.uploader_name && (
+                    <span className="ml-2 text-blue-600">&bull; OLEH {r.uploader_name}</span>
                   )}
-                </button>
-                <button
-                  type="button"
-                  onClick={() => openEdit(r)}
-                  className="text-xs font-bold text-orange-600 hover:underline inline-flex items-center gap-1"
-                >
-                  <Pencil size={12} /> Edit
-                </button>
-                <button
-                  type="button"
-                  onClick={() => handleDelete(r)}
-                  className="text-xs font-bold text-red-600 hover:underline inline-flex items-center gap-1"
-                >
-                  <Trash2 size={12} /> Hapus
-                </button>
+                </p>
+                <div className="flex gap-2 flex-wrap">
+                  <button
+                    type="button"
+                    onClick={() => toggleActive(r)}
+                    className={`text-[10px] font-black inline-flex items-center gap-1 px-3 py-1.5 transition-all border-2 border-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:translate-y-0.5 hover:shadow-none uppercase tracking-widest ${
+                      r.is_active
+                        ? "text-white bg-red-500"
+                        : "text-black bg-green-400"
+                    }`}
+                  >
+                    {r.is_active ? (
+                      <><ToggleRight size={14} strokeWidth={3} /> NONAKTIFKAN</>
+                    ) : (
+                      <><ToggleLeft size={14} strokeWidth={3} /> AKTIFKAN</>
+                    )}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => openEdit(r)}
+                    className="text-[10px] font-black text-black bg-white hover:bg-black hover:text-white border-2 border-black px-3 py-1.5 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:translate-y-0.5 hover:shadow-none transition-all inline-flex items-center gap-1 uppercase tracking-widest"
+                  >
+                    <Pencil size={12} strokeWidth={3} /> EDIT
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => handleDelete(r)}
+                    className="text-[10px] font-black text-white bg-black hover:bg-red-500 border-2 border-black px-3 py-1.5 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:translate-y-0.5 hover:shadow-none transition-all inline-flex items-center gap-1 uppercase tracking-widest"
+                  >
+                    <Trash2 size={12} strokeWidth={3} /> HAPUS
+                  </button>
+                </div>
               </div>
             </div>
           </div>
@@ -297,105 +300,119 @@ export default function TabPhotoboothFrames() {
       </div>
 
       {filteredRows.length === 0 && (
-        <p className="text-center text-slate-400 text-sm py-8">
+        <p className="text-center text-black font-black text-sm py-16 bg-white border-4 border-dashed border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] uppercase tracking-widest mt-4">
           {filter === "user"
-            ? "Belum ada frame dari user."
+            ? "BELUM ADA FRAME DARI USER."
             : filter === "admin"
-            ? "Belum ada frame dari admin."
-            : "Belum ada frame. Tambah dari tombol di atas."}
+            ? "BELUM ADA FRAME DARI ADMIN."
+            : "BELUM ADA FRAME. TAMBAH DARI TOMBOL DI ATAS."}
         </p>
       )}
 
       {showForm && (
-        <div className="fixed inset-0 z-[60] flex items-end sm:items-center justify-center p-4 bg-black/40 backdrop-blur-sm">
-          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-lg max-h-[90vh] overflow-y-auto p-6 relative">
+        <div className="fixed inset-0 z-[60] flex items-end sm:items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
+          <div className="bg-white border-4 border-black rounded-none shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] w-full max-w-lg max-h-[90vh] overflow-y-auto p-8 relative">
             <button
               type="button"
               onClick={() => setShowForm(false)}
-              className="absolute top-4 right-4 p-2 rounded-full hover:bg-slate-100 text-slate-500"
+              className="absolute top-4 right-4 p-2 border-2 border-black rounded-none hover:bg-black hover:text-white transition-colors bg-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:translate-y-0.5 active:shadow-none text-black"
             >
-              <X size={20} />
+              <X size={20} strokeWidth={3} />
             </button>
-            <h3 className="text-lg font-black text-slate-900 mb-4 flex items-center gap-2">
-              <ImageIcon className="text-orange-500" size={22} />
-              {editing ? "Edit frame" : "Frame baru"}
+            <h3 className="text-xl font-black text-black mb-6 flex items-center gap-3 uppercase tracking-widest">
+              <div className="p-2 border-2 border-black bg-yellow-400 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
+                <ImageIcon className="text-black" size={24} strokeWidth={3} />
+              </div>
+              {editing ? "EDIT FRAME" : "FRAME BARU"}
             </h3>
-            <form onSubmit={handleSubmit} className="space-y-3">
+            <form onSubmit={handleSubmit} className="space-y-5">
               <div>
-                <label className="text-xs font-bold text-slate-500">Slug</label>
+                <label className="text-xs font-black text-black uppercase tracking-widest">SLUG</label>
                 <input
                   required
                   disabled={!!editing}
                   value={form.slug}
                   onChange={(e) => setForm({ ...form, slug: e.target.value })}
-                  className="w-full mt-1 px-3 py-2 rounded-xl border border-slate-200 text-sm disabled:bg-slate-50"
-                  placeholder="good-vibes"
+                  className="w-full mt-2 px-4 py-3 border-2 border-black rounded-none text-sm font-black text-black outline-none focus:bg-black focus:text-white disabled:bg-gray-200 transition-colors uppercase"
+                  placeholder="GOOD-VIBES"
                 />
               </div>
               <div>
-                <label className="text-xs font-bold text-slate-500">Nama</label>
+                <label className="text-xs font-black text-black uppercase tracking-widest">NAMA</label>
                 <input
                   required
                   value={form.name}
                   onChange={(e) => setForm({ ...form, name: e.target.value })}
-                  className="w-full mt-1 px-3 py-2 rounded-xl border border-slate-200 text-sm"
+                  className="w-full mt-2 px-4 py-3 border-2 border-black rounded-none text-sm font-black text-black outline-none focus:bg-black focus:text-white transition-colors uppercase tracking-widest"
                 />
               </div>
               <div>
-                <label className="text-xs font-bold text-slate-500">Deskripsi</label>
+                <label className="text-xs font-black text-black uppercase tracking-widest">DESKRIPSI</label>
                 <textarea
                   value={form.description}
                   onChange={(e) => setForm({ ...form, description: e.target.value })}
-                  className="w-full mt-1 px-3 py-2 rounded-xl border border-slate-200 text-sm min-h-[72px]"
+                  className="w-full mt-2 px-4 py-3 border-2 border-black rounded-none text-sm font-black text-black outline-none focus:bg-black focus:text-white transition-colors uppercase tracking-widest min-h-[90px] resize-none"
                 />
               </div>
               <div>
-                <label className="text-xs font-bold text-slate-500">URL gambar (CDN / https)</label>
+                <label className="text-xs font-black text-black uppercase tracking-widest">URL GAMBAR (CDN / HTTPS)</label>
                 <input
                   required
                   value={form.image_url}
                   onChange={(e) => setForm({ ...form, image_url: e.target.value })}
-                  className="w-full mt-1 px-3 py-2 rounded-xl border border-slate-200 text-xs font-mono"
-                  placeholder="https://cdn.example.com/frame.png"
+                  className="w-full mt-2 px-4 py-3 border-2 border-black rounded-none text-sm font-black text-black outline-none focus:bg-black focus:text-white transition-colors"
+                  placeholder="HTTPS://CDN.EXAMPLE.COM/FRAME.PNG"
                 />
               </div>
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-2 gap-5">
                 <div>
-                  <label className="text-xs font-bold text-slate-500">Slots foto</label>
+                  <label className="text-xs font-black text-black uppercase tracking-widest">SLOTS FOTO</label>
                   <input
                     type="number"
                     min={1}
                     max={20}
                     value={form.slots}
                     onChange={(e) => setForm({ ...form, slots: parseInt(e.target.value, 10) || 4 })}
-                    className="w-full mt-1 px-3 py-2 rounded-xl border border-slate-200 text-sm"
+                    className="w-full mt-2 px-4 py-3 border-2 border-black rounded-none text-sm font-black text-black outline-none focus:bg-black focus:text-white transition-colors"
                   />
                 </div>
                 <div>
-                  <label className="text-xs font-bold text-slate-500">Urutan</label>
+                  <label className="text-xs font-black text-black uppercase tracking-widest">URUTAN</label>
                   <input
                     type="number"
                     value={form.sort_order}
                     onChange={(e) => setForm({ ...form, sort_order: parseInt(e.target.value, 10) || 0 })}
-                    className="w-full mt-1 px-3 py-2 rounded-xl border border-slate-200 text-sm"
+                    className="w-full mt-2 px-4 py-3 border-2 border-black rounded-none text-sm font-black text-black outline-none focus:bg-black focus:text-white transition-colors"
                   />
                 </div>
               </div>
-              <label className="flex items-center gap-2 text-sm font-semibold text-slate-700">
-                <input
-                  type="checkbox"
-                  checked={form.is_active}
-                  onChange={(e) => setForm({ ...form, is_active: e.target.checked })}
-                />
-                Aktif (tampil di halaman pengguna)
-              </label>
-              <button
-                type="submit"
-                disabled={saving}
-                className="w-full py-3 rounded-xl bg-slate-900 text-white font-bold hover:bg-slate-800 disabled:opacity-60"
-              >
-                {saving ? "Menyimpan…" : editing ? "Simpan perubahan" : "Simpan"}
-              </button>
+              
+              <div className="pt-2">
+                <label className="flex items-center gap-3 cursor-pointer">
+                  <div className="relative flex items-center justify-center">
+                    <input
+                      type="checkbox"
+                      checked={form.is_active}
+                      onChange={(e) => setForm({ ...form, is_active: e.target.checked })}
+                      className="peer sr-only"
+                    />
+                    <div className="w-8 h-8 bg-white border-2 border-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] peer-checked:bg-black peer-checked:shadow-none transition-all flex items-center justify-center">
+                      {form.is_active && <X size={16} strokeWidth={4} className="text-white rotate-45" />}
+                    </div>
+                  </div>
+                  <span className="text-xs font-black text-black uppercase tracking-widest">AKTIF (TAMPIL DI HALAMAN PENGGUNA)</span>
+                </label>
+              </div>
+
+              <div className="pt-6 border-t-4 border-black mt-6">
+                <button
+                  type="submit"
+                  disabled={saving}
+                  className="w-full py-4 rounded-none bg-black text-white font-black uppercase tracking-widest border-2 border-black hover:bg-white hover:text-black active:translate-y-1 active:shadow-none transition-all shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {saving ? "MENYIMPAN…" : editing ? "SIMPAN PERUBAHAN" : "SIMPAN"}
+                </button>
+              </div>
             </form>
           </div>
         </div>

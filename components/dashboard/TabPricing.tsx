@@ -1,6 +1,6 @@
 "use client"
 
-import { Save, Edit, DollarSign, Tag } from "lucide-react"
+import { Save, Edit, DollarSign, Tag, Plus, Trash2 } from "lucide-react"
 import type { WebsiteSettings } from "./types"
 
 interface Props {
@@ -15,83 +15,187 @@ export function TabPricing({ settings, setSettings, editing, setEditing, onSave 
   const updateService = (index: number, key: string, value: any) => {
     const updated = [...settings.services]
     updated[index] = { ...updated[index], [key]: value }
+    
+    // Automatically update ID if name changes
+    if (key === "name") {
+      updated[index].id = value.toLowerCase().replace(/\s+/g, '-')
+    }
+    
+    setSettings({ ...settings, services: updated })
+  }
+
+  const addService = () => {
+    setSettings({
+      ...settings,
+      services: [
+        ...settings.services,
+        { id: "new-item", name: "Produk Baru", price: 0, active: false }
+      ]
+    })
+  }
+
+  const deleteService = (index: number) => {
+    const updated = [...settings.services]
+    updated.splice(index, 1)
     setSettings({ ...settings, services: updated })
   }
 
   return (
     <div className="space-y-6 animate-in fade-in duration-500 pb-10">
-      <div className="flex items-center justify-between bg-white p-4 rounded-[2rem] shadow-sm border border-slate-100">
-        <div className="flex items-center gap-3">
-          <div className="w-12 h-12 bg-purple-50 text-purple-500 rounded-2xl flex items-center justify-center">
-            <Tag size={20} strokeWidth={2.5} />
+      {/* Header */}
+      <div className="flex items-center justify-between bg-white p-5 border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] rounded-none">
+        <div className="flex items-center gap-4">
+          <div className="w-12 h-12 bg-black text-white flex items-center justify-center border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+            <Tag size={24} strokeWidth={2.5} />
           </div>
           <div>
-            <h2 className="text-[17px] font-black text-slate-800 leading-tight">Master Harga</h2>
-            <p className="text-[11px] font-bold text-slate-400 uppercase tracking-widest">Update katalog</p>
+            <h2 className="text-xl font-black text-black uppercase tracking-widest leading-tight">Master Katalog</h2>
+            <p className="text-[11px] font-bold text-gray-500 uppercase tracking-widest mt-1">Atur Produk/Layanan</p>
           </div>
         </div>
         
-        {editing ? (
-          <button onClick={onSave} className="flex items-center gap-2 px-6 py-3 bg-orange-500 text-white font-extrabold rounded-[1.2rem] text-[13px] hover:bg-orange-600 active:scale-95 transition-all shadow-lg shadow-orange-500/30 outline-none">
-            <Save size={16} strokeWidth={2.5} /> Simpan
-          </button>
-        ) : (
-          <button onClick={() => setEditing(true)} className="flex items-center gap-2 px-6 py-3 bg-slate-900 text-white font-extrabold rounded-[1.2rem] text-[13px] hover:bg-black active:scale-95 transition-all shadow-md outline-none">
-            <Edit size={16} strokeWidth={2.5} /> Edit
-          </button>
-        )}
+        <div className="flex items-center gap-3">
+          {editing ? (
+            <button onClick={onSave} className="flex items-center gap-2 px-6 py-3 bg-white text-black border-4 border-black font-black uppercase tracking-widest text-sm hover:bg-black hover:text-white transition-all shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:translate-y-1 hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] outline-none group">
+              <Save size={18} strokeWidth={2.5} className="group-hover:text-white" /> SIMPAN
+            </button>
+          ) : (
+            <button onClick={() => setEditing(true)} className="flex items-center gap-2 px-6 py-3 bg-black text-white border-4 border-black font-black uppercase tracking-widest text-sm hover:bg-white hover:text-black transition-all shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:translate-y-1 hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] outline-none group">
+              <Edit size={18} strokeWidth={2.5} className="text-white group-hover:text-black" /> EDIT
+            </button>
+          )}
+          
+          {editing && (
+            <button 
+              onClick={() => {
+                if(confirm('Reset semua layanan ke default? Data saat ini akan ditimpa.')) {
+                  import('./types').then(module => {
+                    setSettings(module.DEFAULT_SETTINGS);
+                  });
+                }
+              }} 
+              className="flex items-center gap-2 px-4 py-3 bg-red-50 text-red-600 border-4 border-red-600 font-black uppercase tracking-widest text-sm hover:bg-red-600 hover:text-white transition-all shadow-[6px_6px_0px_0px_rgba(220,38,38,1)] hover:translate-y-1 hover:shadow-[2px_2px_0px_0px_rgba(220,38,38,1)] outline-none"
+            >
+              RESET DEFAULT
+            </button>
+          )}
+        </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      {/* Global Settings */}
+      {editing && (
+        <div className="bg-white p-5 border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] rounded-none">
+          <label className="block text-[10px] font-black uppercase tracking-widest text-black mb-2">Pesan Saat Layanan Tutup / Libur</label>
+          <textarea
+            value={settings.emptyStateMessage || ""}
+            onChange={(e) => setSettings({ ...settings, emptyStateMessage: e.target.value })}
+            placeholder="e.g. Maaf, layanan kami sedang dalam mode libur/tutup sementara."
+            className="w-full px-4 py-3 bg-white border-2 border-black text-black font-bold focus:outline-none focus:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all text-sm min-h-[80px]"
+          />
+          <p className="text-[10px] font-bold text-gray-500 uppercase mt-2">Pesan ini akan muncul jika semua layanan dalam satu kategori dimatikan.</p>
+        </div>
+      )}
+
+      {/* Grid of Items */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {settings.services.map((service, idx) => (
-          <div key={service.id} className={`bg-white p-5 rounded-[1.8rem] border transition-all duration-300 ${service.active ? 'border-slate-200 shadow-sm' : 'border-slate-100 opacity-60'}`}>
+          <div key={idx} className={`bg-white p-5 border-4 transition-all duration-300 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] rounded-none relative ${service.active ? 'border-black' : 'border-gray-300 opacity-80'}`}>
             
-            <div className="flex items-center justify-between mb-4">
-              <div className="flex items-center gap-3">
-                <div className={`w-10 h-10 rounded-[1.1rem] flex items-center justify-center shrink-0 transition-colors ${service.active ? "bg-emerald-50 text-emerald-500" : "bg-slate-100 text-slate-400"}`}>
-                  <DollarSign size={18} strokeWidth={2.5} />
-                </div>
-                <div>
-                  <p className="text-[15px] font-extrabold text-slate-800">{service.name}</p>
-                  <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{service.id}</p>
-                </div>
+            {editing && (
+              <button onClick={() => deleteService(idx)} className="absolute -top-3 -right-3 w-8 h-8 bg-white border-2 border-black text-black flex items-center justify-center hover:bg-red-500 hover:text-white hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-all z-10" title="Hapus Item">
+                <Trash2 size={16} strokeWidth={3} />
+              </button>
+            )}
+
+            <div className="flex items-start justify-between mb-6">
+              <div className="flex-1 mr-4">
+                {editing ? (
+                  <div className="space-y-1">
+                    <label className="text-[10px] font-black uppercase tracking-widest text-black">Nama Produk/Layanan</label>
+                    <input
+                      type="text"
+                      value={service.name}
+                      onChange={(e) => updateService(idx, "name", e.target.value)}
+                      className="w-full px-3 py-2 bg-white border-2 border-black text-black font-black focus:outline-none focus:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all text-sm uppercase"
+                    />
+                  </div>
+                ) : (
+                  <div>
+                    <p className="text-lg font-black text-black uppercase">{service.name}</p>
+                    <p className="text-[10px] font-bold text-gray-500 uppercase tracking-widest">ID: {service.id}</p>
+                  </div>
+                )}
               </div>
 
-              {/* iOS Style Toggle Switch */}
-              <label className="relative inline-flex items-center cursor-pointer">
-                <input 
-                  type="checkbox" 
-                  className="sr-only peer" 
-                  checked={service.active}
-                  onChange={(e) => editing && updateService(idx, "active", e.target.checked)}
-                  disabled={!editing}
-                />
-                <div className="w-11 h-6 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-500 disabled:opacity-50"></div>
-              </label>
+              {/* Checkbox Toggle */}
+              <div className="flex items-center justify-center pt-1">
+                <label className="relative inline-flex items-center cursor-pointer">
+                  <input 
+                    type="checkbox" 
+                    className="sr-only peer" 
+                    checked={service.active}
+                    onChange={(e) => editing && updateService(idx, "active", e.target.checked)}
+                    disabled={!editing}
+                  />
+                  <div className="w-12 h-6 bg-white border-2 border-black peer-focus:outline-none peer-checked:bg-black disabled:opacity-50 transition-colors"></div>
+                  <div className="absolute left-[2px] top-[2px] bg-black peer-checked:bg-white w-5 h-4 transition-transform peer-checked:translate-x-6 border-r-2 peer-checked:border-r-0 peer-checked:border-l-2 border-white peer-checked:border-black"></div>
+                </label>
+              </div>
             </div>
 
-            <div className="bg-slate-50 p-3 rounded-2xl border border-slate-100">
-              <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1.5 ml-1">Harga Dasar</p>
+            <div className="bg-gray-50 p-4 border-2 border-black rounded-none">
+              <p className="text-[10px] font-black text-black uppercase tracking-widest mb-2">Harga Dasar</p>
               {editing ? (
-                <div className="relative">
-                  <span className="absolute left-3 top-1/2 -translate-y-1/2 text-sm font-bold text-slate-400">Rp</span>
-                  <input
-                    type="number"
-                    value={service.price}
-                    onChange={(e) => updateService(idx, "price", Number(e.target.value))}
-                    className="w-full pl-10 pr-4 py-2.5 bg-white border border-slate-200 rounded-xl text-lg font-black text-slate-800 outline-none focus:border-orange-500 focus:ring-4 focus:ring-orange-500/10 transition-all"
-                  />
+                <div className="space-y-3">
+                  <div className="relative">
+                    <span className="absolute left-3 top-1/2 -translate-y-1/2 text-sm font-black text-black">Rp</span>
+                    <input
+                      type="number"
+                      value={service.price}
+                      onChange={(e) => updateService(idx, "price", Number(e.target.value))}
+                      className="w-full pl-10 pr-4 py-3 bg-white border-2 border-black rounded-none text-xl font-black text-black outline-none focus:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all"
+                    />
+                  </div>
+                  <div>
+                    <label className="text-[10px] font-black uppercase tracking-widest text-black">Custom Status (opsional)</label>
+                    <input
+                      type="text"
+                      placeholder="e.g. SEMENTARA TUTUP"
+                      value={service.customStatus || ""}
+                      onChange={(e) => updateService(idx, "customStatus", e.target.value)}
+                      className="w-full mt-1 px-3 py-2 bg-white border-2 border-black text-black font-black focus:outline-none focus:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all text-sm uppercase"
+                    />
+                  </div>
                 </div>
               ) : (
-                <p className="text-2xl font-black text-slate-800 tracking-tight ml-1">
-                  <span className="text-sm font-bold text-slate-400 mr-1">Rp</span>
-                  {new Intl.NumberFormat("id-ID").format(service.price)}
-                </p>
+                <div className="space-y-1">
+                  <p className={`text-3xl font-black tracking-tighter ${service.customStatus ? "line-through text-gray-400" : "text-black"}`}>
+                    <span className="text-sm font-bold mr-1 tracking-normal">Rp</span>
+                    {new Intl.NumberFormat("id-ID").format(service.price)}
+                  </p>
+                  {service.customStatus && (
+                    <p className="text-sm font-black text-red-500 uppercase tracking-widest bg-red-50 inline-block px-2 py-1 border-2 border-red-500 shadow-[2px_2px_0px_0px_rgba(239,68,68,1)]">
+                      {service.customStatus}
+                    </p>
+                  )}
+                </div>
               )}
             </div>
 
           </div>
         ))}
+        
+        {editing && (
+          <button 
+            onClick={addService}
+            className="flex flex-col items-center justify-center gap-3 p-8 bg-white border-4 border-dashed border-gray-300 hover:border-black text-gray-400 hover:text-black transition-all rounded-none min-h-[220px] group cursor-pointer"
+          >
+            <div className="w-12 h-12 bg-gray-100 group-hover:bg-black group-hover:text-white border-2 border-transparent group-hover:border-black flex items-center justify-center transition-all shadow-none group-hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+              <Plus size={24} strokeWidth={3} />
+            </div>
+            <span className="font-black uppercase tracking-widest text-sm">Tambah Item Baru</span>
+          </button>
+        )}
       </div>
     </div>
   )

@@ -72,9 +72,9 @@ export function TabContent() {
   ]
 
   if (loading) return (
-    <div className="flex flex-col items-center justify-center py-32">
-      <Loader2 size={32} className="animate-spin text-orange-500 mb-4" />
-      <p className="text-xs font-bold text-slate-400 uppercase tracking-widest animate-pulse">Memuat Data Server</p>
+    <div className="flex flex-col items-center justify-center py-32 bg-white border-4 border-black border-dashed mt-4">
+      <Loader2 size={40} strokeWidth={3} className="animate-spin text-black mb-4" />
+      <p className="text-sm font-black text-black uppercase tracking-widest animate-pulse">Memuat Data Server</p>
     </div>
   )
 
@@ -84,23 +84,23 @@ export function TabContent() {
     <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500 select-none pb-10">
       
       {/* ================= HEADER & TABS ================= */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white p-4 rounded-[2rem] shadow-sm border border-slate-100">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white p-5 border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] rounded-none">
         
-        {/* Segmented Control (iOS Style) */}
-        <div className="flex p-1.5 bg-slate-100/80 rounded-2xl overflow-x-auto no-scrollbar w-full md:w-auto border border-slate-200/50 shadow-inner">
+        {/* Segmented Control */}
+        <div className="flex bg-white overflow-x-auto no-scrollbar w-full md:w-auto border-4 border-black">
           {sections.map((s) => {
             const Icon = s.icon
             const isActive = activeSection === s.id
             return (
               <button key={s.id} onClick={() => { setActiveSection(s.id); setShowForm(false) }}
-                className={`flex-1 md:flex-none flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl text-[13px] font-extrabold transition-all duration-300 outline-none whitespace-nowrap ${
+                className={`flex-1 md:flex-none flex items-center justify-center gap-2 px-6 py-3 text-xs font-black uppercase tracking-widest transition-all outline-none whitespace-nowrap border-r-4 border-black last:border-r-0 ${
                   isActive 
-                    ? "bg-white text-slate-800 shadow-[0_2px_10px_rgba(0,0,0,0.06)]" 
-                    : "text-slate-500 hover:text-slate-700 hover:bg-slate-200/50"
+                    ? "bg-black text-white" 
+                    : "bg-white text-black hover:bg-gray-200"
                 }`}>
-                <Icon size={16} className={isActive ? `text-${s.color}-500` : "opacity-70"} strokeWidth={isActive ? 2.5 : 2} /> 
+                <Icon size={16} strokeWidth={3} /> 
                 {s.label}
-                <span className={`ml-1 px-1.5 py-0.5 rounded-md text-[10px] ${isActive ? `bg-${s.color}-50 text-${s.color}-600` : 'bg-slate-200 text-slate-500'}`}>
+                <span className={`ml-2 px-2 py-0.5 border-2 border-current text-[10px] ${isActive ? 'bg-white text-black' : 'bg-black text-white'}`}>
                   {s.count}
                 </span>
               </button>
@@ -110,50 +110,53 @@ export function TabContent() {
 
         {/* Add Button */}
         <button onClick={() => { setShowForm(!showForm); setFormData({}) }}
-          className={`flex items-center justify-center gap-2 px-6 py-3 bg-slate-900 text-white rounded-2xl text-[13px] font-extrabold hover:bg-black active:scale-95 transition-all shadow-lg shadow-slate-900/20 outline-none shrink-0 ${showForm ? 'hidden' : ''}`}>
-          <Plus size={18} strokeWidth={2.5} /> Tambah Data
+          className={`flex items-center justify-center gap-2 px-6 py-3 bg-yellow-400 text-black border-4 border-black rounded-none text-xs font-black uppercase tracking-widest hover:bg-white active:translate-y-0.5 active:shadow-none transition-all shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] outline-none shrink-0 ${showForm ? 'hidden' : ''}`}>
+          <Plus size={18} strokeWidth={3} /> TAMBAH DATA
         </button>
       </div>
 
       {/* ================= ADD FORM CARD ================= */}
       {showForm && (
-        <div className="bg-white p-6 md:p-8 rounded-[2rem] shadow-[0_10px_40px_-10px_rgba(0,0,0,0.08)] border border-slate-100 animate-in zoom-in-95 duration-300 relative overflow-hidden">
+        <div className="bg-white p-6 md:p-8 rounded-none shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] border-4 border-black animate-in zoom-in-95 duration-300 relative overflow-hidden">
           {/* Decorative Line */}
-          <div className={`absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-${activeColor}-400 to-${activeColor}-500`} />
+          <div className="absolute top-0 left-0 right-0 h-2 bg-black" />
           
-          <div className="flex justify-between items-center mb-6">
-            <h3 className="font-black text-lg text-slate-800 flex items-center gap-2">
-              <Edit3 size={18} className={`text-${activeColor}-500`} /> Form Input Baru
+          <div className="flex justify-between items-center mb-8 mt-2">
+            <h3 className="font-black text-xl text-black flex items-center gap-3 uppercase tracking-widest">
+              <div className="p-2 border-2 border-black bg-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
+                <Edit3 size={20} strokeWidth={3} className="text-black" />
+              </div>
+              FORM INPUT BARU
             </h3>
-            <button onClick={() => setShowForm(false)} className="bg-slate-100 text-slate-500 hover:bg-red-50 hover:text-red-500 p-2 rounded-full transition-colors active:scale-90">
-              <X size={18} strokeWidth={2.5} />
+            <button onClick={() => setShowForm(false)} className="bg-white border-2 border-black text-black hover:bg-black hover:text-white p-2 rounded-none transition-all shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:translate-y-0.5 active:shadow-none">
+              <X size={20} strokeWidth={3} />
             </button>
           </div>
 
-          <div className="space-y-4">
+          <div className="space-y-6">
             {activeSection === "news" && (
               <>
-                <div className="space-y-1.5">
-                  <label className="text-[11px] font-extrabold text-slate-500 uppercase tracking-widest pl-1">Judul Kabar Utama</label>
-                  <input placeholder="Ketik judul menarik..." value={formData.title || ""} onChange={(e) => setFormData({ ...formData, title: e.target.value })} className="w-full px-4 py-3.5 bg-slate-50 border border-slate-200 rounded-[1.2rem] text-sm font-semibold text-slate-800 outline-none focus:bg-white focus:border-orange-500 focus:ring-4 focus:ring-orange-500/10 transition-all placeholder:text-slate-400" />
+                <div className="space-y-2">
+                  <label className="text-[11px] font-black text-black uppercase tracking-widest">JUDUL KABAR UTAMA</label>
+                  <input placeholder="KETIK JUDUL MENARIK..." value={formData.title || ""} onChange={(e) => setFormData({ ...formData, title: e.target.value })} className="w-full px-4 py-3 bg-white border-2 border-black rounded-none text-sm font-black text-black outline-none focus:bg-black focus:text-white transition-all placeholder:text-gray-400 uppercase tracking-widest" />
                 </div>
-                <div className="space-y-1.5">
-                  <label className="text-[11px] font-extrabold text-slate-500 uppercase tracking-widest pl-1">Deskripsi Singkat</label>
-                  <textarea placeholder="Jelaskan detail kabar ini..." rows={3} value={formData.description || ""} onChange={(e) => setFormData({ ...formData, description: e.target.value })} className="w-full px-4 py-3.5 bg-slate-50 border border-slate-200 rounded-[1.2rem] text-sm font-semibold text-slate-800 outline-none focus:bg-white focus:border-orange-500 focus:ring-4 focus:ring-orange-500/10 transition-all placeholder:text-slate-400 resize-none" />
+                <div className="space-y-2">
+                  <label className="text-[11px] font-black text-black uppercase tracking-widest">DESKRIPSI SINGKAT</label>
+                  <textarea placeholder="JELASKAN DETAIL KABAR INI..." rows={3} value={formData.description || ""} onChange={(e) => setFormData({ ...formData, description: e.target.value })} className="w-full px-4 py-3 bg-white border-2 border-black rounded-none text-sm font-black text-black outline-none focus:bg-black focus:text-white transition-all placeholder:text-gray-400 resize-none uppercase tracking-widest" />
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div className="space-y-1.5">
-                    <label className="text-[11px] font-extrabold text-slate-500 uppercase tracking-widest pl-1">Teks Badge</label>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="space-y-2">
+                    <label className="text-[11px] font-black text-black uppercase tracking-widest">TEKS BADGE</label>
                     <div className="relative">
-                      <Sparkles size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" />
-                      <input placeholder="Misal: ⚡ Promo" value={formData.badge || ""} onChange={(e) => setFormData({ ...formData, badge: e.target.value })} className="w-full pl-11 pr-4 py-3.5 bg-slate-50 border border-slate-200 rounded-[1.2rem] text-sm font-semibold text-slate-800 outline-none focus:bg-white focus:border-orange-500 focus:ring-4 focus:ring-orange-500/10 transition-all" />
+                      <Sparkles size={18} strokeWidth={3} className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" />
+                      <input placeholder="MISAL: ⚡ PROMO" value={formData.badge || ""} onChange={(e) => setFormData({ ...formData, badge: e.target.value })} className="w-full pl-11 pr-4 py-3 bg-white border-2 border-black rounded-none text-sm font-black text-black outline-none focus:bg-black focus:text-white transition-all uppercase tracking-widest" />
                     </div>
                   </div>
-                  <div className="space-y-1.5">
-                    <label className="text-[11px] font-extrabold text-slate-500 uppercase tracking-widest pl-1">Link Tujuan (Opsional)</label>
+                  <div className="space-y-2">
+                    <label className="text-[11px] font-black text-black uppercase tracking-widest">LINK TUJUAN (OPSIONAL)</label>
                     <div className="relative">
-                      <LinkIcon size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" />
-                      <input placeholder="https://..." value={formData.link || ""} onChange={(e) => setFormData({ ...formData, link: e.target.value })} className="w-full pl-11 pr-4 py-3.5 bg-slate-50 border border-slate-200 rounded-[1.2rem] text-sm font-semibold text-slate-800 outline-none focus:bg-white focus:border-orange-500 focus:ring-4 focus:ring-orange-500/10 transition-all" />
+                      <LinkIcon size={18} strokeWidth={3} className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" />
+                      <input placeholder="HTTPS://..." value={formData.link || ""} onChange={(e) => setFormData({ ...formData, link: e.target.value })} className="w-full pl-11 pr-4 py-3 bg-white border-2 border-black rounded-none text-sm font-black text-black outline-none focus:bg-black focus:text-white transition-all uppercase tracking-widest" />
                     </div>
                   </div>
                 </div>
@@ -162,57 +165,57 @@ export function TabContent() {
 
             {activeSection === "works" && (
               <>
-                <div className="space-y-1.5">
-                  <label className="text-[11px] font-extrabold text-slate-500 uppercase tracking-widest pl-1">Nama Karya / Project</label>
-                  <input placeholder="Misal: Redesign Logo Kopi Senja" value={formData.title || ""} onChange={(e) => setFormData({ ...formData, title: e.target.value })} className="w-full px-4 py-3.5 bg-slate-50 border border-slate-200 rounded-[1.2rem] text-sm font-semibold text-slate-800 outline-none focus:bg-white focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all placeholder:text-slate-400" />
+                <div className="space-y-2">
+                  <label className="text-[11px] font-black text-black uppercase tracking-widest">NAMA KARYA / PROJECT</label>
+                  <input placeholder="MISAL: REDESIGN LOGO KOPI SENJA" value={formData.title || ""} onChange={(e) => setFormData({ ...formData, title: e.target.value })} className="w-full px-4 py-3 bg-white border-2 border-black rounded-none text-sm font-black text-black outline-none focus:bg-black focus:text-white transition-all placeholder:text-gray-400 uppercase tracking-widest" />
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div className="space-y-1.5">
-                    <label className="text-[11px] font-extrabold text-slate-500 uppercase tracking-widest pl-1">Nama Client</label>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="space-y-2">
+                    <label className="text-[11px] font-black text-black uppercase tracking-widest">NAMA CLIENT</label>
                     <div className="relative">
-                      <Briefcase size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" />
-                      <input placeholder="PT. ABC / Anonim" value={formData.client_name || ""} onChange={(e) => setFormData({ ...formData, client_name: e.target.value })} className="w-full pl-11 pr-4 py-3.5 bg-slate-50 border border-slate-200 rounded-[1.2rem] text-sm font-semibold text-slate-800 outline-none focus:bg-white focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all" />
+                      <Briefcase size={18} strokeWidth={3} className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" />
+                      <input placeholder="PT. ABC / ANONIM" value={formData.client_name || ""} onChange={(e) => setFormData({ ...formData, client_name: e.target.value })} className="w-full pl-11 pr-4 py-3 bg-white border-2 border-black rounded-none text-sm font-black text-black outline-none focus:bg-black focus:text-white transition-all uppercase tracking-widest" />
                     </div>
                   </div>
-                  <div className="space-y-1.5">
-                    <label className="text-[11px] font-extrabold text-slate-500 uppercase tracking-widest pl-1">Lama Pengerjaan</label>
+                  <div className="space-y-2">
+                    <label className="text-[11px] font-black text-black uppercase tracking-widest">LAMA PENGERJAAN</label>
                     <div className="relative">
-                      <Clock size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" />
-                      <input placeholder="Misal: 2 Hari" value={formData.duration_text || ""} onChange={(e) => setFormData({ ...formData, duration_text: e.target.value })} className="w-full pl-11 pr-4 py-3.5 bg-slate-50 border border-slate-200 rounded-[1.2rem] text-sm font-semibold text-slate-800 outline-none focus:bg-white focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all" />
+                      <Clock size={18} strokeWidth={3} className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" />
+                      <input placeholder="MISAL: 2 HARI" value={formData.duration_text || ""} onChange={(e) => setFormData({ ...formData, duration_text: e.target.value })} className="w-full pl-11 pr-4 py-3 bg-white border-2 border-black rounded-none text-sm font-black text-black outline-none focus:bg-black focus:text-white transition-all uppercase tracking-widest" />
                     </div>
                   </div>
                 </div>
-                <div className="space-y-1.5 mt-2">
-                    <label className="text-[11px] font-extrabold text-slate-500 uppercase tracking-widest pl-1">Teks Badge</label>
-                    <input placeholder="Misal: Bestseller / Top Rated" value={formData.badge || ""} onChange={(e) => setFormData({ ...formData, badge: e.target.value })} className="w-full px-4 py-3.5 bg-slate-50 border border-slate-200 rounded-[1.2rem] text-sm font-semibold text-slate-800 outline-none focus:bg-white focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all placeholder:text-slate-400" />
+                <div className="space-y-2">
+                    <label className="text-[11px] font-black text-black uppercase tracking-widest">TEKS BADGE</label>
+                    <input placeholder="MISAL: BESTSELLER / TOP RATED" value={formData.badge || ""} onChange={(e) => setFormData({ ...formData, badge: e.target.value })} className="w-full px-4 py-3 bg-white border-2 border-black rounded-none text-sm font-black text-black outline-none focus:bg-black focus:text-white transition-all placeholder:text-gray-400 uppercase tracking-widest" />
                 </div>
               </>
             )}
 
             {activeSection === "updates" && (
               <>
-                <div className="space-y-1.5">
-                  <label className="text-[11px] font-extrabold text-slate-500 uppercase tracking-widest pl-1">Email Client (Atau 'all' untuk semua)</label>
-                  <input placeholder="user@gmail.com / all" value={formData.client_email || ""} onChange={(e) => setFormData({ ...formData, client_email: e.target.value })} className="w-full px-4 py-3.5 bg-slate-50 border border-slate-200 rounded-[1.2rem] text-sm font-semibold text-slate-800 outline-none focus:bg-white focus:border-emerald-500 focus:ring-4 focus:ring-emerald-500/10 transition-all placeholder:text-slate-400" />
+                <div className="space-y-2">
+                  <label className="text-[11px] font-black text-black uppercase tracking-widest">EMAIL CLIENT (ATAU 'ALL' UNTUK SEMUA)</label>
+                  <input placeholder="USER@GMAIL.COM / ALL" value={formData.client_email || ""} onChange={(e) => setFormData({ ...formData, client_email: e.target.value })} className="w-full px-4 py-3 bg-white border-2 border-black rounded-none text-sm font-black text-black outline-none focus:bg-black focus:text-white transition-all placeholder:text-gray-400 uppercase tracking-widest" />
                 </div>
-                <div className="space-y-1.5">
-                  <label className="text-[11px] font-extrabold text-slate-500 uppercase tracking-widest pl-1">Judul / Nama Orderan</label>
-                  <input placeholder="Misal: Desain Banner 17an" value={formData.title || ""} onChange={(e) => setFormData({ ...formData, title: e.target.value })} className="w-full px-4 py-3.5 bg-slate-50 border border-slate-200 rounded-[1.2rem] text-sm font-semibold text-slate-800 outline-none focus:bg-white focus:border-emerald-500 focus:ring-4 focus:ring-emerald-500/10 transition-all placeholder:text-slate-400" />
+                <div className="space-y-2">
+                  <label className="text-[11px] font-black text-black uppercase tracking-widest">JUDUL / NAMA ORDERAN</label>
+                  <input placeholder="MISAL: DESAIN BANNER 17AN" value={formData.title || ""} onChange={(e) => setFormData({ ...formData, title: e.target.value })} className="w-full px-4 py-3 bg-white border-2 border-black rounded-none text-sm font-black text-black outline-none focus:bg-black focus:text-white transition-all placeholder:text-gray-400 uppercase tracking-widest" />
                 </div>
-                <div className="space-y-1.5">
-                  <label className="text-[11px] font-extrabold text-slate-500 uppercase tracking-widest pl-1">Status Progres Pengerjaan</label>
-                  <input placeholder="Misal: Sedang tahap sketsa..." value={formData.status_text || ""} onChange={(e) => setFormData({ ...formData, status_text: e.target.value })} className="w-full px-4 py-3.5 bg-slate-50 border border-slate-200 rounded-[1.2rem] text-sm font-semibold text-slate-800 outline-none focus:bg-white focus:border-emerald-500 focus:ring-4 focus:ring-emerald-500/10 transition-all placeholder:text-slate-400" />
+                <div className="space-y-2">
+                  <label className="text-[11px] font-black text-black uppercase tracking-widest">STATUS PROGRES PENGERJAAN</label>
+                  <input placeholder="MISAL: SEDANG TAHAP SKETSA..." value={formData.status_text || ""} onChange={(e) => setFormData({ ...formData, status_text: e.target.value })} className="w-full px-4 py-3 bg-white border-2 border-black rounded-none text-sm font-black text-black outline-none focus:bg-black focus:text-white transition-all placeholder:text-gray-400 uppercase tracking-widest" />
                 </div>
               </>
             )}
 
             {/* Action Buttons Form */}
-            <div className="flex flex-col-reverse sm:flex-row gap-3 justify-end mt-6 pt-4 border-t border-slate-100">
-              <button onClick={() => setShowForm(false)} className="px-6 py-3.5 bg-slate-100 text-slate-600 rounded-[1.2rem] text-[13px] font-extrabold hover:bg-slate-200 active:scale-95 transition-all outline-none">
-                Batal
+            <div className="flex flex-col-reverse sm:flex-row gap-4 justify-end mt-8 pt-6 border-t-4 border-black">
+              <button onClick={() => setShowForm(false)} className="px-6 py-3 bg-white text-black border-2 border-black rounded-none text-xs font-black uppercase tracking-widest hover:bg-gray-100 active:translate-y-0.5 outline-none transition-all">
+                BATAL
               </button>
-              <button onClick={handleAdd} disabled={isSubmitting} className={`flex items-center justify-center gap-2 px-8 py-3.5 bg-${activeColor}-500 text-white rounded-[1.2rem] text-[13px] font-extrabold hover:bg-${activeColor}-600 active:scale-95 transition-all shadow-[0_8px_20px_rgba(0,0,0,0.15)] outline-none disabled:opacity-50`}>
-                {isSubmitting ? <Loader2 size={18} className="animate-spin" /> : "Simpan Data"}
+              <button onClick={handleAdd} disabled={isSubmitting} className={`flex items-center justify-center gap-2 px-8 py-3 bg-black text-white border-2 border-black rounded-none text-xs font-black uppercase tracking-widest hover:bg-white hover:text-black active:translate-y-1 active:shadow-none transition-all shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] outline-none disabled:opacity-50`}>
+                {isSubmitting ? <Loader2 size={18} strokeWidth={3} className="animate-spin" /> : "SIMPAN DATA"}
               </button>
             </div>
           </div>
@@ -220,26 +223,26 @@ export function TabContent() {
       )}
 
       {/* ================= DATA LIST ================= */}
-      <div className="space-y-3">
+      <div className="space-y-4">
         {/* ---- NEWS LIST ---- */}
         {activeSection === "news" && (
           news.length > 0 ? news.map((item) => (
-            <div key={item.id} className="bg-white p-4 rounded-[1.5rem] border border-slate-100 flex items-center justify-between shadow-[0_2px_10px_rgba(0,0,0,0.02)] group hover:border-orange-200 transition-colors">
+            <div key={item.id} className="bg-white p-5 border-4 border-black rounded-none flex items-center justify-between shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:-translate-y-1 hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] transition-all">
               <div className="flex items-center gap-4 flex-1 min-w-0">
-                <div className="hidden sm:flex w-12 h-12 bg-orange-50 text-orange-500 rounded-2xl items-center justify-center shrink-0">
-                  <ImageIcon size={20} strokeWidth={2.5} />
+                <div className="hidden sm:flex w-14 h-14 bg-black text-white rounded-none items-center justify-center border-2 border-black shrink-0 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
+                  <ImageIcon size={24} strokeWidth={3} />
                 </div>
                 <div className="min-w-0 flex-1">
-                  <h3 className="text-[15px] font-extrabold text-slate-800 truncate mb-0.5">{item.title}</h3>
-                  <p className="text-[12px] text-slate-500 truncate font-medium">{item.description}</p>
+                  <h3 className="text-lg font-black text-black truncate mb-1 uppercase tracking-widest">{item.title}</h3>
+                  <p className="text-xs text-gray-500 truncate font-bold uppercase tracking-widest">{item.description}</p>
                 </div>
               </div>
-              <div className="flex items-center gap-3 shrink-0 ml-4">
-                <span className={`hidden sm:inline-block text-[10px] font-black uppercase tracking-widest px-2.5 py-1 rounded-md ${item.is_active ? "bg-emerald-50 text-emerald-600 border border-emerald-100" : "bg-slate-100 text-slate-400 border border-slate-200"}`}>
-                  {item.is_active ? "Aktif" : "Off"}
+              <div className="flex items-center gap-4 shrink-0 ml-4">
+                <span className={`hidden sm:inline-block text-[10px] font-black uppercase tracking-widest px-3 py-1.5 border-2 border-black ${item.is_active ? "bg-green-400 text-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]" : "bg-gray-200 text-gray-600"}`}>
+                  {item.is_active ? "AKTIF" : "OFF"}
                 </span>
-                <button onClick={() => handleDelete("news", item.id)} className="w-10 h-10 flex items-center justify-center rounded-xl bg-slate-50 text-slate-400 hover:bg-red-50 hover:text-red-500 transition-colors active:scale-90 outline-none">
-                  <Trash2 size={16} strokeWidth={2.5} />
+                <button onClick={() => handleDelete("news", item.id)} className="w-12 h-12 flex items-center justify-center rounded-none bg-red-500 text-white border-2 border-black hover:bg-black transition-all active:translate-y-0.5 active:shadow-none shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] outline-none">
+                  <Trash2 size={20} strokeWidth={3} />
                 </button>
               </div>
             </div>
@@ -249,25 +252,25 @@ export function TabContent() {
         {/* ---- WORKS LIST ---- */}
         {activeSection === "works" && (
           works.length > 0 ? works.map((item) => (
-            <div key={item.id} className="bg-white p-4 rounded-[1.5rem] border border-slate-100 flex items-center justify-between shadow-[0_2px_10px_rgba(0,0,0,0.02)] group hover:border-blue-200 transition-colors">
+            <div key={item.id} className="bg-white p-5 border-4 border-black rounded-none flex items-center justify-between shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:-translate-y-1 hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] transition-all">
               <div className="flex items-center gap-4 flex-1 min-w-0">
-                <div className="hidden sm:flex w-12 h-12 bg-blue-50 text-blue-500 rounded-2xl items-center justify-center shrink-0">
-                  <Crown size={20} strokeWidth={2.5} />
+                <div className="hidden sm:flex w-14 h-14 bg-blue-500 text-white rounded-none items-center justify-center border-2 border-black shrink-0 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
+                  <Crown size={24} strokeWidth={3} />
                 </div>
                 <div className="min-w-0 flex-1">
-                  <h3 className="text-[15px] font-extrabold text-slate-800 truncate mb-0.5">{item.title}</h3>
-                  <p className="text-[12px] text-slate-500 truncate font-medium flex items-center gap-1.5">
-                    <span className="bg-slate-100 text-slate-600 px-1.5 rounded uppercase text-[9px] font-bold">{item.client_name}</span> 
+                  <h3 className="text-lg font-black text-black truncate mb-1 uppercase tracking-widest">{item.title}</h3>
+                  <p className="text-xs text-gray-500 truncate font-bold flex items-center gap-2 uppercase tracking-widest">
+                    <span className="bg-black text-white px-2 py-0.5">{item.client_name}</span> 
                     &bull; {item.duration_text}
                   </p>
                 </div>
               </div>
-              <div className="flex items-center gap-3 shrink-0 ml-4">
-                <span className="hidden sm:inline-block text-[10px] font-black uppercase tracking-widest bg-amber-50 text-amber-600 px-2.5 py-1 rounded-md border border-amber-100">
+              <div className="flex items-center gap-4 shrink-0 ml-4">
+                <span className="hidden sm:inline-block text-[10px] font-black uppercase tracking-widest bg-yellow-400 text-black px-3 py-1.5 border-2 border-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
                   {item.badge}
                 </span>
-                <button onClick={() => handleDelete("works", item.id)} className="w-10 h-10 flex items-center justify-center rounded-xl bg-slate-50 text-slate-400 hover:bg-red-50 hover:text-red-500 transition-colors active:scale-90 outline-none">
-                  <Trash2 size={16} strokeWidth={2.5} />
+                <button onClick={() => handleDelete("works", item.id)} className="w-12 h-12 flex items-center justify-center rounded-none bg-red-500 text-white border-2 border-black hover:bg-black transition-all active:translate-y-0.5 active:shadow-none shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] outline-none">
+                  <Trash2 size={20} strokeWidth={3} />
                 </button>
               </div>
             </div>
@@ -277,24 +280,24 @@ export function TabContent() {
         {/* ---- UPDATES LIST ---- */}
         {activeSection === "updates" && (
           updates.length > 0 ? updates.map((item) => (
-            <div key={item.id} className="bg-white p-4 rounded-[1.5rem] border border-slate-100 flex items-center justify-between shadow-[0_2px_10px_rgba(0,0,0,0.02)] group hover:border-emerald-200 transition-colors">
+            <div key={item.id} className="bg-white p-5 border-4 border-black rounded-none flex items-center justify-between shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:-translate-y-1 hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] transition-all">
               <div className="flex items-center gap-4 flex-1 min-w-0">
-                <div className="hidden sm:flex w-12 h-12 bg-emerald-50 text-emerald-500 rounded-2xl items-center justify-center shrink-0">
-                  <Activity size={20} strokeWidth={2.5} />
+                <div className="hidden sm:flex w-14 h-14 bg-green-400 text-black rounded-none items-center justify-center border-2 border-black shrink-0 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
+                  <Activity size={24} strokeWidth={3} />
                 </div>
                 <div className="min-w-0 flex-1">
-                  <h3 className="text-[15px] font-extrabold text-slate-800 truncate mb-0.5">{item.title}</h3>
-                  <div className="flex items-center gap-1.5 truncate">
-                    <span className={`px-1.5 rounded uppercase text-[9px] font-bold ${item.client_email === 'all' ? 'bg-indigo-100 text-indigo-600' : 'bg-slate-100 text-slate-600'}`}>
-                      {item.client_email === 'all' ? 'Semua User' : item.client_email}
+                  <h3 className="text-lg font-black text-black truncate mb-1 uppercase tracking-widest">{item.title}</h3>
+                  <div className="flex items-center gap-2 truncate text-xs font-bold uppercase tracking-widest">
+                    <span className={`px-2 py-0.5 border-2 border-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] ${item.client_email === 'all' ? 'bg-purple-400 text-black' : 'bg-white text-black'}`}>
+                      {item.client_email === 'all' ? 'SEMUA USER' : item.client_email}
                     </span>
-                    <span className="text-[12px] text-slate-500 font-medium truncate">&bull; {item.status_text}</span>
+                    <span className="text-gray-500 truncate">&bull; {item.status_text}</span>
                   </div>
                 </div>
               </div>
-              <div className="flex items-center gap-3 shrink-0 ml-4">
-                <button onClick={() => handleDelete("updates", item.id)} className="w-10 h-10 flex items-center justify-center rounded-xl bg-slate-50 text-slate-400 hover:bg-red-50 hover:text-red-500 transition-colors active:scale-90 outline-none">
-                  <Trash2 size={16} strokeWidth={2.5} />
+              <div className="flex items-center gap-4 shrink-0 ml-4">
+                <button onClick={() => handleDelete("updates", item.id)} className="w-12 h-12 flex items-center justify-center rounded-none bg-red-500 text-white border-2 border-black hover:bg-black transition-all active:translate-y-0.5 active:shadow-none shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] outline-none">
+                  <Trash2 size={20} strokeWidth={3} />
                 </button>
               </div>
             </div>
@@ -308,12 +311,12 @@ export function TabContent() {
 // Komponen Reusable untuk Empty State
 function EmptyState({ section }: { section: string }) {
   return (
-    <div className="text-center py-12 bg-white rounded-[2rem] border border-dashed border-slate-200 shadow-sm">
-      <div className="w-16 h-16 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-4">
-        <Newspaper size={24} className="text-slate-300" strokeWidth={2} />
+    <div className="text-center py-16 bg-white rounded-none border-4 border-dashed border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
+      <div className="w-20 h-20 bg-black text-white rounded-none flex items-center justify-center mx-auto mb-4 border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+        <Newspaper size={32} strokeWidth={3} />
       </div>
-      <h4 className="text-[15px] font-black text-slate-700 mb-1">Belum ada data {section}</h4>
-      <p className="text-[12px] font-medium text-slate-500">Klik tombol "Tambah Data" di atas untuk membuat.</p>
+      <h4 className="text-xl font-black text-black mb-2 uppercase tracking-widest">BELUM ADA DATA {section}</h4>
+      <p className="text-xs font-bold text-gray-500 uppercase tracking-widest">KLIK TOMBOL "TAMBAH DATA" DI ATAS UNTUK MEMBUAT.</p>
     </div>
   )
 }

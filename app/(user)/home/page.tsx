@@ -44,6 +44,7 @@ export default function UserHome() {
   const [news, setNews] = useState<NewsItem[]>([])
   const [works, setWorks] = useState<FeaturedWork[]>([])
   const [userOrders, setUserOrders] = useState<OrderItem[]>([])
+  const [dbServices, setDbServices] = useState<any[]>([])
 
   useEffect(() => {
     // Sapaan otomatis sesuai waktu
@@ -62,6 +63,17 @@ export default function UserHome() {
       setWorks((w.data || []).filter((i: FeaturedWork) => i.is_active))
       setUserOrders(o.orders || [])
     })
+
+    // Load websiteSettings
+    try {
+      const saved = localStorage.getItem("websiteSettings")
+      if (saved) {
+        const parsed = JSON.parse(saved)
+        if (parsed.services) setDbServices(parsed.services)
+      }
+    } catch (e) {
+      console.error(e)
+    }
   }, [])
 
   return (
@@ -245,46 +257,58 @@ export default function UserHome() {
         </div>
 
         {/* ================= PRODUK TOP / LAYANAN POPULER ================= */}
-        <div>
-          <div className="flex justify-between items-end mb-4 px-1">
-            <h2 className="text-[17px] font-black text-slate-800 tracking-tight">Produk Top</h2>
-            <Link href="/layanan" className="text-[11px] font-bold text-orange-500 hover:text-orange-600 transition flex items-center gap-1 bg-orange-50 px-3 py-1.5 rounded-full border border-orange-100">
-              Lihat Semua <ChevronRight className="w-3.5 h-3.5" />
-            </Link>
-          </div>
+        {(() => {
+          const topProducts = [
+            { name: "Desain Poster", defaultPrice: "15.000", icon: Palette, badge: "TOP", badgeClass: "bg-yellow-400 text-yellow-900", hoverBg: "group-hover:bg-blue-50", hoverIcon: "group-hover:text-blue-500", link: "/order?service=poster&package=professional", badgeIcon: Star },
+            { name: "Desain Bisnis", defaultPrice: "25.000", icon: Briefcase, badge: "HOT", badgeClass: "bg-orange-500 text-white", hoverBg: "group-hover:bg-rose-50", hoverIcon: "group-hover:text-rose-500", link: "/order?service=logo&package=professional", badgeIcon: Zap },
+          ]
+          const visibleProducts = topProducts.filter(p => {
+            const matched = dbServices.find((s: any) => s.name.toLowerCase() === p.name.toLowerCase())
+            return matched ? matched.active : true
+          })
 
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4">
-            {/* Card 1 */}
-            <Link href="/order?service=poster&package=professional" className="group bg-white rounded-3xl p-3 md:p-4 shadow-sm border border-slate-100 hover:shadow-md hover:border-orange-200 transition-all duration-300 flex flex-col active:scale-[0.98]">
-              <div className="aspect-[4/3] bg-slate-50 rounded-[1.2rem] mb-3 overflow-hidden relative flex items-center justify-center group-hover:bg-blue-50 transition-colors">
-                <div className="absolute top-2 right-2 bg-yellow-400 text-yellow-900 text-[9px] font-black px-2 py-0.5 rounded-md flex items-center gap-0.5 z-10 shadow-sm">
-                  <Star size={8} className="fill-current" /> TOP
-                </div>
-                <Palette className="w-10 h-10 text-slate-300 group-hover:text-blue-500 group-hover:scale-110 transition-all duration-500" strokeWidth={1.5} />
-              </div>
-              <h3 className="text-[13px] md:text-[14px] font-extrabold text-slate-800 line-clamp-1 group-hover:text-orange-600 transition-colors">Desain Poster</h3>
-              <p className="text-[10px] text-slate-400 font-medium mb-2">Mulai Rp 15.000</p>
-              <div className="mt-auto bg-slate-900 text-white text-[11px] font-bold py-2 rounded-xl text-center group-hover:bg-orange-500 transition-colors">
-                Pesan Sekarang
-              </div>
-            </Link>
+          if (visibleProducts.length === 0) return null
 
-            {/* Card 2 */}
-            <Link href="/order?service=logo&package=professional" className="group bg-white rounded-3xl p-3 md:p-4 shadow-sm border border-slate-100 hover:shadow-md hover:border-orange-200 transition-all duration-300 flex flex-col active:scale-[0.98]">
-              <div className="aspect-[4/3] bg-slate-50 rounded-[1.2rem] mb-3 overflow-hidden relative flex items-center justify-center group-hover:bg-rose-50 transition-colors">
-                <div className="absolute top-2 right-2 bg-orange-500 text-white text-[9px] font-black px-2 py-0.5 rounded-md flex items-center gap-0.5 z-10 shadow-sm">
-                  <Zap size={8} className="fill-current" /> HOT
-                </div>
-                <Briefcase className="w-10 h-10 text-slate-300 group-hover:text-rose-500 group-hover:scale-110 transition-all duration-500" strokeWidth={1.5} />
+          return (
+            <div>
+              <div className="flex justify-between items-end mb-4 px-1">
+                <h2 className="text-[17px] font-black text-slate-800 tracking-tight">Produk Top</h2>
+                <Link href="/layanan" className="text-[11px] font-bold text-orange-500 hover:text-orange-600 transition flex items-center gap-1 bg-orange-50 px-3 py-1.5 rounded-full border border-orange-100">
+                  Lihat Semua <ChevronRight className="w-3.5 h-3.5" />
+                </Link>
               </div>
-              <h3 className="text-[13px] md:text-[14px] font-extrabold text-slate-800 line-clamp-1 group-hover:text-orange-600 transition-colors">Desain Bisnis</h3>
-              <p className="text-[10px] text-slate-400 font-medium mb-2">Mulai Rp 25.000</p>
-              <div className="mt-auto bg-slate-900 text-white text-[11px] font-bold py-2 rounded-xl text-center group-hover:bg-orange-500 transition-colors">
-                Pesan Sekarang
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4">
+                {visibleProducts.map((product, idx) => {
+                  const matched = dbServices.find((s: any) => s.name.toLowerCase() === product.name.toLowerCase())
+                  const displayPrice = matched ? new Intl.NumberFormat("id-ID").format(matched.price) : product.defaultPrice
+                  const customStatus = matched?.customStatus
+                  const IconComp = product.icon
+                  const BadgeIcon = product.badgeIcon
+
+                  return (
+                    <Link key={idx} href={product.link} className="group bg-white rounded-3xl p-3 md:p-4 shadow-sm border border-slate-100 hover:shadow-md hover:border-orange-200 transition-all duration-300 flex flex-col active:scale-[0.98]">
+                      <div className={`aspect-[4/3] bg-slate-50 rounded-[1.2rem] mb-3 overflow-hidden relative flex items-center justify-center ${product.hoverBg} transition-colors`}>
+                        <div className={`absolute top-2 right-2 ${product.badgeClass} text-[9px] font-black px-2 py-0.5 rounded-md flex items-center gap-0.5 z-10 shadow-sm`}>
+                          <BadgeIcon size={8} className="fill-current" /> {product.badge}
+                        </div>
+                        <IconComp className={`w-10 h-10 text-slate-300 ${product.hoverIcon} group-hover:scale-110 transition-all duration-500`} strokeWidth={1.5} />
+                      </div>
+                      <h3 className="text-[13px] md:text-[14px] font-extrabold text-slate-800 line-clamp-1 group-hover:text-orange-600 transition-colors">{product.name}</h3>
+                      {customStatus ? (
+                        <p className="text-[10px] text-red-500 font-bold mb-2">{customStatus}</p>
+                      ) : (
+                        <p className="text-[10px] text-slate-400 font-medium mb-2">Mulai Rp {displayPrice}</p>
+                      )}
+                      <div className="mt-auto bg-slate-900 text-white text-[11px] font-bold py-2 rounded-xl text-center group-hover:bg-orange-500 transition-colors">
+                        Pesan Sekarang
+                      </div>
+                    </Link>
+                  )
+                })}
               </div>
-            </Link>
-          </div>
-        </div>
+            </div>
+          )
+        })()}
 
         {/* ================= KARYA UNGGULAN (PORTFOLIO) ================= */}
         <div className="bg-white rounded-[2rem] p-5 shadow-sm border border-slate-100 mb-6">

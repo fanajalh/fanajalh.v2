@@ -36,7 +36,8 @@ export interface WebsiteSettings {
   email: string
   instagram: string
   primaryColor: string
-  services: { id: string; name: string; price: number; active: boolean }[]
+  emptyStateMessage?: string
+  services: { id: string; name: string; price: number; active: boolean; customStatus?: string }[]
 }
 
 export interface Suggestion {
@@ -64,12 +65,26 @@ export const DEFAULT_SETTINGS: WebsiteSettings = {
   email: "fanajalh@joki.com",
   instagram: "@fanajalh",
   primaryColor: "#FF7A00",
+  emptyStateMessage: "Maaf, layanan kami sedang dalam mode libur/tutup sementara.",
   services: [
-    { id: "poster-event", name: "Poster Event", price: 15000, active: true },
-    { id: "poster-edukasi", name: "Poster Edukasi", price: 20000, active: true },
-    { id: "social-media", name: "Social Media", price: 25000, active: true },
-    { id: "print-flyer", name: "Flyer & Leaflet", price: 15000, active: true },
-    { id: "lainnya", name: "Custom Design", price: 10000, active: true },
+    // === Halaman Layanan: Poster & Banner ===
+    { id: "poster-promosi-bisnis", name: "Poster Promosi Bisnis", price: 15000, active: true },
+    { id: "infografis-edukasi", name: "Infografis & Edukasi", price: 20000, active: true },
+    { id: "poster-event-konser", name: "Poster Event / Konser", price: 15000, active: true },
+    // === Halaman Layanan: Social Media ===
+    { id: "instagram-post-feed", name: "Instagram Post (Feed)", price: 25000, active: true },
+    { id: "social-media-story", name: "Social Media Story", price: 10000, active: true },
+    { id: "cover-banner-web", name: "Cover / Banner Web", price: 20000, active: true },
+    // === Halaman Layanan: Cetak Digital ===
+    { id: "spanduk-outdoor", name: "Spanduk (Outdoor)", price: 20000, active: true },
+    { id: "flyer-brosur", name: "Flyer & Brosur", price: 15000, active: true },
+    // === Halaman Paket Harga ===
+    { id: "basic", name: "Basic", price: 15000, active: true },
+    { id: "professional", name: "Professional", price: 25000, active: true },
+    { id: "enterprise", name: "Enterprise", price: 50000, active: true },
+    // === Home: Produk Populer ===
+    { id: "desain-poster", name: "Desain Poster", price: 15000, active: true },
+    { id: "desain-bisnis", name: "Desain Bisnis", price: 25000, active: true },
   ],
 }
 

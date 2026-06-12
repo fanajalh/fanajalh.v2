@@ -1,7 +1,9 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import Link from "next/link"
+import { useRouter } from "next/navigation"
+import { useSession } from "next-auth/react"
 import { Palette, Mail, Lock, User, ArrowRight, Loader2, Eye, EyeOff, ArrowLeft, CheckCircle2 } from "lucide-react"
 import { toast } from "sonner"
 import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/ui/input-otp"
@@ -15,6 +17,15 @@ export default function AuthPage() {
   const [showPassword, setShowPassword] = useState(false)
   const [step, setStep] = useState<AuthStep>("form")
   const [otpValue, setOtpValue] = useState("")
+  
+  const { status } = useSession()
+  const router = useRouter()
+
+  useEffect(() => {
+    if (status === "authenticated") {
+      router.push("/home")
+    }
+  }, [status, router])
 
   const [formData, setFormData] = useState({
     email: "",
@@ -147,7 +158,7 @@ export default function AuthPage() {
         description: isLogin ? "Sedang mengalihkan…" : "Selamat bergabung!",
       })
       setTimeout(() => {
-        window.location.href = "/"
+        window.location.href = "/home"
       }, 800)
     } catch (err: any) {
       toast.error("Verifikasi Gagal", { description: err.message || "Kode OTP salah atau kedaluwarsa." })
@@ -209,25 +220,55 @@ export default function AuthPage() {
         : "Daftar & Kirim Kode OTP"
 
   return (
-    <div className="min-h-screen bg-slate-50 flex justify-center items-center p-4">
-      <div className="relative w-full max-w-[420px] bg-white rounded-[2.5rem] flex flex-col overflow-hidden shadow-2xl border border-slate-100 min-h-[700px]">
-        <div className="absolute top-[-10%] right-[-10%] w-72 h-72 bg-orange-400 rounded-full mix-blend-multiply filter blur-[70px] opacity-20 animate-pulse" />
-        <div className="absolute bottom-[10%] left-[-20%] w-80 h-80 bg-yellow-300 rounded-full mix-blend-multiply filter blur-[80px] opacity-20" />
+    <div className="min-h-screen bg-white dark:bg-black flex justify-center items-center p-4 selection:bg-black selection:text-white dark:selection:bg-white dark:selection:text-black">
+      {/* Background Decor (Grid tipis) */}
+      <div className="absolute inset-0 bg-[linear-gradient(rgba(0,0,0,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(0,0,0,0.03)_1px,transparent_1px)] dark:bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),dark:linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:64px_64px] pointer-events-none z-0"></div>
 
-        <div className="w-full px-8 pt-16 pb-10 z-10 flex flex-col h-full flex-grow justify-between">
-          <div className="flex flex-col justify-center">
-            <div className="text-center mb-10">
-              <div className="mx-auto w-20 h-20 bg-gradient-to-tr from-orange-600 to-orange-400 rounded-[1.5rem] flex items-center justify-center shadow-lg shadow-orange-500/30 mb-6 transform -rotate-3 hover:rotate-0 transition-transform duration-300">
+      <div className="relative w-full max-w-4xl bg-white dark:bg-black flex flex-col md:flex-row overflow-hidden border-2 border-black dark:border-white shadow-[15px_15px_0px_0px_rgba(0,0,0,1)] dark:shadow-[15px_15px_0px_0px_rgba(255,255,255,1)] min-h-[550px] z-10">
+        
+        {/* Left Side: Branding Banner */}
+        <div className="hidden md:flex flex-col flex-1 bg-black dark:bg-white p-10 justify-between relative overflow-hidden border-b-2 md:border-b-0 md:border-r-2 border-black dark:border-white">
+          {/* Grid bg inside banner */}
+          <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.05)_1px,transparent_1px)] dark:bg-[linear-gradient(rgba(0,0,0,0.05)_1px,transparent_1px),dark:linear-gradient(90deg,rgba(0,0,0,0.05)_1px,transparent_1px)] bg-[size:32px_32px]"></div>
+          
+          <div className="relative z-10">
+            <Link href="/" className="inline-flex items-center gap-2 hover:opacity-80 transition-opacity">
+              <div className="w-10 h-10 border border-white/20 dark:border-black/20 flex items-center justify-center bg-white/5 dark:bg-black/5">
+                <Palette className="w-5 h-5 text-white dark:text-black" />
+              </div>
+              <span className="text-xl font-black text-white dark:text-black tracking-widest uppercase">Fanz Tech</span>
+            </Link>
+          </div>
+
+          <div className="relative z-10 mt-20">
+            <h2 className="text-4xl lg:text-5xl font-black text-white dark:text-black leading-[1.1] uppercase tracking-tight">
+              Visual Bisnis <br /> Level Selanjutnya.
+            </h2>
+            <p className="mt-6 text-sm text-gray-400 dark:text-gray-500 font-medium max-w-sm leading-relaxed">
+              Platform klien eksklusif untuk memantau progress pengerjaan desain, melihat revisi, dan mengelola invoice dalam satu dashboard.
+            </p>
+          </div>
+
+          {/* Abstract circles */}
+          <div className="absolute -bottom-32 -right-32 w-[500px] h-[500px] border border-white/10 dark:border-black/10 rounded-full pointer-events-none" />
+          <div className="absolute -bottom-16 -right-16 w-[400px] h-[400px] border border-white/20 dark:border-black/20 rounded-full pointer-events-none" />
+        </div>
+
+        {/* Right Side: Auth Form */}
+        <div className="w-full md:w-[420px] px-8 py-10 flex flex-col justify-between shrink-0 bg-white dark:bg-black relative">
+          <div className="flex flex-col justify-center flex-grow">
+            <div className="text-center mb-8">
+              <div className="md:hidden mx-auto w-12 h-12 bg-black dark:bg-white border-2 border-black dark:border-white flex items-center justify-center mb-4 transform -rotate-3">
                 {step === "otp" ? (
-                  <CheckCircle2 className="w-10 h-10 text-white" />
+                  <CheckCircle2 className="w-6 h-6 text-white dark:text-black" />
                 ) : (
-                  <Palette className="w-10 h-10 text-white" />
+                  <Palette className="w-6 h-6 text-white dark:text-black" />
                 )}
               </div>
-              <h1 className="text-3xl font-black text-slate-900 tracking-tight transition-all">
+              <h1 className="text-2xl md:text-3xl font-black text-black dark:text-white tracking-tight uppercase">
                 {headingText}
               </h1>
-              <p className="text-slate-500 mt-2 font-medium">
+              <p className="text-gray-500 dark:text-gray-400 mt-2 font-medium text-xs md:text-sm">
                 {subtitleText}
               </p>
             </div>
@@ -242,16 +283,16 @@ export default function AuthPage() {
                       setStep("form")
                       setOtpValue("")
                     }}
-                    className="flex items-center gap-2 text-sm font-bold text-slate-500 hover:text-slate-800 transition-colors"
+                    className="flex items-center gap-2 text-sm font-bold text-black dark:text-white hover:text-gray-500 dark:hover:text-gray-400 transition-colors uppercase tracking-widest"
                   >
-                    <ArrowLeft size={18} /> Kembali
+                    <ArrowLeft size={16} /> Kembali
                   </button>
 
                   {/* Email info pill */}
                   <div className="flex justify-center">
-                    <div className="bg-orange-50 border border-orange-100 px-4 py-2 rounded-2xl flex items-center gap-2">
-                      <Mail size={14} className="text-orange-500" />
-                      <span className="text-xs font-bold text-orange-600">{formData.email}</span>
+                    <div className="bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 px-4 py-2 flex items-center gap-2">
+                      <Mail size={14} className="text-black dark:text-white" />
+                      <span className="text-xs font-bold text-black dark:text-white">{formData.email}</span>
                     </div>
                   </div>
 
@@ -268,11 +309,11 @@ export default function AuthPage() {
                     </InputOTP>
                   </div>
 
-                  <p className="text-center text-xs text-slate-400">
+                  <p className="text-center text-xs text-gray-500 dark:text-gray-400 font-medium">
                     Tidak masuk? Periksa spam atau{" "}
                     <button
                       type="button"
-                      className="text-orange-600 font-bold hover:text-orange-700 transition-colors"
+                      className="text-black dark:text-white border-b border-black dark:border-white font-bold hover:text-gray-500 dark:hover:text-gray-300 transition-colors uppercase tracking-widest"
                       disabled={sendingOtp}
                       onClick={() => {
                         if (isLogin) {
@@ -282,7 +323,7 @@ export default function AuthPage() {
                         }
                       }}
                     >
-                      {sendingOtp ? "Mengirim…" : "kirim ulang"}
+                      {sendingOtp ? "Mengirim…" : "Kirim Ulang"}
                     </button>
                   </p>
                 </div>
@@ -297,105 +338,96 @@ export default function AuthPage() {
                       !isLogin ? "max-h-24 opacity-100" : "max-h-0 opacity-0"
                     }`}
                   >
-                    <div className="space-y-1.5 pb-1">
-                      <label
-                        htmlFor="username"
-                        className="text-xs font-bold text-slate-400 uppercase tracking-wider ml-1"
-                      >
-                        Username
-                      </label>
-                      <div className="relative group">
+                    <div className="flex bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 group focus-within:border-black dark:focus-within:border-white transition-all">
+                      <div className="flex items-center justify-center px-5 border-r border-gray-200 dark:border-white/10">
                         <User
-                          className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-orange-500 transition-colors"
-                          size={20}
-                        />
-                        <input
-                          id="username"
-                          type="text"
-                          required={!isLogin}
-                          placeholder="ArfanDesign"
-                          disabled={loading || sendingOtp}
-                          className="w-full pl-12 pr-5 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl text-slate-900 text-base font-semibold placeholder:font-normal placeholder:text-slate-400 focus:bg-white focus:outline-none focus:ring-4 focus:ring-orange-500/15 focus:border-orange-500 transition-all disabled:opacity-50"
-                          value={formData.username}
-                          onChange={(e) => setFormData({ ...formData, username: e.target.value })}
+                          className="text-gray-400 dark:text-gray-500 group-focus-within:text-black dark:group-focus-within:text-white transition-colors"
+                          size={18}
                         />
                       </div>
+                      <input
+                        id="username"
+                        type="text"
+                        required={!isLogin}
+                        placeholder="Username (e.g. ArfanDesign)"
+                        disabled={loading || sendingOtp}
+                        className="w-full px-4 py-4 bg-transparent text-black dark:text-white text-sm font-bold placeholder:font-medium placeholder:text-gray-400 dark:placeholder:text-gray-600 focus:outline-none disabled:opacity-50"
+                        value={formData.username}
+                        onChange={(e) => setFormData({ ...formData, username: e.target.value })}
+                      />
                     </div>
                   </div>
 
                   {/* Email */}
-                  <div className="space-y-1.5">
-                    <label
-                      htmlFor="email"
-                      className="text-xs font-bold text-slate-400 uppercase tracking-wider ml-1"
-                    >
-                      Email
-                    </label>
-                    <div className="relative group">
+                  <div className="flex bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 group focus-within:border-black dark:focus-within:border-white transition-all">
+                    <div className="flex items-center justify-center px-5 border-r border-gray-200 dark:border-white/10">
                       <Mail
-                        className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-orange-500 transition-colors"
-                        size={20}
-                      />
-                      <input
-                        id="email"
-                        type="email"
-                        required
-                        placeholder="email@contoh.com"
-                        disabled={loading || sendingOtp}
-                        className="w-full pl-12 pr-5 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl text-slate-900 text-base font-semibold placeholder:font-normal placeholder:text-slate-400 focus:bg-white focus:outline-none focus:ring-4 focus:ring-orange-500/15 focus:border-orange-500 transition-all disabled:opacity-50"
-                        value={formData.email}
-                        onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                        className="text-gray-400 dark:text-gray-500 group-focus-within:text-black dark:group-focus-within:text-white transition-colors"
+                        size={18}
                       />
                     </div>
+                    <input
+                      id="email"
+                      type="email"
+                      required
+                      placeholder="Email Address"
+                      disabled={loading || sendingOtp}
+                      className="w-full px-4 py-4 bg-transparent text-black dark:text-white text-sm font-bold placeholder:font-medium placeholder:text-gray-400 dark:placeholder:text-gray-600 focus:outline-none disabled:opacity-50"
+                      value={formData.email}
+                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                    />
                   </div>
 
                   {/* Password */}
-                  <div className="space-y-1.5">
-                    <div className="flex justify-between items-center ml-1">
-                      <label
-                        htmlFor="password"
-                        className="text-xs font-bold text-slate-400 uppercase tracking-wider"
-                      >
-                        Password
-                      </label>
+                  <div className="flex flex-col gap-2">
+                    <div className="flex bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 group focus-within:border-black dark:focus-within:border-white transition-all">
+                      <div className="flex items-center justify-center px-5 border-r border-gray-200 dark:border-white/10">
+                        <Lock
+                          className="text-gray-400 dark:text-gray-500 group-focus-within:text-black dark:group-focus-within:text-white transition-colors"
+                          size={18}
+                        />
+                      </div>
+                      <div className="relative flex-grow flex">
+                        <input
+                          id="password"
+                          type={showPassword ? "text" : "password"}
+                          required
+                          placeholder="Password"
+                          disabled={loading || sendingOtp}
+                          className="w-full px-4 py-4 bg-transparent text-black dark:text-white text-sm font-bold placeholder:font-medium placeholder:text-gray-400 dark:placeholder:text-gray-600 focus:outline-none disabled:opacity-50 pr-12"
+                          value={formData.password}
+                          onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                        />
+                        <button
+                          type="button"
+                          onClick={() => setShowPassword(!showPassword)}
+                          disabled={loading || sendingOtp}
+                          className="absolute right-3 top-1/2 transform -translate-y-1/2 p-1.5 text-gray-400 dark:text-gray-500 hover:text-black dark:hover:text-white hover:bg-gray-100 dark:hover:bg-white/10 transition-all focus:outline-none disabled:opacity-50 select-none"
+                        >
+                          {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+                        </button>
+                      </div>
+                    </div>
+                    
+                    {/* Password Helpers (Forgot Password / Min 6 chars) */}
+                    <div className="flex justify-between items-center px-1">
+                      {!isLogin ? (
+                        <span className="text-[10px] text-gray-400 dark:text-gray-500 font-medium uppercase tracking-widest">
+                          Minimal 6 karakter
+                        </span>
+                      ) : (
+                        <span /> /* Empty span to keep layout */
+                      )}
+
                       {isLogin && (
                         <Link
                           href="/forgot-password"
-                          className="text-xs font-bold text-orange-500 hover:text-orange-600 transition-colors"
+                          className="text-[10px] font-bold text-black dark:text-white border-b border-black dark:border-white hover:text-gray-500 dark:hover:text-gray-300 transition-colors uppercase tracking-widest"
                         >
-                          Lupa?
+                          Lupa Password?
                         </Link>
                       )}
                     </div>
-                    <div className="relative group">
-                      <Lock
-                        className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-orange-500 transition-colors"
-                        size={20}
-                      />
-                      <input
-                        id="password"
-                        type={showPassword ? "text" : "password"}
-                        required
-                        placeholder="••••••••"
-                        disabled={loading || sendingOtp}
-                        className="w-full pl-12 pr-14 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl text-slate-900 text-base font-semibold placeholder:font-normal placeholder:text-slate-400 focus:bg-white focus:outline-none focus:ring-4 focus:ring-orange-500/15 focus:border-orange-500 transition-all disabled:opacity-50"
-                        value={formData.password}
-                        onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                      />
-                      <button
-                        type="button"
-                        onClick={() => setShowPassword(!showPassword)}
-                        disabled={loading || sendingOtp}
-                        className="absolute right-3 top-1/2 transform -translate-y-1/2 p-2 text-slate-400 hover:text-orange-500 hover:bg-orange-50 rounded-xl transition-all focus:outline-none disabled:opacity-50 select-none"
-                      >
-                        {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
-                      </button>
-                    </div>
-                    {!isLogin && (
-                      <p className="text-[10px] text-slate-400 font-medium ml-1 mt-1">
-                        Minimal 6 karakter
-                      </p>
-                    )}
                   </div>
                 </>
               )}
@@ -405,14 +437,14 @@ export default function AuthPage() {
                 <button
                   type="submit"
                   disabled={loading || sendingOtp || (step === "otp" && otpValue.length !== 6)}
-                  className="w-full relative flex items-center justify-center py-4 bg-slate-900 text-white rounded-2xl font-bold text-lg shadow-xl shadow-slate-900/20 hover:bg-slate-800 hover:-translate-y-0.5 transition-all active:scale-[0.98] disabled:opacity-70 disabled:hover:translate-y-0 disabled:cursor-not-allowed select-none group"
+                  className="w-full relative flex items-center justify-center py-4 bg-black dark:bg-white text-white dark:text-black font-bold uppercase tracking-widest border border-black dark:border-white hover:bg-transparent dark:hover:bg-transparent hover:text-black dark:hover:text-white transition-all duration-300 active:scale-[0.98] disabled:opacity-70 disabled:hover:bg-black dark:disabled:hover:bg-white disabled:hover:text-white dark:disabled:hover:text-black disabled:cursor-not-allowed group"
                 >
                   {loading || sendingOtp ? (
-                    <Loader2 className="w-6 h-6 animate-spin" />
+                    <Loader2 className="w-5 h-5 animate-spin" />
                   ) : (
                     <>
                       <span>{buttonText}</span>
-                      <ArrowRight size={20} className="ml-2 group-hover:translate-x-1 transition-transform" />
+                      <ArrowRight size={18} className="ml-2 group-hover:translate-x-1 transition-transform" />
                     </>
                   )}
                 </button>
@@ -424,36 +456,36 @@ export default function AuthPage() {
               <>
                 <div className="mt-8 text-center relative">
                   <div className="absolute inset-0 flex items-center">
-                    <div className="w-full border-t border-slate-200"></div>
+                    <div className="w-full border-t border-gray-200 dark:border-white/10"></div>
                   </div>
                   <div className="relative flex justify-center">
-                    <span className="bg-white px-4 text-sm text-slate-400">Atau</span>
+                    <span className="bg-white dark:bg-black px-4 text-[10px] font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest">Atau</span>
                   </div>
                 </div>
 
                 <div className="mt-6 flex flex-col gap-4 text-center">
                   <Link
                     href="/frames"
-                    className="w-full flex items-center justify-center py-3.5 bg-orange-50 text-orange-600 border border-orange-100 border-dashed hover:border-orange-300 rounded-2xl font-bold text-sm hover:bg-orange-100 transition-all active:scale-[0.98] group"
+                    className="w-full flex items-center justify-center py-4 bg-transparent text-black dark:text-white border border-gray-200 dark:border-white/20 hover:border-black dark:hover:border-white font-bold text-sm transition-all duration-300 active:scale-[0.98] uppercase tracking-widest group"
                   >
-                    <span>Lanjut sebagai Tamu (Ke Studio)</span>
+                    <span>Lanjut sebagai Tamu</span>
                     <ArrowRight size={16} className="ml-2 group-hover:translate-x-1 transition-transform" />
                   </Link>
 
                   <button
                     type="button"
                     onClick={toggleAuthMode}
-                    className="text-sm font-semibold text-slate-500 hover:text-slate-900 transition-colors mt-2"
+                    className="text-xs font-bold text-gray-500 dark:text-gray-400 hover:text-black dark:hover:text-white transition-colors mt-2 uppercase tracking-widest"
                   >
                     {isLogin ? (
                       <p>
                         Belum punya akun?{" "}
-                        <span className="text-orange-500 font-bold ml-1">Daftar gratis</span>
+                        <span className="text-black dark:text-white border-b border-black dark:border-white ml-1">Daftar gratis</span>
                       </p>
                     ) : (
                       <p>
                         Sudah punya akun?{" "}
-                        <span className="text-orange-500 font-bold ml-1">Masuk di sini</span>
+                        <span className="text-black dark:text-white border-b border-black dark:border-white ml-1">Masuk di sini</span>
                       </p>
                     )}
                   </button>
@@ -462,13 +494,13 @@ export default function AuthPage() {
             )}
           </div>
 
-          <div className="text-center mt-8">
+          <div className="text-center mt-6 md:hidden">
             <Link
               href="/"
-              className="inline-flex items-center text-sm font-bold text-slate-400 hover:text-slate-900 transition-colors select-none group"
+              className="inline-flex items-center text-[10px] font-bold text-gray-400 dark:text-gray-500 hover:text-black dark:hover:text-white transition-colors uppercase tracking-widest select-none group"
             >
-              <ArrowRight size={16} className="mr-2 rotate-180 group-hover:-translate-x-1 transition-transform" />
-              Kembali ke Beranda
+              <ArrowLeft size={14} className="mr-2 group-hover:-translate-x-1 transition-transform" />
+              Kembali
             </Link>
           </div>
         </div>
