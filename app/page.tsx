@@ -22,7 +22,8 @@ function Navbar() {
 
   const navLinks = [
     { label: "Layanan", href: "#services" },
-    { label: "Portfolio", href: "#portfolio" },
+    { label: "Poster Design", href: "#portfolio" },
+    { label: "Web/APK", href: "/dev-portfolio" },
     { label: "Harga", href: "#pricing" },
     { label: "Kontak", href: "#contact" },
   ]
@@ -222,6 +223,7 @@ function FloatingWhatsApp() {
 import Hero from "@/components/sections/Hero"
 import Services from "@/components/sections/Services"
 import Portfolio from "@/components/sections/Portfolio"
+import DevPortfolioSection from "@/components/sections/DevPortfolioSection"
 import Pricing from "@/components/sections/Pricing"
 import Lynk from "@/components/sections/Lynk"
 import Contact from "@/components/sections/Contact"
@@ -244,6 +246,9 @@ export default function LandingPage() {
         </FadeIn>
         <FadeIn delay={0.1}>
           <Portfolio />
+        </FadeIn>
+        <FadeIn delay={0.1}>
+          <DevPortfolioSection />
         </FadeIn>
         <FadeIn delay={0.1}>
           <Pricing />

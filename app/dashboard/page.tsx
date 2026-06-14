@@ -4,7 +4,7 @@ import { useState, useEffect } from "react"
 import {
   Palette, RefreshCw, LogOut, WifiOff, AlertCircle,
   BarChart3, FileText, MessageSquare, TrendingUp,
-  Globe, CreditCard, Settings, Newspaper, X, LayoutGrid, Crown, Images,
+  Globe, CreditCard, Settings, Newspaper, X, LayoutGrid, Crown, Images, Image as ImageIcon, Code,
 } from "lucide-react"
 import Swal from "sweetalert2"
 
@@ -12,6 +12,7 @@ import {
   TabOverview, TabOrders, TabSuggestions, TabAnalytics,
   TabWebsite, TabPricing, TabSettings, TabContent, TabPremium, TabPhotoboothFrames,
   OrderDetailModal, EditOrderModal, SuggestionModal,
+  TabPortfolioDesigns, TabPortfolioDev,
   GRADIENT_ORANGE, DEFAULT_SETTINGS,
   type Order, type Analytics, type WebsiteSettings, type Suggestion,
 } from "@/components/dashboard"
@@ -19,7 +20,7 @@ import {
 const TAB_ICONS: Record<string, any> = {
   overview: BarChart3, orders: FileText, content: Newspaper, suggestions: MessageSquare,
   analytics: TrendingUp, website: Globe, pricing: CreditCard, settings: Settings, premium: Crown,
-  frames: Images,
+  frames: Images, portfolio_designs: ImageIcon, portfolio_dev: Code,
 }
 
 const TABS = [
@@ -27,6 +28,8 @@ const TABS = [
   { id: "orders", label: "Orders", color: "orange" },
   { id: "content", label: "Konten", color: "rose" },
   { id: "frames", label: "Frame", color: "pink" },
+  { id: "portfolio_designs", label: "Porto Desain", color: "indigo" },
+  { id: "portfolio_dev", label: "Porto Dev", color: "blue" },
   { id: "premium", label: "Premium", color: "yellow" },
   { id: "suggestions", label: "Saran", color: "amber" },
   { id: "analytics", label: "Analytics", color: "emerald" },
@@ -78,7 +81,7 @@ export default function Dashboard() {
   const fetchOrders = async () => {
     try {
       setError("")
-      const response = await fetch("/api/orders")
+      const response = await fetch("/api/orders", { cache: "no-store" })
       if (!response.ok) throw new Error(`HTTP ${response.status}`)
       const data = await response.json()
       if (data.success) {
@@ -93,7 +96,7 @@ export default function Dashboard() {
 
   const fetchAnalytics = async () => {
     try {
-      const response = await fetch("/api/analytics")
+      const response = await fetch("/api/analytics", { cache: "no-store" })
       if (!response.ok) return
       const data = await response.json()
       if (data.success) setAnalytics(data.analytics)
@@ -102,7 +105,7 @@ export default function Dashboard() {
 
   const fetchSuggestions = async () => {
     try {
-      const res = await fetch("/api/suggestions")
+      const res = await fetch("/api/suggestions", { cache: "no-store" })
       const json = await res.json()
       setSuggestions(json.data || [])
     } catch { setSuggestions([]) }
@@ -293,6 +296,8 @@ export default function Dashboard() {
           {activeTab === "pricing" && <TabPricing settings={websiteSettings} setSettings={setWebsiteSettings} editing={editingSettings} setEditing={setEditingSettings} onSave={saveWebsiteSettings} />}
           {activeTab === "content" && <TabContent />}
           {activeTab === "frames" && <TabPhotoboothFrames />}
+          {activeTab === "portfolio_designs" && <TabPortfolioDesigns />}
+          {activeTab === "portfolio_dev" && <TabPortfolioDev />}
           {activeTab === "premium" && <TabPremium />}
           {activeTab === "settings" && <TabSettings connectionStatus={connectionStatus} />}
         </div>

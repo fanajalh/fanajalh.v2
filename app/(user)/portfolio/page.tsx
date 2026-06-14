@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import Image from "next/image"
 import { MobileHeader } from "@/components/MobileHeader"
 import { Filter, X, Instagram } from "lucide-react"
@@ -11,14 +11,23 @@ export default function PortfolioPage() {
   const [selectedTitle, setSelectedTitle] = useState("")
   const [activeCategory, setActiveCategory] = useState("Semua")
 
-  const portfolioItems = [
-    { title: "Edukasi Kesehatan", category: "Edukasi", image: "/TBC Fiks.png", height: "h-48" },
-    { title: "Promosi Cafe", category: "Promosi", image: "/promosi.png", height: "h-64" },
-    { title: "Poster Ucapan", category: "Poster", image: "/flyer.png", height: "h-56" },
-    { title: "Template Sosmed", category: "Social Media", image: "/ucapan.png", height: "h-48" },
-    { title: "Event Seminar", category: "Print", image: "/Poster Seminar.png", height: "h-64" },
-    { title: "Poster Lomba", category: "Edukasi", image: "/infografis.jpg", height: "h-56" },
-  ]
+  const [portfolioItems, setPortfolioItems] = useState<any[]>([])
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    const fetchPortfolio = async () => {
+      try {
+        const res = await fetch("/api/admin/portfolio-designs", { cache: "no-store" })
+        const json = await res.json()
+        setPortfolioItems(json.data || [])
+      } catch (error) {
+        console.error("Failed to fetch portfolio", error)
+      } finally {
+        setLoading(false)
+      }
+    }
+    fetchPortfolio()
+  }, [])
 
   const categories = ["Semua", ...new Set(portfolioItems.map((item) => item.category))]
 
@@ -83,6 +92,11 @@ export default function PortfolioPage() {
       </div>
 
       {/* Masonry Grid */}
+      {loading ? (
+        <div className="flex justify-center py-20">
+          <div className="w-10 h-10 border-4 border-gray-200 border-t-orange-500 rounded-full animate-spin"></div>
+        </div>
+      ) : (
       <div className="px-5 pb-6 mt-4">
         <div className="columns-2 md:columns-3 lg:columns-4 gap-4 space-y-4">
           {filteredItems.map((item, index) => (
@@ -92,7 +106,7 @@ export default function PortfolioPage() {
               className="group relative break-inside-avoid rounded-3xl overflow-hidden cursor-pointer shadow-sm hover:shadow-xl transition-all border border-gray-100 bg-gray-50"
             >
               {/* Image Aspect ratio simulation */}
-              <div className={`relative w-full ${item.height}`}>
+              <div className={`relative w-full h-48 md:h-56`}>
                 <Image
                   src={item.image}
                   alt={item.title}
@@ -116,6 +130,7 @@ export default function PortfolioPage() {
           ))}
         </div>
       </div>
+      )}
       </div>
 
       {/* Modal Lightbox */}

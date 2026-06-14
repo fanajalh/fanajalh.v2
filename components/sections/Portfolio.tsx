@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import Image from "next/image"
 import { X, Search, Instagram, Filter, ExternalLink } from "lucide-react"
 
@@ -10,14 +10,23 @@ export default function Portfolio() {
   const [selectedTitle, setSelectedTitle] = useState("")
   const [activeCategory, setActiveCategory] = useState("Semua")
 
-  const portfolioItems = [
-    { title: "Poster Edukasi Kesehatan", category: "Edukasi", image: "/TBC Fiks.png", description: "Infografis kampanye kesehatan TBC dengan tipografi modern." },
-    { title: "Poster Promosi Cafe", category: "Promosi", image: "/promosi.png", description: "Desain estetik minimalis untuk promo menu baru." },
-    { title: "Poster Ucapan Nasional", category: "Poster", image: "/flyer.png", description: "Visual elegan untuk perayaan hari besar nasional." },
-    { title: "Social Media Branding", category: "Social Media", image: "/ucapan.png", description: "Template Instagram premium untuk konsistensi brand." },
-    { title: "Banner Event Tech", category: "Print", image: "/Poster Seminar.png", description: "Desain futuristik untuk seminar teknologi & bisnis." },
-    { title: "Data Infografis", category: "Edukasi", image: "/infografis.jpg", description: "Visualisasi data kompleks menjadi sangat mudah dibaca." },
-  ]
+  const [portfolioItems, setPortfolioItems] = useState<any[]>([])
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    const fetchPortfolio = async () => {
+      try {
+        const res = await fetch("/api/admin/portfolio-designs", { cache: "no-store" })
+        const json = await res.json()
+        setPortfolioItems(json.data || [])
+      } catch (error) {
+        console.error("Failed to fetch portfolio", error)
+      } finally {
+        setLoading(false)
+      }
+    }
+    fetchPortfolio()
+  }, [])
 
   const categories = ["Semua", ...new Set(portfolioItems.map((item) => item.category))]
 
@@ -74,7 +83,12 @@ export default function Portfolio() {
         </div>
 
         {/* Portfolio Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-0 border-t border-l border-gray-200 dark:border-white/10">
+        {loading ? (
+          <div className="flex justify-center py-20">
+            <div className="w-12 h-12 border-4 border-gray-200 dark:border-white/10 border-t-black dark:border-t-white rounded-full animate-spin"></div>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-0 border-t border-l border-gray-200 dark:border-white/10">
           {filteredItems.map((item, index) => (
             <div
               key={index}
@@ -126,6 +140,7 @@ export default function Portfolio() {
             </div>
           ))}
         </div>
+        )}
 
         {/* CTA Instagram */}
         <div className="mt-24 p-12 bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 text-center relative overflow-hidden">
