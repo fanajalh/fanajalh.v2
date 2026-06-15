@@ -34,10 +34,17 @@ export async function POST(req: Request) {
     const ip = getClientIp(req);
     try {
       await assertSendRateOk(emailRaw, "register_login", ip);
-    } catch {
+    } catch (err: any) {
+      if (err.message === "RATE_LIMIT") {
+        return NextResponse.json(
+          { message: "Terlalu banyak permintaan. Tunggu beberapa menit." },
+          { status: 429 }
+        );
+      }
+      console.error("Database/Internal error in register assertSendRateOk:", err);
       return NextResponse.json(
-        { message: "Terlalu banyak permintaan. Tunggu beberapa menit." },
-        { status: 429 }
+        { message: "Terjadi kesalahan internal server: " + (err.message || String(err)) },
+        { status: 500 }
       );
     }
 
