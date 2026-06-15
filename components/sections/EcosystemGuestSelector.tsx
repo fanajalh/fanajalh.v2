@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { Search, Users, Mail, Key, Wrench, BarChart3, HelpCircle, Loader2, Sparkles, ArrowLeft } from "lucide-react"
+import { Search, Users, Mail, Key, Wrench, BarChart3, HelpCircle, Loader2, Sparkles, ArrowLeft, Globe, ChevronDown, ChevronUp, Check } from "lucide-react"
 import Swal from "sweetalert2"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
@@ -53,6 +53,24 @@ const GUEST_FEATURES = [
     path: "/seo-tools"
   },
   {
+    key: "geo",
+    title: "AI Optimization",
+    icon: Sparkles,
+    description: "Optimalkan website Anda untuk pencarian AI & Generative Search Engine (GEO) agar bisnis Anda direkomendasikan AI.",
+    limit: "Maksimal 1 kali optimasi konten AI.",
+    color: "bg-orange-100 dark:bg-orange-950/40 border-orange-500 text-orange-700 dark:text-orange-400",
+    path: "/ai-optimization"
+  },
+  {
+    key: "site_audit",
+    title: "Website Audit",
+    icon: Globe,
+    description: "Cek skor SEO kesehatan teknis website Anda, perbaiki error crawl, dan tingkatkan performa kecepatan loading.",
+    limit: "Maksimal 1 kali cek audit website.",
+    color: "bg-indigo-100 dark:bg-indigo-950/40 border-indigo-500 text-indigo-700 dark:text-indigo-400",
+    path: "/site-audit"
+  },
+  {
     key: "tracking",
     title: "SERP Tracker",
     icon: BarChart3,
@@ -65,7 +83,11 @@ const GUEST_FEATURES = [
 
 export default function EcosystemGuestSelector() {
   const router = useRouter()
+  const [selectedKey, setSelectedKey] = useState<string>("")
   const [selectingKey, setSelectingKey] = useState<string | null>(null)
+  const [isOpen, setIsOpen] = useState(false)
+
+  const selectedFeature = GUEST_FEATURES.find(f => f.key === selectedKey)
 
   const handleSelectFeature = (key: string, title: string, path: string) => {
     Swal.fire({
@@ -97,7 +119,6 @@ export default function EcosystemGuestSelector() {
               timer: 2000,
               showConfirmButton: false
             })
-            // Force reload and redirect to feature path
             setTimeout(() => {
               try {
                 sessionStorage.removeItem("ecosystem_progression")
@@ -117,86 +138,132 @@ export default function EcosystemGuestSelector() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-black py-16 px-4 sm:px-6 lg:px-8 flex flex-col items-center justify-center font-sans select-none relative">
-      {/* Back to landing page button */}
-      <div className="absolute top-6 left-6">
-        <Link
-          href="/"
-          className="flex items-center gap-2 px-4 py-2.5 bg-white dark:bg-white/5 border-2 border-black dark:border-white text-xs font-black uppercase tracking-widest text-black dark:text-white shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] dark:shadow-[3px_3px_0px_0px_rgba(255,255,255,0.25)] hover:translate-y-0.5 hover:shadow-[1px_1px_0px_0px_rgba(0,0,0,1)] transition-all"
+    <div className="max-w-xl mx-auto bg-white dark:bg-black border-4 border-black dark:border-white p-8 font-sans select-none relative shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] dark:shadow-[8px_8px_0px_0px_rgba(255,255,255,0.15)]">
+      <div className="flex items-center justify-between border-b-2 border-black dark:border-white pb-4 mb-6">
+        <button
+          onClick={() => router.push("/")}
+          className="flex items-center gap-1.5 text-xs font-black uppercase tracking-wider text-gray-500 hover:text-black dark:hover:text-white transition-colors"
         >
-          <ArrowLeft size={14} strokeWidth={3} />
-          Kembali ke Beranda
-        </Link>
-      </div>
-      <div className="max-w-4xl w-full text-center mb-10">
-        <div className="inline-flex items-center gap-2 px-4 py-2 bg-emerald-50 dark:bg-emerald-950/20 border-2 border-emerald-500 text-emerald-600 dark:text-emerald-400 font-black tracking-widest text-xs uppercase mb-6 shadow-[3px_3px_0px_0px_rgba(16,185,129,0.3)]">
-          <Sparkles size={14} /> Ecosystem Trial Guest Mode
+          <ArrowLeft size={14} /> Kembali
+        </button>
+        <div className="inline-flex items-center gap-2 bg-black dark:bg-white text-white dark:text-black border-2 border-black dark:border-white px-3 py-1.5 text-[10px] font-black uppercase tracking-[0.2em]">
+          <Sparkles size={12} /> Ecosystem Guest Trial
         </div>
-        <h1 className="text-4xl md:text-5xl font-black text-black dark:text-white uppercase tracking-tight mb-4">
-          Pilih 1 Fitur Uji Coba Anda 🎯
-        </h1>
-        <p className="text-sm font-semibold text-gray-500 dark:text-gray-400 max-w-2xl mx-auto leading-relaxed">
-          Sebagai tamu, Anda dipersilakan memilih salah satu dari 6 fitur ekosistem bisnis kami untuk dicoba secara gratis. Setelah memilih salah satu, fitur lainnya akan otomatis terkunci untuk kunjungan Anda.
+      </div>
+
+      <div className="text-center mb-6">
+        <h2 className="text-2xl font-black text-black dark:text-white uppercase tracking-wider mb-2">
+          Pilih Fitur Uji Coba Anda 🎯
+        </h2>
+        <p className="text-xs font-semibold text-gray-500 dark:text-gray-400 leading-relaxed max-w-sm mx-auto">
+          Silakan pilih salah satu dari 8 fitur ekosistem di bawah untuk dicoba secara gratis. Setelah memilih, fitur lainnya akan otomatis terkunci.
         </p>
       </div>
 
-      {/* Grid Features */}
-      <div className="max-w-5xl w-full grid sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
-        {GUEST_FEATURES.map((item) => {
-          const Icon = item.icon
-          const isSelecting = selectingKey === item.key
-
-          return (
-            <div
-              key={item.key}
-              className="bg-white dark:bg-white/5 border-4 border-black dark:border-white p-6 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] dark:shadow-[8px_8px_0px_0px_rgba(255,255,255,0.2)] flex flex-col justify-between hover:-translate-y-1 hover:shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] dark:hover:shadow-[12px_12px_0px_0px_rgba(255,255,255,0.3)] transition-all duration-200"
-            >
-              <div>
-                {/* Header Card */}
-                <div className="flex items-center gap-3 mb-4">
-                  <div className={`p-2.5 border-2 border-black dark:border-white ${item.color.split(' ')[0]}`}>
-                    <Icon size={20} className="text-black dark:text-white" />
-                  </div>
-                  <h3 className="text-lg font-black text-black dark:text-white uppercase tracking-wider">
-                    {item.title}
-                  </h3>
+      {/* Custom Dropdown */}
+      <div className="relative">
+        <button
+          type="button"
+          onClick={() => setIsOpen(!isOpen)}
+          className="w-full flex items-center justify-between px-4 py-4 bg-white dark:bg-black text-black dark:text-white border-4 border-black dark:border-white text-xs font-black uppercase tracking-widest focus:outline-none transition-all active:translate-x-[2px] active:translate-y-[2px]"
+        >
+          <div className="flex items-center gap-2">
+            {selectedFeature ? (
+              <>
+                <div className="p-1 border border-black dark:border-white bg-gray-50 dark:bg-white/5">
+                  {(() => {
+                    const Icon = selectedFeature.icon
+                    return <Icon size={14} />
+                  })()}
                 </div>
+                <span>{selectedFeature.title}</span>
+              </>
+            ) : (
+              <span>-- Pilih Fitur Uji Coba --</span>
+            )}
+          </div>
+          {isOpen ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
+        </button>
 
-                <p className="text-xs font-semibold text-gray-500 dark:text-gray-400 leading-relaxed mb-4">
-                  {item.description}
-                </p>
-              </div>
-
-              <div>
-                <div className="border-t-2 border-dashed border-gray-200 dark:border-gray-800 pt-4 mb-4">
-                  <span className="block text-[10px] font-black uppercase tracking-wider text-gray-400">Batas Tamu:</span>
-                  <span className="text-xs font-bold text-black dark:text-white">{item.limit}</span>
-                </div>
-
+        {isOpen && (
+          <div className="absolute left-0 right-0 mt-2 z-50 bg-white dark:bg-black border-4 border-black dark:border-white max-h-[300px] overflow-y-auto shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,0.15)]">
+            {GUEST_FEATURES.map((item) => {
+              const Icon = item.icon
+              const isSelected = item.key === selectedKey
+              return (
                 <button
-                  onClick={() => handleSelectFeature(item.key, item.title, item.path)}
-                  disabled={selectingKey !== null}
-                  className="w-full flex items-center justify-center gap-2 py-3 bg-black dark:bg-white text-white dark:text-black font-black uppercase tracking-widest text-xs border-2 border-black dark:border-white shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] dark:shadow-[3px_3px_0px_0px_rgba(255,255,255,0.3)] hover:translate-y-0.5 hover:shadow-[1px_1px_0px_0px_rgba(0,0,0,1)] dark:hover:shadow-[1px_1px_0px_0px_rgba(255,255,255,0.1)] transition-all disabled:opacity-50"
+                  key={item.key}
+                  type="button"
+                  onClick={() => {
+                    setSelectedKey(item.key)
+                    setIsOpen(false)
+                  }}
+                  className={`w-full text-left px-4 py-3 flex items-center justify-between text-xs font-black uppercase tracking-wider border-b-2 border-black dark:border-white/10 last:border-b-0 transition-colors ${
+                    isSelected 
+                      ? "bg-yellow-400 text-black" 
+                      : "bg-white dark:bg-black text-black dark:text-white hover:bg-gray-100 dark:hover:bg-white/5"
+                  }`}
                 >
-                  {isSelecting ? (
-                    <>
-                      <Loader2 size={14} className="animate-spin" /> Mengaktifkan...
-                    </>
-                  ) : (
-                    "Pilih & Coba Fitur Ini"
-                  )}
+                  <div className="flex items-center gap-3">
+                    <div className={`p-1.5 border border-black dark:border-white ${isSelected ? "bg-white text-black" : "bg-gray-50 dark:bg-white/5"}`}>
+                      <Icon size={14} />
+                    </div>
+                    <span>{item.title}</span>
+                  </div>
+                  {isSelected && <Check size={16} className="text-black shrink-0" />}
                 </button>
-              </div>
-            </div>
-          )
-        })}
+              )
+            })}
+          </div>
+        )}
       </div>
 
-      {/* Footer / Tutorial Link */}
-      <div className="flex items-center justify-center gap-2 text-xs font-bold text-gray-500 hover:text-black dark:hover:text-white transition-colors cursor-pointer" onClick={() => router.push("/tutorial")}>
-        <HelpCircle size={16} />
-        <span>Butuh bantuan memahami fitur? <span className="underline font-black">Lihat Halaman Tutorial Ekosistem Bisnis</span></span>
+      {/* Feature Details */}
+      {selectedFeature && (
+        <div className="mt-6 border-4 border-black dark:border-white p-5 text-left space-y-4 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,0.1)]">
+          <div className="flex items-center gap-3">
+            <div className="p-2 border-2 border-black dark:border-white bg-gray-50 dark:bg-white/5 text-black dark:text-white">
+              {(() => {
+                const Icon = selectedFeature.icon
+                return <Icon size={16} />
+              })()}
+            </div>
+            <h4 className="text-sm font-black text-black dark:text-white uppercase tracking-wider">
+              {selectedFeature.title}
+            </h4>
+          </div>
+          <p className="text-xs font-semibold text-gray-500 dark:text-gray-400 leading-relaxed">
+            {selectedFeature.description}
+          </p>
+          <div className="pt-3 border-t-2 border-dashed border-gray-250 dark:border-white/20">
+            <span className="block text-[9px] font-bold uppercase tracking-wider text-gray-400">Batas Tamu:</span>
+            <span className="text-xs font-black text-black dark:text-white">{selectedFeature.limit}</span>
+          </div>
+          <button
+            onClick={() => handleSelectFeature(selectedFeature.key, selectedFeature.title, selectedFeature.path)}
+            disabled={selectingKey !== null}
+            className="w-full flex items-center justify-center gap-2 py-3.5 bg-black dark:bg-white text-white dark:text-black font-black uppercase tracking-widest text-xs border-2 border-black dark:border-white hover:bg-white dark:hover:bg-black hover:text-black dark:hover:text-white transition-all disabled:opacity-50 active:translate-x-[2px] active:translate-y-[2px]"
+          >
+            {selectingKey === selectedFeature.key ? (
+              <>
+                <Loader2 size={12} className="animate-spin" /> Mengaktifkan...
+              </>
+            ) : (
+              "Aktifkan Uji Coba Ini 🎯"
+            )}
+          </button>
+        </div>
+      )}
+
+      {/* Footer / Tutorial */}
+      <div 
+        className="mt-6 flex items-center justify-center gap-2 text-[10px] font-black text-gray-500 hover:text-black dark:hover:text-white transition-colors cursor-pointer" 
+        onClick={() => router.push("/tutorial")}
+      >
+        <HelpCircle size={14} />
+        <span>Butuh bantuan? <span className="underline">Lihat Tutorial</span></span>
       </div>
     </div>
   )
 }
+

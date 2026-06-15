@@ -162,135 +162,139 @@ export default function CRMPage() {
     )
   }
 
-  if (SelectorModal) {
-    return SelectorModal
-  }
-
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-black">
-      <EcosystemNav />
+      {!SelectorModal && <EcosystemNav />}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Header */}
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
-          <div className="border-l-8 border-black dark:border-white pl-4">
-            <h2 className="text-3xl font-black text-black dark:text-white uppercase tracking-widest">CRM</h2>
-            <p className="text-xs font-bold text-gray-500 uppercase tracking-widest mt-1">Pusat ekosistem — {total} kontak</p>
+        {SelectorModal ? (
+          <div className="py-12">
+            {SelectorModal}
           </div>
-          <div className="flex gap-2">
-            <button onClick={() => setShowImportModal(true)} className="flex items-center gap-2 px-4 py-2.5 bg-white dark:bg-black text-black dark:text-white border-2 border-black dark:border-white font-black uppercase tracking-widest text-xs shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] dark:shadow-[3px_3px_0px_0px_rgba(255,255,255,0.3)] hover:translate-y-0.5 hover:shadow-[1px_1px_0px_0px_rgba(0,0,0,1)] transition-all">
-              <Upload size={14} /> Import
-            </button>
-            <button onClick={() => { setFormData({ name: "", email: "", phone: "", website: "", address: "", category: "", notes: "" }); setShowAddModal(true) }} className="flex items-center gap-2 px-4 py-2.5 bg-black dark:bg-white text-white dark:text-black border-2 border-black dark:border-white font-black uppercase tracking-widest text-xs shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] dark:shadow-[3px_3px_0px_0px_rgba(255,255,255,0.3)] hover:translate-y-0.5 hover:shadow-[1px_1px_0px_0px_rgba(0,0,0,1)] transition-all">
-              <Plus size={14} /> Tambah
-            </button>
-          </div>
-        </div>
-
-        {/* Filters */}
-        <div className="flex flex-col sm:flex-row gap-3 mb-6">
-          <div className="relative flex-1">
-            <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
-            <input
-              value={search} onChange={(e) => { setSearch(e.target.value); setPage(1) }}
-              placeholder="Cari nama atau email..."
-              className="w-full pl-10 pr-4 py-3 bg-white dark:bg-black text-black dark:text-white border-2 border-black dark:border-white text-sm font-bold focus:outline-none"
-            />
-          </div>
-          <div className="flex gap-1 flex-wrap">
-            <button onClick={() => { setStatusFilter(""); setPage(1) }} className={`px-3 py-2 text-[10px] font-black uppercase tracking-widest border-2 transition-all ${!statusFilter ? "bg-black dark:bg-white text-white dark:text-black border-black dark:border-white" : "bg-white dark:bg-black text-gray-500 border-gray-200 dark:border-gray-700 hover:border-black dark:hover:border-white"}`}>
-              Semua
-            </button>
-            {STATUSES.map(s => (
-              <button key={s} onClick={() => { setStatusFilter(s); setPage(1) }} className={`px-3 py-2 text-[10px] font-black uppercase tracking-widest border-2 transition-all ${statusFilter === s ? "bg-black dark:bg-white text-white dark:text-black border-black dark:border-white" : "bg-white dark:bg-black text-gray-500 border-gray-200 dark:border-gray-700 hover:border-black dark:hover:border-white"}`}>
-                {s}
-              </button>
-            ))}
-          </div>
-        </div>
-
-        {/* Table */}
-        <div className="bg-white dark:bg-black border-4 border-black dark:border-white shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] dark:shadow-[8px_8px_0px_0px_rgba(255,255,255,0.2)] overflow-x-auto">
-          {loading ? (
-            <div className="py-20 flex flex-col items-center justify-center">
-              <Loader2 size={32} className="animate-spin text-gray-400 mb-4" />
-              <p className="text-xs font-black uppercase tracking-widest text-gray-400">Loading...</p>
+        ) : (
+          <>
+            {/* Header */}
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
+              <div className="border-l-8 border-black dark:border-white pl-4">
+                <h2 className="text-3xl font-black text-black dark:text-white uppercase tracking-widest">CRM</h2>
+                <p className="text-xs font-bold text-gray-500 uppercase tracking-widest mt-1">Pusat ekosistem — {total} kontak</p>
+              </div>
+              <div className="flex gap-2">
+                <button onClick={() => setShowImportModal(true)} className="flex items-center gap-2 px-4 py-2.5 bg-white dark:bg-black text-black dark:text-white border-2 border-black dark:border-white font-black uppercase tracking-widest text-xs shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] dark:shadow-[3px_3px_0px_0px_rgba(255,255,255,0.3)] hover:translate-y-0.5 hover:shadow-[1px_1px_0px_0px_rgba(0,0,0,1)] transition-all">
+                  <Upload size={14} /> Import
+                </button>
+                <button onClick={() => { setFormData({ name: "", email: "", phone: "", website: "", address: "", category: "", notes: "" }); setShowAddModal(true) }} className="flex items-center gap-2 px-4 py-2.5 bg-black dark:bg-white text-white dark:text-black border-2 border-black dark:border-white font-black uppercase tracking-widest text-xs shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] dark:shadow-[3px_3px_0px_0px_rgba(255,255,255,0.3)] hover:translate-y-0.5 hover:shadow-[1px_1px_0px_0px_rgba(0,0,0,1)] transition-all">
+                  <Plus size={14} /> Tambah
+                </button>
+              </div>
             </div>
-          ) : contacts.length === 0 ? (
-            <div className="py-20 text-center">
-              <Users size={48} className="mx-auto mb-4 text-gray-300 dark:text-gray-600" />
-              <h3 className="text-xl font-black text-gray-300 dark:text-gray-600 uppercase tracking-widest mb-2">Belum Ada Kontak</h3>
-              <p className="text-sm font-bold text-gray-400">Mulai dari <Link href="/lead-finder" className="text-black dark:text-white underline">Lead Finder</Link> atau tambah manual</p>
+
+            {/* Filters */}
+            <div className="flex flex-col sm:flex-row gap-3 mb-6">
+              <div className="relative flex-1">
+                <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+                <input
+                  value={search} onChange={(e) => { setSearch(e.target.value); setPage(1) }}
+                  placeholder="Cari nama atau email..."
+                  className="w-full pl-10 pr-4 py-3 bg-white dark:bg-black text-black dark:text-white border-2 border-black dark:border-white text-sm font-bold focus:outline-none"
+                />
+              </div>
+              <div className="flex gap-1 flex-wrap">
+                <button onClick={() => { setStatusFilter(""); setPage(1) }} className={`px-3 py-2 text-[10px] font-black uppercase tracking-widest border-2 transition-all ${!statusFilter ? "bg-black dark:bg-white text-white dark:text-black border-black dark:border-white" : "bg-white dark:bg-black text-gray-500 border-gray-200 dark:border-gray-700 hover:border-black dark:hover:border-white"}`}>
+                  Semua
+                </button>
+                {STATUSES.map(s => (
+                  <button key={s} onClick={() => { setStatusFilter(s); setPage(1) }} className={`px-3 py-2 text-[10px] font-black uppercase tracking-widest border-2 transition-all ${statusFilter === s ? "bg-black dark:bg-white text-white dark:text-black border-black dark:border-white" : "bg-white dark:bg-black text-gray-500 border-gray-200 dark:border-gray-700 hover:border-black dark:hover:border-white"}`}>
+                    {s}
+                  </button>
+                ))}
+              </div>
             </div>
-          ) : (
-            <table className="w-full text-sm">
-              <thead>
-                <tr className="border-b-4 border-black dark:border-white">
-                  <th className="text-left p-4 text-[10px] font-black uppercase tracking-widest text-gray-500">Nama</th>
-                  <th className="text-left p-4 text-[10px] font-black uppercase tracking-widest text-gray-500 hidden md:table-cell">Email</th>
-                  <th className="text-left p-4 text-[10px] font-black uppercase tracking-widest text-gray-500 hidden lg:table-cell">Kategori</th>
-                  <th className="text-left p-4 text-[10px] font-black uppercase tracking-widest text-gray-500">Status</th>
-                  <th className="text-right p-4 text-[10px] font-black uppercase tracking-widest text-gray-500">Aksi</th>
-                </tr>
-              </thead>
-              <tbody>
-                {contacts.map((c) => {
-                  const statusCfg = STATUS_CONFIG[c.status] || STATUS_CONFIG.NEW
-                  return (
-                    <tr key={c.id} className="border-b border-gray-200 dark:border-white/10 hover:bg-gray-50 dark:hover:bg-white/5 transition-colors">
-                      <td className="p-4">
-                        <p className="font-black text-black dark:text-white text-sm">{c.name}</p>
-                        <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mt-0.5">{c.source}</p>
-                      </td>
-                      <td className="p-4 hidden md:table-cell">
-                        <p className="font-bold text-gray-600 dark:text-gray-400 text-xs">{c.email || "—"}</p>
-                      </td>
-                      <td className="p-4 hidden lg:table-cell">
-                        <span className="text-xs font-bold text-gray-500">{c.category || "—"}</span>
-                      </td>
-                      <td className="p-4">
-                        <select
-                          value={c.status}
-                          onChange={(e) => handleStatusChange(c.id, e.target.value)}
-                          className={`px-2 py-1 text-[10px] font-black uppercase tracking-widest border-2 ${statusCfg.bg} ${statusCfg.color} cursor-pointer focus:outline-none`}
-                        >
-                          {STATUSES.map(s => <option key={s} value={s}>{s}</option>)}
-                        </select>
-                      </td>
-                      <td className="p-4 text-right">
-                        <div className="flex items-center justify-end gap-1">
-                          <button onClick={() => openEdit(c)} className="p-2 hover:bg-gray-100 dark:hover:bg-white/10 transition-colors" title="Edit">
-                            <Edit3 size={14} className="text-gray-500" />
-                          </button>
-                          <Link href={`/blast?contact=${c.id}`} className="p-2 hover:bg-gray-100 dark:hover:bg-white/10 transition-colors" title="Blast Email">
-                            <Mail size={14} className="text-gray-500" />
-                          </Link>
-                          <Link href={`/keyword?contact=${c.id}&name=${encodeURIComponent(c.name)}&category=${encodeURIComponent(c.category || '')}&website=${encodeURIComponent(c.website || '')}`} className="p-2 hover:bg-gray-100 dark:hover:bg-white/10 transition-colors" title="Keywords">
-                            <Key size={14} className="text-gray-500" />
-                          </Link>
-                          <button onClick={() => handleDelete(c.id)} className="p-2 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors" title="Hapus">
-                            <Trash2 size={14} className="text-red-400" />
-                          </button>
-                        </div>
-                      </td>
+
+            {/* Table */}
+            <div className="bg-white dark:bg-black border-4 border-black dark:border-white shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] dark:shadow-[8px_8px_0px_0px_rgba(255,255,255,0.2)] overflow-x-auto">
+              {loading ? (
+                <div className="py-20 flex flex-col items-center justify-center">
+                  <Loader2 size={32} className="animate-spin text-gray-400 mb-4" />
+                  <p className="text-xs font-black uppercase tracking-widest text-gray-400">Loading...</p>
+                </div>
+              ) : contacts.length === 0 ? (
+                <div className="py-20 text-center">
+                  <Users size={48} className="mx-auto mb-4 text-gray-300 dark:text-gray-600" />
+                  <h3 className="text-xl font-black text-gray-300 dark:text-gray-600 uppercase tracking-widest mb-2">Belum Ada Kontak</h3>
+                  <p className="text-sm font-bold text-gray-400">Mulai dari <Link href="/lead-finder" className="text-black dark:text-white underline">Lead Finder</Link> atau tambah manual</p>
+                </div>
+              ) : (
+                <table className="w-full text-sm">
+                  <thead>
+                    <tr className="border-b-4 border-black dark:border-white">
+                      <th className="text-left p-4 text-[10px] font-black uppercase tracking-widest text-gray-500">Nama</th>
+                      <th className="text-left p-4 text-[10px] font-black uppercase tracking-widest text-gray-500 hidden md:table-cell">Email</th>
+                      <th className="text-left p-4 text-[10px] font-black uppercase tracking-widest text-gray-500 hidden lg:table-cell">Kategori</th>
+                      <th className="text-left p-4 text-[10px] font-black uppercase tracking-widest text-gray-500">Status</th>
+                      <th className="text-right p-4 text-[10px] font-black uppercase tracking-widest text-gray-500">Aksi</th>
                     </tr>
-                  )
-                })}
-              </tbody>
-            </table>
-          )}
-        </div>
+                  </thead>
+                  <tbody>
+                    {contacts.map((c) => {
+                      const statusCfg = STATUS_CONFIG[c.status] || STATUS_CONFIG.NEW
+                      return (
+                        <tr key={c.id} className="border-b border-gray-200 dark:border-white/10 hover:bg-gray-50 dark:hover:bg-white/5 transition-colors">
+                          <td className="p-4">
+                            <p className="font-black text-black dark:text-white text-sm">{c.name}</p>
+                            <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mt-0.5">{c.source}</p>
+                          </td>
+                          <td className="p-4 hidden md:table-cell">
+                            <p className="font-bold text-gray-600 dark:text-gray-400 text-xs">{c.email || "—"}</p>
+                          </td>
+                          <td className="p-4 hidden lg:table-cell">
+                            <span className="text-xs font-bold text-gray-500">{c.category || "—"}</span>
+                          </td>
+                          <td className="p-4">
+                            <select
+                              value={c.status}
+                              onChange={(e) => handleStatusChange(c.id, e.target.value)}
+                              className={`px-2 py-1 text-[10px] font-black uppercase tracking-widest border-2 ${statusCfg.bg} ${statusCfg.color} cursor-pointer focus:outline-none`}
+                            >
+                              {STATUSES.map(s => <option key={s} value={s}>{s}</option>)}
+                            </select>
+                          </td>
+                          <td className="p-4 text-right">
+                            <div className="flex items-center justify-end gap-1">
+                              <button onClick={() => openEdit(c)} className="p-2 hover:bg-gray-100 dark:hover:bg-white/10 transition-colors" title="Edit">
+                                <Edit3 size={14} className="text-gray-500" />
+                              </button>
+                              <Link href={`/blast?contact=${c.id}`} className="p-2 hover:bg-gray-100 dark:hover:bg-white/10 transition-colors" title="Blast Email">
+                                <Mail size={14} className="text-gray-500" />
+                              </Link>
+                              <Link href={`/keyword?contact=${c.id}&name=${encodeURIComponent(c.name)}&category=${encodeURIComponent(c.category || '')}&website=${encodeURIComponent(c.website || '')}`} className="p-2 hover:bg-gray-100 dark:hover:bg-white/10 transition-colors" title="Keywords">
+                                <Key size={14} className="text-gray-500" />
+                              </Link>
+                              <button onClick={() => handleDelete(c.id)} className="p-2 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors" title="Hapus">
+                                <Trash2 size={14} className="text-red-400" />
+                              </button>
+                            </div>
+                          </td>
+                        </tr>
+                      )
+                    })}
+                  </tbody>
+                </table>
+              )}
+            </div>
 
-        {/* Pagination */}
-        {totalPages > 1 && (
-          <div className="flex items-center justify-between mt-4">
-            <button disabled={page <= 1} onClick={() => setPage(p => p - 1)} className="flex items-center gap-1 px-3 py-2 text-xs font-black uppercase tracking-widest border-2 border-black dark:border-white disabled:opacity-30 hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-all">
-              <ChevronLeft size={14} /> Prev
-            </button>
-            <span className="text-xs font-black uppercase tracking-widest text-gray-500">{page} / {totalPages}</span>
-            <button disabled={page >= totalPages} onClick={() => setPage(p => p + 1)} className="flex items-center gap-1 px-3 py-2 text-xs font-black uppercase tracking-widest border-2 border-black dark:border-white disabled:opacity-30 hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-all">
-              Next <ChevronRight size={14} />
-            </button>
-          </div>
+            {/* Pagination */}
+            {totalPages > 1 && (
+              <div className="flex items-center justify-between mt-4">
+                <button disabled={page <= 1} onClick={() => setPage(p => p - 1)} className="flex items-center gap-1 px-3 py-2 text-xs font-black uppercase tracking-widest border-2 border-black dark:border-white disabled:opacity-30 hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-all">
+                  <ChevronLeft size={14} /> Prev
+                </button>
+                <span className="text-xs font-black uppercase tracking-widest text-gray-500">{page} / {totalPages}</span>
+                <button disabled={page >= totalPages} onClick={() => setPage(p => p + 1)} className="flex items-center gap-1 px-3 py-2 text-xs font-black uppercase tracking-widest border-2 border-black dark:border-white disabled:opacity-30 hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-all">
+                  Next <ChevronRight size={14} />
+                </button>
+              </div>
+            )}
+          </>
         )}
       </main>
 

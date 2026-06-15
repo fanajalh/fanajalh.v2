@@ -169,15 +169,21 @@ function SiteAuditPageContent() {
       </div>
     )
   }
-  if (SelectorModal) return SelectorModal
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-black">
-      <EcosystemNav />
+      {!SelectorModal && <EcosystemNav />}
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Header */}
-        <div className="mb-8 border-l-8 border-black dark:border-white pl-4">
+        {SelectorModal ? (
+          <div className="py-12">
+            {SelectorModal}
+          </div>
+        ) : (
+          <>
+            {/* Header */}
+            <div className="mb-8 border-l-8 border-black dark:border-white pl-4">
+
           <h2 className="text-3xl font-black text-black dark:text-white uppercase tracking-widest">Website Audit & Score</h2>
           <p className="text-xs font-bold text-gray-500 uppercase tracking-widest mt-1">
             Input URL → Analisis otomatis SEO, GEO, Keyword, & Ranking Score
@@ -392,6 +398,9 @@ function SiteAuditPageContent() {
               Masukkan URL website di atas. AI akan menganalisis SEO, GEO, kata kunci, dan ranking score secara otomatis.
             </p>
           </div>
+
+        )}
+          </>
         )}
       </main>
     </div>

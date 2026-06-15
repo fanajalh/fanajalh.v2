@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { Search, Users, Mail, Key, Wrench, BarChart3, HelpCircle, Loader2, Sparkles, ArrowLeft } from "lucide-react"
+import { Search, Users, Mail, Key, Wrench, BarChart3, HelpCircle, Loader2, Sparkles, ArrowLeft, Globe, ChevronDown, ChevronUp, Check } from "lucide-react"
 import Swal from "@/lib/custom-alert"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
@@ -53,6 +53,24 @@ const GUEST_FEATURES = [
     path: "/ecosystem/seo-tools"
   },
   {
+    key: "geo",
+    title: "AI Optimization",
+    icon: Sparkles,
+    description: "Optimalkan website Anda untuk pencarian AI & Generative Search Engine (GEO) agar bisnis Anda direkomendasikan AI.",
+    limit: "Maksimal 1 kali optimasi konten AI.",
+    color: "bg-orange-50 text-orange-600 border-orange-100",
+    path: "/ecosystem/ai-optimization"
+  },
+  {
+    key: "site_audit",
+    title: "Website Audit",
+    icon: Globe,
+    description: "Cek skor SEO kesehatan teknis website Anda, perbaiki error crawl, dan tingkatkan performa kecepatan loading.",
+    limit: "Maksimal 1 kali cek audit website.",
+    color: "bg-indigo-50 text-indigo-600 border-indigo-100",
+    path: "/ecosystem/site-audit"
+  },
+  {
     key: "tracking",
     title: "SERP Tracker",
     icon: BarChart3,
@@ -65,7 +83,11 @@ const GUEST_FEATURES = [
 
 export default function EcosystemGuestSelectorMobile() {
   const router = useRouter()
+  const [selectedKey, setSelectedKey] = useState<string>("")
   const [selectingKey, setSelectingKey] = useState<string | null>(null)
+  const [isOpen, setIsOpen] = useState(false)
+
+  const selectedFeature = GUEST_FEATURES.find(f => f.key === selectedKey)
 
   const handleSelectFeature = (key: string, title: string, path: string) => {
     Swal.fire({
@@ -116,88 +138,138 @@ export default function EcosystemGuestSelectorMobile() {
   }
 
   return (
-    <div className="min-h-screen bg-[#f4f6f9] py-10 px-4 flex flex-col items-center justify-start font-sans select-none relative pb-28">
-      {/* Back button */}
-      <div className="w-full max-w-md flex justify-start mb-6 mt-2">
-        <Link
-          href="/home"
-          className="flex items-center gap-1.5 px-4 py-2.5 bg-white hover:bg-slate-50 text-xs font-extrabold text-slate-700 border border-slate-200 rounded-full shadow-sm active:scale-95 transition-all"
+    <div className="bg-white rounded-[2rem] p-6 shadow-[0_4px_20px_rgba(0,0,0,0.02)] border border-slate-100 max-w-md w-full mx-auto font-sans select-none">
+      <div className="flex items-center justify-between border-b border-slate-100 pb-4 mb-6">
+        <button
+          onClick={() => router.push("/")}
+          className="flex items-center gap-1 text-xs font-black uppercase text-slate-500 hover:text-orange-600 transition-colors"
         >
-          <ArrowLeft size={14} strokeWidth={3} />
-          Kembali ke Dashboard
-        </Link>
-      </div>
-
-      <div className="max-w-md w-full text-center mb-8">
-        <div className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-emerald-50 border border-emerald-200 text-emerald-600 rounded-full font-bold tracking-wide text-[10px] uppercase mb-4 shadow-sm">
+          <ArrowLeft size={14} /> Kembali
+        </button>
+        <div className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-emerald-50 border border-emerald-200 text-emerald-600 rounded-full font-bold tracking-wide text-[10px] uppercase shadow-sm">
           <Sparkles size={12} /> Ecosystem Guest Mode
         </div>
-        <h1 className="text-2xl font-black text-slate-800 tracking-tight mb-2">
-          PILIH 1 FITUR UJI COBA 🎯
+      </div>
+
+      <div className="text-center mb-6">
+        <h1 className="text-xl font-black text-slate-800 tracking-tight mb-2">
+          PILIH FITUR UJI COBA 🎯
         </h1>
         <p className="text-xs font-semibold text-slate-500 max-w-sm mx-auto leading-relaxed">
-          Sebagai tamu, silakan pilih salah satu dari 6 fitur ekosistem bisnis untuk dicoba. Setelah dipilih, fitur lainnya akan otomatis terkunci.
+          Silakan pilih salah satu dari 8 fitur ekosistem bisnis untuk dicoba secara gratis. Setelah memilih, fitur lainnya akan terkunci.
         </p>
       </div>
 
-      {/* Grid Features */}
-      <div className="max-w-md w-full flex flex-col gap-4">
-        {GUEST_FEATURES.map((item) => {
-          const Icon = item.icon
-          const isSelecting = selectingKey === item.key
-
-          return (
-            <div
-              key={item.key}
-              className="bg-white rounded-[1.8rem] p-5 shadow-[0_4px_20px_rgba(0,0,0,0.02)] border border-slate-100 flex flex-col justify-between hover:shadow-md transition-all duration-200"
-            >
-              <div className="flex gap-3 mb-4">
-                <div className={`p-3 rounded-2xl border ${item.color} shrink-0 flex items-center justify-center w-12 h-12`}>
-                  <Icon size={22} />
+      {/* Custom Dropdown Selection */}
+      <div className="relative">
+        <button
+          type="button"
+          onClick={() => setIsOpen(!isOpen)}
+          className="w-full flex items-center justify-between px-4 py-3 bg-slate-50 text-slate-850 border border-slate-200 rounded-2xl text-xs font-extrabold outline-none focus:border-orange-500 transition-colors uppercase tracking-wide cursor-pointer"
+        >
+          <div className="flex items-center gap-2">
+            {selectedFeature ? (
+              <>
+                <div className={`p-1.5 rounded-lg border ${selectedFeature.color} shrink-0`}>
+                  {(() => {
+                    const Icon = selectedFeature.icon
+                    return <Icon size={14} />
+                  })()}
                 </div>
-                <div>
-                  <h3 className="text-sm font-extrabold text-slate-800">
-                    {item.title}
-                  </h3>
-                  <p className="text-[11px] font-semibold text-slate-400 leading-relaxed mt-1">
-                    {item.description}
-                  </p>
-                </div>
-              </div>
+                <span>{selectedFeature.title}</span>
+              </>
+            ) : (
+              <span>-- Pilih Fitur Uji Coba --</span>
+            )}
+          </div>
+          {isOpen ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
+        </button>
 
-              <div className="border-t border-dashed border-slate-200/80 pt-4 flex items-center justify-between mt-1">
-                <div className="max-w-[55%]">
-                  <span className="block text-[8px] font-bold uppercase tracking-wider text-slate-400">Batas Tamu:</span>
-                  <span className="text-[10px] font-bold text-slate-600 leading-snug">{item.limit}</span>
-                </div>
-
+        {isOpen && (
+          <div className="absolute left-0 right-0 mt-2 z-50 bg-white border border-slate-200 rounded-2xl max-h-[280px] overflow-y-auto shadow-lg p-2 space-y-1">
+            {GUEST_FEATURES.map((item) => {
+              const Icon = item.icon
+              const isSelected = item.key === selectedKey
+              return (
                 <button
-                  onClick={() => handleSelectFeature(item.key, item.title, item.path)}
-                  disabled={selectingKey !== null}
-                  className="bg-orange-600 hover:bg-orange-700 text-white px-4 py-2.5 rounded-full text-[11px] font-extrabold transition-colors active:scale-95 outline-none flex items-center gap-1.5 shadow-sm shadow-orange-600/20 disabled:opacity-50"
+                  key={item.key}
+                  type="button"
+                  onClick={() => {
+                    setSelectedKey(item.key)
+                    setIsOpen(false)
+                  }}
+                  className={`w-full text-left px-3 py-2.5 flex items-center justify-between rounded-xl text-xs font-bold transition-colors ${
+                    isSelected 
+                      ? "bg-orange-50 text-orange-600" 
+                      : "text-slate-700 hover:bg-slate-50"
+                  }`}
                 >
-                  {isSelecting ? (
-                    <>
-                      <Loader2 size={12} className="animate-spin" /> Proses...
-                    </>
-                  ) : (
-                    "Coba Fitur"
-                  )}
+                  <div className="flex items-center gap-3">
+                    <div className={`p-1.5 rounded-lg border ${item.color}`}>
+                      <Icon size={14} />
+                    </div>
+                    <span>{item.title}</span>
+                  </div>
+                  {isSelected && <Check size={16} className="text-orange-600 shrink-0" />}
                 </button>
-              </div>
-            </div>
-          )
-        })}
+              )
+            })}
+          </div>
+        )}
       </div>
+
+      {/* Feature Details */}
+      {selectedFeature && (
+        <div className="mt-6 border border-dashed border-slate-200 p-5 rounded-[1.8rem] space-y-4">
+          <div className="flex gap-3">
+            <div className={`p-3 rounded-2xl border ${selectedFeature.color} shrink-0 flex items-center justify-center w-11 h-11`}>
+              {(() => {
+                const Icon = selectedFeature.icon
+                return <Icon size={20} />
+              })()}
+            </div>
+            <div>
+              <h3 className="text-sm font-extrabold text-slate-850">
+                {selectedFeature.title}
+              </h3>
+              <p className="text-[11px] font-semibold text-slate-400 leading-relaxed mt-1">
+                {selectedFeature.description}
+              </p>
+            </div>
+          </div>
+
+          <div className="border-t border-dashed border-slate-200/80 pt-4 flex items-center justify-between mt-1">
+            <div className="max-w-[55%]">
+              <span className="block text-[8px] font-bold uppercase tracking-wider text-slate-400">Batas Tamu:</span>
+              <span className="text-[10px] font-bold text-slate-650 leading-snug">{selectedFeature.limit}</span>
+            </div>
+
+            <button
+              onClick={() => handleSelectFeature(selectedFeature.key, selectedFeature.title, selectedFeature.path)}
+              disabled={selectingKey !== null}
+              className="bg-orange-650 hover:bg-orange-700 text-white px-5 py-2.5 rounded-full text-xs font-extrabold transition-colors active:scale-95 outline-none flex items-center gap-1.5 shadow-sm shadow-orange-600/20 disabled:opacity-50"
+            >
+              {selectingKey === selectedFeature.key ? (
+                <>
+                  <Loader2 size={12} className="animate-spin" /> Proses...
+                </>
+              ) : (
+                "Coba Fitur"
+              )}
+            </button>
+          </div>
+        </div>
+      )}
 
       {/* Help Link */}
       <div 
-        className="flex items-center justify-center gap-1.5 text-xs font-extrabold text-slate-500 hover:text-orange-600 transition-colors mt-8 cursor-pointer bg-white px-5 py-3 rounded-full border border-slate-200/60 shadow-sm" 
+        className="flex items-center justify-center gap-1.5 text-xs font-extrabold text-slate-500 hover:text-orange-600 transition-colors mt-6 cursor-pointer bg-slate-50 px-4 py-2.5 rounded-full border border-slate-150 shadow-sm" 
         onClick={() => router.push("/ecosystem/tutorial")}
       >
-        <HelpCircle size={15} />
+        <HelpCircle size={14} />
         <span>Butuh bantuan? <span className="underline font-black text-orange-600">Lihat Tutorial</span></span>
       </div>
     </div>
   )
 }
+

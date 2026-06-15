@@ -203,201 +203,205 @@ function KeywordPageContent() {
     )
   }
 
-  if (SelectorModal) {
-    return SelectorModal
-  }
-
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-black">
-      <EcosystemNav />
+      {!SelectorModal && <EcosystemNav />}
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Header */}
-        <div className="mb-8 border-l-8 border-black dark:border-white pl-4">
-          <h2 className="text-3xl font-black text-black dark:text-white uppercase tracking-widest">Keyword Suggestion</h2>
-          <p className="text-xs font-bold text-gray-500 uppercase tracking-widest mt-1">Cari keyword target potensial menggunakan AI</p>
-        </div>
-
-        {/* Input Selector & Form */}
-        <div className="grid lg:grid-cols-3 gap-8 mb-8 items-start">
-          {/* Left: Input Form */}
-          <div className="lg:col-span-1 bg-white dark:bg-white/5 border-4 border-black dark:border-white p-6 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] dark:shadow-[8px_8px_0px_0px_rgba(255,255,255,0.2)] space-y-4">
-            <div>
-              <label className="block text-[10px] font-black uppercase tracking-widest text-gray-500 dark:text-gray-400 mb-2">Pilih dari Database Prospek (CRM)</label>
-              <select
-                value={selectedContactId}
-                onChange={(e) => handleContactChange(e.target.value)}
-                className="w-full px-4 py-3 bg-white dark:bg-black text-black dark:text-white border-2 border-black dark:border-white text-sm font-bold focus:outline-none focus:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]"
-              >
-                <option value="">-- Pilih Kontak dari Database Prospek (CRM) --</option>
-                {contacts.map(c => (
-                  <option key={c.id} value={c.id.toString()}>
-                    {c.name} ({c.category || "Tanpa Kategori"})
-                  </option>
-                ))}
-                <option value="custom">Ketik Kustom / Baru</option>
-              </select>
-            </div>
-
-            <hr className="border-t-2 border-black dark:border-white my-2" />
-
-            <div>
-              <label className="block text-[10px] font-black uppercase tracking-widest text-gray-500 dark:text-gray-400 mb-2">Nama Bisnis *</label>
-              <input
-                type="text"
-                value={businessName}
-                onChange={(e) => setBusinessName(e.target.value)}
-                placeholder="cth. Kopi Kenangan"
-                className="w-full px-4 py-3 bg-white dark:bg-black text-black dark:text-white border-2 border-black dark:border-white text-sm font-bold focus:outline-none"
-              />
-            </div>
-
-            <div>
-              <label className="block text-[10px] font-black uppercase tracking-widest text-gray-500 dark:text-gray-400 mb-2">Kategori Bisnis</label>
-              <input
-                type="text"
-                value={category}
-                onChange={(e) => setCategory(e.target.value)}
-                placeholder="cth. Cafe / Coffee Shop"
-                className="w-full px-4 py-3 bg-white dark:bg-black text-black dark:text-white border-2 border-black dark:border-white text-sm font-bold focus:outline-none"
-              />
-            </div>
-
-            <div>
-              <label className="block text-[10px] font-black uppercase tracking-widest text-gray-500 dark:text-gray-400 mb-2">Website</label>
-              <input
-                type="text"
-                value={website}
-                onChange={(e) => setWebsite(e.target.value)}
-                placeholder="cth. www.kopikenangan.com"
-                className="w-full px-4 py-3 bg-white dark:bg-black text-black dark:text-white border-2 border-black dark:border-white text-sm font-bold focus:outline-none"
-              />
-            </div>
-
-            <div>
-              <label className="block text-[10px] font-black uppercase tracking-widest text-gray-500 dark:text-gray-400 mb-2">Target Lokasi / Negara</label>
-              <input
-                type="text"
-                value={location}
-                onChange={(e) => setLocation(e.target.value)}
-                placeholder="cth. Indonesia, Jakarta"
-                className="w-full px-4 py-3 bg-white dark:bg-black text-black dark:text-white border-2 border-black dark:border-white text-sm font-bold focus:outline-none"
-              />
-            </div>
-
-            <button
-              onClick={handleGenerate}
-              disabled={loading}
-              className="w-full flex items-center justify-center gap-2 px-6 py-4 bg-black dark:bg-white text-white dark:text-black font-black uppercase tracking-widest text-sm border-2 border-black dark:border-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,0.3)] hover:translate-y-1 hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-all disabled:opacity-50"
-            >
-              {loading ? <Loader2 size={18} className="animate-spin" /> : <Sparkles size={18} />}
-              {loading ? "Generating..." : "Generate dengan AI"}
-            </button>
+        {SelectorModal ? (
+          <div className="py-12">
+            {SelectorModal}
           </div>
+        ) : (
+          <>
+            {/* Header */}
+            <div className="mb-8 border-l-8 border-black dark:border-white pl-4">
+              <h2 className="text-3xl font-black text-black dark:text-white uppercase tracking-widest">Keyword Suggestion</h2>
+              <p className="text-xs font-bold text-gray-500 uppercase tracking-widest mt-1">Cari keyword target potensial menggunakan AI</p>
+            </div>
 
-          {/* Right: Results Grid */}
-          <div className="lg:col-span-2">
-            {/* Error Message */}
-            {error && (
-              <div className="mb-6 p-4 bg-red-50 dark:bg-red-900/20 border-2 border-red-500 flex items-center gap-3 text-red-700 dark:text-red-400">
-                <AlertCircle size={20} />
-                <span className="font-bold text-sm">{error}</span>
-              </div>
-            )}
+            {/* Input Selector & Form */}
+            <div className="grid lg:grid-cols-3 gap-8 mb-8 items-start">
+              {/* Left: Input Form */}
+              <div className="lg:col-span-1 bg-white dark:bg-white/5 border-4 border-black dark:border-white p-6 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] dark:shadow-[8px_8px_0px_0px_rgba(255,255,255,0.2)] space-y-4">
+                <div>
+                  <label className="block text-[10px] font-black uppercase tracking-widest text-gray-500 dark:text-gray-400 mb-2">Pilih dari Database Prospek (CRM)</label>
+                  <select
+                    value={selectedContactId}
+                    onChange={(e) => handleContactChange(e.target.value)}
+                    className="w-full px-4 py-3 bg-white dark:bg-black text-black dark:text-white border-2 border-black dark:border-white text-sm font-bold focus:outline-none focus:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]"
+                  >
+                    <option value="">-- Pilih Kontak dari Database Prospek (CRM) --</option>
+                    {contacts.map(c => (
+                      <option key={c.id} value={c.id.toString()}>
+                        {c.name} ({c.category || "Tanpa Kategori"})
+                      </option>
+                    ))}
+                    <option value="custom">Ketik Kustom / Baru</option>
+                  </select>
+                </div>
 
-            {loading ? (
-              <div className="text-center py-24 bg-white dark:bg-white/5 border-4 border-black dark:border-white shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] dark:shadow-[8px_8px_0px_0px_rgba(255,255,255,0.2)]">
-                <Loader2 size={48} className="mx-auto mb-4 text-gray-400 animate-spin" />
-                <h3 className="text-xl font-black text-black dark:text-white uppercase tracking-widest mb-2">Menganalisis Niche Bisnis...</h3>
-                <p className="text-sm font-bold text-gray-500 uppercase tracking-widest">Gemini AI sedang memetakan keyword volume dan persaingan</p>
+                <hr className="border-t-2 border-black dark:border-white my-2" />
+
+                <div>
+                  <label className="block text-[10px] font-black uppercase tracking-widest text-gray-500 dark:text-gray-400 mb-2">Nama Bisnis *</label>
+                  <input
+                    type="text"
+                    value={businessName}
+                    onChange={(e) => setBusinessName(e.target.value)}
+                    placeholder="cth. Kopi Kenangan"
+                    className="w-full px-4 py-3 bg-white dark:bg-black text-black dark:text-white border-2 border-black dark:border-white text-sm font-bold focus:outline-none"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-[10px] font-black uppercase tracking-widest text-gray-500 dark:text-gray-400 mb-2">Kategori Bisnis</label>
+                  <input
+                    type="text"
+                    value={category}
+                    onChange={(e) => setCategory(e.target.value)}
+                    placeholder="cth. Cafe / Coffee Shop"
+                    className="w-full px-4 py-3 bg-white dark:bg-black text-black dark:text-white border-2 border-black dark:border-white text-sm font-bold focus:outline-none"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-[10px] font-black uppercase tracking-widest text-gray-500 dark:text-gray-400 mb-2">Website</label>
+                  <input
+                    type="text"
+                    value={website}
+                    onChange={(e) => setWebsite(e.target.value)}
+                    placeholder="cth. www.kopikenangan.com"
+                    className="w-full px-4 py-3 bg-white dark:bg-black text-black dark:text-white border-2 border-black dark:border-white text-sm font-bold focus:outline-none"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-[10px] font-black uppercase tracking-widest text-gray-500 dark:text-gray-400 mb-2">Target Lokasi / Negara</label>
+                  <input
+                    type="text"
+                    value={location}
+                    onChange={(e) => setLocation(e.target.value)}
+                    placeholder="cth. Indonesia, Jakarta"
+                    className="w-full px-4 py-3 bg-white dark:bg-black text-black dark:text-white border-2 border-black dark:border-white text-sm font-bold focus:outline-none"
+                  />
+                </div>
+
+                <button
+                  onClick={handleGenerate}
+                  disabled={loading}
+                  className="w-full flex items-center justify-center gap-2 px-6 py-4 bg-black dark:bg-white text-white dark:text-black font-black uppercase tracking-widest text-sm border-2 border-black dark:border-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,0.3)] hover:translate-y-1 hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-all disabled:opacity-50"
+                >
+                  {loading ? <Loader2 size={18} className="animate-spin" /> : <Sparkles size={18} />}
+                  {loading ? "Generating..." : "Generate dengan AI"}
+                </button>
               </div>
-            ) : keywords.length > 0 ? (
-              <>
-                {/* Action Bar */}
-                <div className="flex items-center justify-between mb-4 bg-white dark:bg-white/5 border-2 border-black dark:border-white p-3">
-                  <div className="flex items-center gap-4">
-                    <button onClick={toggleSelectAll} className="text-xs font-black uppercase tracking-widest text-gray-500 hover:text-black dark:hover:text-white transition-colors">
-                      {keywords.every(k => k.selected) ? "Batal Pilih Semua" : "Pilih Semua"}
-                    </button>
-                    <span className="text-xs font-bold text-gray-400">{keywords.length} Keyword Suggestion</span>
+
+              {/* Right: Results Grid */}
+              <div className="lg:col-span-2">
+                {/* Error Message */}
+                {error && (
+                  <div className="mb-6 p-4 bg-red-50 dark:bg-red-900/20 border-2 border-red-500 flex items-center gap-3 text-red-700 dark:text-red-400">
+                    <AlertCircle size={20} />
+                    <span className="font-bold text-sm">{error}</span>
                   </div>
-                  {selectedCount > 0 && (
-                    <button
-                      onClick={handleSave}
-                      disabled={saving}
-                      className="flex items-center gap-2 px-4 py-2 bg-emerald-500 text-white font-black uppercase tracking-widest text-xs border-2 border-black shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] hover:translate-y-0.5 hover:shadow-[1px_1px_0px_0px_rgba(0,0,0,1)] transition-all disabled:opacity-50"
-                    >
-                      {saving ? <Loader2 size={14} className="animate-spin" /> : <Save size={14} />}
-                      Simpan {selectedCount} Keyword
-                    </button>
-                  )}
-                </div>
+                )}
 
-                {/* Table of Keywords */}
-                <div className="bg-white dark:bg-black border-4 border-black dark:border-white shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] dark:shadow-[8px_8px_0px_0px_rgba(255,255,255,0.2)] overflow-x-auto">
-                  <table className="w-full text-sm">
-                    <thead>
-                      <tr className="border-b-4 border-black dark:border-white">
-                        <th className="w-12 p-4 text-left"></th>
-                        <th className="text-left p-4 text-[10px] font-black uppercase tracking-widest text-gray-500">Keyword</th>
-                        <th className="text-left p-4 text-[10px] font-black uppercase tracking-widest text-gray-500">Pencarian / Bln (Volume)</th>
-                        <th className="text-left p-4 text-[10px] font-black uppercase tracking-widest text-gray-500">Difficulty</th>
-                        <th className="text-left p-4 text-[10px] font-black uppercase tracking-widest text-gray-500">Search Intent</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {keywords.map((kw, index) => (
-                        <tr
-                          key={index}
-                          onClick={() => toggleSelect(index)}
-                          className={`border-b border-gray-200 dark:border-white/10 hover:bg-gray-50 dark:hover:bg-white/5 cursor-pointer transition-colors ${
-                            kw.selected ? "bg-emerald-50/50 dark:bg-emerald-950/20" : ""
-                          }`}
+                {loading ? (
+                  <div className="text-center py-24 bg-white dark:bg-white/5 border-4 border-black dark:border-white shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] dark:shadow-[8px_8px_0px_0px_rgba(255,255,255,0.2)]">
+                    <Loader2 size={48} className="mx-auto mb-4 text-gray-400 animate-spin" />
+                    <h3 className="text-xl font-black text-black dark:text-white uppercase tracking-widest mb-2">Menganalisis Niche Bisnis...</h3>
+                    <p className="text-sm font-bold text-gray-500 uppercase tracking-widest">Gemini AI sedang memetakan keyword volume dan persaingan</p>
+                  </div>
+                ) : keywords.length > 0 ? (
+                  <>
+                    {/* Action Bar */}
+                    <div className="flex items-center justify-between mb-4 bg-white dark:bg-white/5 border-2 border-black dark:border-white p-3">
+                      <div className="flex items-center gap-4">
+                        <button onClick={toggleSelectAll} className="text-xs font-black uppercase tracking-widest text-gray-500 hover:text-black dark:hover:text-white transition-colors">
+                          {keywords.every(k => k.selected) ? "Batal Pilih Semua" : "Pilih Semua"}
+                        </button>
+                        <span className="text-xs font-bold text-gray-400">{keywords.length} Keyword Suggestion</span>
+                      </div>
+                      {selectedCount > 0 && (
+                        <button
+                          onClick={handleSave}
+                          disabled={saving}
+                          className="flex items-center gap-2 px-4 py-2 bg-emerald-500 text-white font-black uppercase tracking-widest text-xs border-2 border-black shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] hover:translate-y-0.5 hover:shadow-[1px_1px_0px_0px_rgba(0,0,0,1)] transition-all disabled:opacity-50"
                         >
-                          <td className="p-4">
-                            <div className={`w-5 h-5 border-2 border-black dark:border-white flex items-center justify-center ${kw.selected ? "bg-emerald-500" : "bg-white dark:bg-black"}`}>
-                              {kw.selected && <CheckCircle2 size={12} className="text-white" />}
-                            </div>
-                          </td>
-                          <td className="p-4 font-black text-black dark:text-white text-sm">
-                            {kw.keyword}
-                          </td>
-                          <td className="p-4">
-                            <span className="font-bold text-xs text-gray-600 dark:text-gray-400">
-                              {kw.volume.toLocaleString("id-ID")} / bln
-                            </span>
-                          </td>
-                          <td className="p-4">
-                            <span className={`px-2 py-1 text-[9px] font-black uppercase tracking-widest border-2 rounded-none ${difficultyColors[kw.difficulty] || ""}`}>
-                              {kw.difficulty}
-                            </span>
-                          </td>
-                          <td className="p-4">
-                            <span className={`px-2 py-1 text-[9px] font-black uppercase tracking-widest border-2 rounded-none ${intentColors[kw.intent] || ""}`}>
-                              {kw.intent}
-                            </span>
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-              </>
-            ) : generated && !error ? (
-              <div className="text-center py-24 bg-white dark:bg-white/5 border-4 border-black dark:border-white shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
-                <Search size={48} className="mx-auto mb-4 text-gray-300" />
-                <h3 className="text-xl font-black text-black dark:text-white uppercase tracking-widest mb-2">Tidak Ada Keyword</h3>
-                <p className="text-sm font-bold text-gray-500">Coba ganti kategori bisnis atau nama bisnis</p>
+                          {saving ? <Loader2 size={14} className="animate-spin" /> : <Save size={14} />}
+                          Simpan {selectedCount} Keyword
+                        </button>
+                      )}
+                    </div>
+
+                    {/* Table of Keywords */}
+                    <div className="bg-white dark:bg-black border-4 border-black dark:border-white shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] dark:shadow-[8px_8px_0px_0px_rgba(255,255,255,0.2)] overflow-x-auto">
+                      <table className="w-full text-sm">
+                        <thead>
+                          <tr className="border-b-4 border-black dark:border-white">
+                            <th className="w-12 p-4 text-left"></th>
+                            <th className="text-left p-4 text-[10px] font-black uppercase tracking-widest text-gray-500">Keyword</th>
+                            <th className="text-left p-4 text-[10px] font-black uppercase tracking-widest text-gray-500">Pencarian / Bln (Volume)</th>
+                            <th className="text-left p-4 text-[10px] font-black uppercase tracking-widest text-gray-500">Difficulty</th>
+                            <th className="text-left p-4 text-[10px] font-black uppercase tracking-widest text-gray-500">Search Intent</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {keywords.map((kw, index) => (
+                            <tr
+                              key={index}
+                              onClick={() => toggleSelect(index)}
+                              className={`border-b border-gray-200 dark:border-white/10 hover:bg-gray-50 dark:hover:bg-white/5 cursor-pointer transition-colors ${
+                                kw.selected ? "bg-emerald-50/50 dark:bg-emerald-950/20" : ""
+                              }`}
+                            >
+                              <td className="p-4">
+                                <div className={`w-5 h-5 border-2 border-black dark:border-white flex items-center justify-center ${kw.selected ? "bg-emerald-500" : "bg-white dark:bg-black"}`}>
+                                  {kw.selected && <CheckCircle2 size={12} className="text-white" />}
+                                </div>
+                              </td>
+                              <td className="p-4 font-black text-black dark:text-white text-sm">
+                                {kw.keyword}
+                              </td>
+                              <td className="p-4">
+                                <span className="font-bold text-xs text-gray-600 dark:text-gray-400">
+                                  {kw.volume.toLocaleString("id-ID")} / bln
+                                </span>
+                              </td>
+                              <td className="p-4">
+                                <span className={`px-2 py-1 text-[9px] font-black uppercase tracking-widest border-2 rounded-none ${difficultyColors[kw.difficulty] || ""}`}>
+                                  {kw.difficulty}
+                                </span>
+                              </td>
+                              <td className="p-4">
+                                <span className={`px-2 py-1 text-[9px] font-black uppercase tracking-widest border-2 rounded-none ${intentColors[kw.intent] || ""}`}>
+                                  {kw.intent}
+                                </span>
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  </>
+                ) : generated && !error ? (
+                  <div className="text-center py-24 bg-white dark:bg-white/5 border-4 border-black dark:border-white shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
+                    <Search size={48} className="mx-auto mb-4 text-gray-300" />
+                    <h3 className="text-xl font-black text-black dark:text-white uppercase tracking-widest mb-2">Tidak Ada Keyword</h3>
+                    <p className="text-sm font-bold text-gray-500">Coba ganti kategori bisnis atau nama bisnis</p>
+                  </div>
+                ) : (
+                  <div className="text-center py-24 bg-white dark:bg-white/5 border-4 border-dashed border-gray-300 dark:border-gray-700">
+                    <Key size={48} className="mx-auto mb-4 text-gray-300 dark:text-gray-600" />
+                    <h3 className="text-xl font-black text-gray-300 dark:text-gray-600 uppercase tracking-widest mb-2">Generate Keyword Suggestion</h3>
+                    <p className="text-sm font-bold text-gray-400 dark:text-gray-500">Isi data bisnis di form sebelah kiri untuk mendeteksi keyword potensial.</p>
+                  </div>
+                )}
               </div>
-            ) : (
-              <div className="text-center py-24 bg-white dark:bg-white/5 border-4 border-dashed border-gray-300 dark:border-gray-700">
-                <Key size={48} className="mx-auto mb-4 text-gray-300 dark:text-gray-600" />
-                <h3 className="text-xl font-black text-gray-300 dark:text-gray-600 uppercase tracking-widest mb-2">Generate Keyword Suggestion</h3>
-                <p className="text-sm font-bold text-gray-400 dark:text-gray-500">Isi data bisnis di form sebelah kiri untuk mendeteksi keyword potensial.</p>
-              </div>
-            )}
-          </div>
-        </div>
+            </div>
+          </>
+        )}
       </main>
     </div>
   )

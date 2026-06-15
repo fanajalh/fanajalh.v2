@@ -113,6 +113,8 @@ export function useEcosystemAccess(feature: string) {
               blast: isMobile ? "/ecosystem/blast" : "/blast",
               keyword: isMobile ? "/ecosystem/keyword" : "/keyword",
               seo: isMobile ? "/ecosystem/seo-tools" : "/seo-tools",
+              geo: isMobile ? "/ecosystem/ai-optimization" : "/ai-optimization",
+              site_audit: isMobile ? "/ecosystem/site-audit" : "/site-audit",
               tracking: isMobile ? "/ecosystem/tracking" : "/tracking"
             }
 
@@ -135,7 +137,9 @@ export function useEcosystemAccess(feature: string) {
                 blast: isMobile ? "/ecosystem/crm" : "/crm",
                 keyword: isMobile ? "/ecosystem/crm" : "/crm",
                 seo: isMobile ? "/ecosystem/keyword" : "/keyword",
-                tracking: isMobile ? "/ecosystem/blast" : "/blast"
+                geo: isMobile ? "/ecosystem/seo-tools" : "/seo-tools",
+                site_audit: isMobile ? "/ecosystem/ai-optimization" : "/ai-optimization",
+                tracking: isMobile ? "/ecosystem/site-audit" : "/site-audit"
               }
               redirectPath = REDIRECTS[feature] || (isMobile ? "/ecosystem/lead-finder" : "/lead-finder")
               const name = FEATURE_NAMES[feature] || feature.toUpperCase()

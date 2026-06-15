@@ -177,22 +177,25 @@ function SEOToolsPageContent() {
     )
   }
 
-  if (SelectorModal) {
-    return SelectorModal
-  }
-
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-black">
-      <EcosystemNav />
+      {!SelectorModal && <EcosystemNav />}
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Header */}
-        <div className="mb-8 border-l-8 border-black dark:border-white pl-4">
-          <h2 className="text-3xl font-black text-black dark:text-white uppercase tracking-widest">SEO Tools</h2>
-          <p className="text-xs font-bold text-gray-500 uppercase tracking-widest mt-1">Generate meta tags, blog artikel, dan FAQ schema secara otomatis</p>
-        </div>
+        {SelectorModal ? (
+          <div className="py-12">
+            {SelectorModal}
+          </div>
+        ) : (
+          <>
+            {/* Header */}
+            <div className="mb-8 border-l-8 border-black dark:border-white pl-4">
+              <h2 className="text-3xl font-black text-black dark:text-white uppercase tracking-widest">SEO Tools</h2>
+              <p className="text-xs font-bold text-gray-500 uppercase tracking-widest mt-1">Generate meta tags, blog artikel, dan FAQ schema secara otomatis</p>
+            </div>
 
-        <div className="grid lg:grid-cols-3 gap-8">
+            <div className="grid lg:grid-cols-3 gap-8">
+
           {/* Left panel: Input Form */}
           <div className="lg:col-span-1 space-y-8">
             <div className="bg-white dark:bg-white/5 border-4 border-black dark:border-white p-6 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] dark:shadow-[8px_8px_0px_0px_rgba(255,255,255,0.2)] space-y-4">
@@ -447,6 +450,8 @@ function SEOToolsPageContent() {
             )}
           </div>
         </div>
+          </>
+        )}
       </main>
     </div>
   )

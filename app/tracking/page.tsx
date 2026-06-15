@@ -176,10 +176,6 @@ export default function TrackingPage() {
     )
   }
 
-  if (SelectorModal) {
-    return SelectorModal
-  }
-
   if (!mounted) return null
 
   // Format Recharts funnel data
@@ -195,7 +191,7 @@ export default function TrackingPage() {
     : []
 
   const renderRankArrow = (current: number | null, previous: number | null) => {
-    if (current === null) return <span className="text-gray-400">—</span>
+    if (current === null) return <span className="text-gray-450">—</span>
     if (previous === null) return <span className="px-2 py-0.5 bg-blue-100 text-blue-800 border border-blue-300 text-[10px] font-black uppercase">NEW</span>
     if (current < previous) {
       return (
@@ -232,14 +228,22 @@ export default function TrackingPage() {
   )
 
   return (
+
     <div className="min-h-screen bg-gray-50 dark:bg-black font-sans selection:bg-yellow-400 selection:text-black">
-      <EcosystemNav />
+      {!SelectorModal && <EcosystemNav />}
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-        {/* Header */}
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-10 border-l-8 border-black dark:border-white pl-5 gap-4">
-          <div>
-            <div className="inline-flex items-center gap-2 px-3 py-1 bg-yellow-400 text-black border-2 border-black font-black text-[10px] uppercase tracking-widest mb-3 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
+        {SelectorModal ? (
+          <div className="py-12">
+            {SelectorModal}
+          </div>
+        ) : (
+          <>
+            {/* Header */}
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-10 border-l-8 border-black dark:border-white pl-5 gap-4">
+              <div>
+                <div className="inline-flex items-center gap-2 px-3 py-1 bg-yellow-400 text-black border-2 border-black font-black text-[10px] uppercase tracking-widest mb-3 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
+
               <TrendingUp size={12} strokeWidth={2.5} /> Real-Time Analytics
             </div>
             <h2 className="text-3xl md:text-4xl font-black text-black dark:text-white uppercase tracking-wider">Tracking & Analytics</h2>
@@ -591,6 +595,8 @@ export default function TrackingPage() {
             </div>
 
           </div>
+        )}
+          </>
         )}
       </main>
     </div>
