@@ -18,7 +18,7 @@ export default function robots(): MetadataRoute.Robots {
         allow: "/",
       },
     ],
-    sitemap: "https://allfanajalh.tech/sitemap.xml",
-    host: "https://allfanajalh.tech",
+    sitemap: "https://allfanajalh.my.id/sitemap.xml",
+    host: "https://allfanajalh.my.id",
   }
 }

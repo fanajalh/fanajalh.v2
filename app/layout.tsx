@@ -62,16 +62,16 @@ export const metadata: Metadata = {
       "max-snippet": -1,
     },
   },
-  authors: [{ name: "Muhammad Fachri Arfan", url: "https://allfanajalh.tech" }],
+  authors: [{ name: "Muhammad Fachri Arfan", url: "https://allfanajalh.my.id" }],
   creator: "Muhammad Fachri Arfan",
   publisher: "AllFanajalh",
   alternates: {
-    canonical: "https://allfanajalh.tech",
+    canonical: "https://allfanajalh.my.id",
   },
   openGraph: {
     type: "website",
     locale: "id_ID",
-    url: "https://allfanajalh.tech",
+    url: "https://allfanajalh.my.id",
     title: "AllFanajalh — Jasa Desain Poster & SaaS Business Ecosystem Purwokerto",
     description: "Platform SaaS Business Ecosystem & Jasa Joki Desain Poster profesional di area Purwokerto. Dibuat oleh Muhammad Fachri Arfan. Fitur: Lead Finder, CRM, Email Blast, Keyword AI, SEO Writer, SERP Tracker, AI Optimization, Website Audit.",
     siteName: "AllFanajalh",
@@ -104,12 +104,12 @@ const jsonLd = {
   "@graph": [
     {
       "@type": "Organization",
-      "@id": "https://allfanajalh.tech/#organization",
+      "@id": "https://allfanajalh.my.id/#organization",
       "name": "AllFanajalh",
-      "url": "https://allfanajalh.tech",
+      "url": "https://allfanajalh.my.id",
       "logo": {
         "@type": "ImageObject",
-        "url": "https://allfanajalh.tech/feed arfan (20).png"
+        "url": "https://allfanajalh.my.id/feed arfan (20).png"
       },
       "founder": {
         "@type": "Person",
@@ -133,29 +133,29 @@ const jsonLd = {
     },
     {
       "@type": "WebSite",
-      "@id": "https://allfanajalh.tech/#website",
-      "url": "https://allfanajalh.tech",
+      "@id": "https://allfanajalh.my.id/#website",
+      "url": "https://allfanajalh.my.id",
       "name": "AllFanajalh",
       "description": "Jasa Desain Poster Purwokerto & SaaS Business Ecosystem",
-      "publisher": { "@id": "https://allfanajalh.tech/#organization" },
+      "publisher": { "@id": "https://allfanajalh.my.id/#organization" },
       "inLanguage": "id-ID"
     },
     {
       "@type": "WebPage",
-      "@id": "https://allfanajalh.tech/#webpage",
-      "url": "https://allfanajalh.tech",
+      "@id": "https://allfanajalh.my.id/#webpage",
+      "url": "https://allfanajalh.my.id",
       "name": "AllFanajalh — Jasa Desain Poster & SaaS Business Ecosystem Purwokerto",
-      "isPartOf": { "@id": "https://allfanajalh.tech/#website" },
-      "about": { "@id": "https://allfanajalh.tech/#organization" },
+      "isPartOf": { "@id": "https://allfanajalh.my.id/#website" },
+      "about": { "@id": "https://allfanajalh.my.id/#organization" },
       "description": "Platform SaaS Business Ecosystem lengkap dengan Lead Finder, CRM, Email Blast, Keyword Planner AI, SEO Writer, SERP Tracker, AI Google Optimization, dan Website Audit Score. Juga menyediakan jasa joki desain poster profesional di Purwokerto.",
       "inLanguage": "id-ID"
     },
     {
       "@type": "LocalBusiness",
-      "@id": "https://allfanajalh.tech/#localbusiness",
+      "@id": "https://allfanajalh.my.id/#localbusiness",
       "name": "AllFanajalh — Joki Poster Purwokerto",
-      "image": "https://allfanajalh.tech/feed arfan (20).png",
-      "url": "https://allfanajalh.tech",
+      "image": "https://allfanajalh.my.id/feed arfan (20).png",
+      "url": "https://allfanajalh.my.id",
       "address": {
         "@type": "PostalAddress",
         "addressLocality": "Purwokerto",
@@ -185,7 +185,7 @@ const jsonLd = {
     },
     {
       "@type": "SoftwareApplication",
-      "@id": "https://allfanajalh.tech/#saas",
+      "@id": "https://allfanajalh.my.id/#saas",
       "name": "AllFanajalh Business Ecosystem",
       "applicationCategory": "BusinessApplication",
       "operatingSystem": "Web",

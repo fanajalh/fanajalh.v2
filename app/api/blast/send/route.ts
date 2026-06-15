@@ -82,7 +82,7 @@ export async function POST(request: NextRequest) {
     }
 
     // 5. Send emails with tracking
-    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || process.env.NEXTAUTH_URL || "https://allfanajalh.tech"
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || process.env.NEXTAUTH_URL || "https://allfanajalh.my.id"
     let sentCount = 0
     let failCount = 0
 
