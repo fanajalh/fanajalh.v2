@@ -59,7 +59,8 @@ export function TabContent() {
     if (!result.isConfirmed) return
     const endpoints: Record<string, string> = { news: "/api/admin/news", works: "/api/admin/featured-works", updates: "/api/admin/client-updates" }
     try {
-      await fetch(`${endpoints[section]}/${id}`, { method: "DELETE" })
+      const res = await fetch(`${endpoints[section]}/${id}`, { method: "DELETE" })
+      if (!res.ok) throw new Error("Gagal")
       fetchAll()
       Swal.fire({ icon: 'success', title: 'Terhapus!', timer: 1500, showConfirmButton: false })
     } catch { Swal.fire({ icon: 'error', text: 'Gagal menghapus' }) }

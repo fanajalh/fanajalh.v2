@@ -97,10 +97,18 @@ export default function LoginPage() {
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col items-center justify-center relative p-4">
-      <div className="w-full max-w-lg bg-white border-4 border-black p-8 md:p-10 shadow-[15px_15px_0px_0px_rgba(0,0,0,1)]">
+      <div className="w-full max-w-lg bg-white border-4 border-black p-8 md:p-10 shadow-[15px_15px_0px_0px_rgba(0,0,0,1)] relative">
+        {/* Back button for admin login */}
+        <Link
+          href="/"
+          className="absolute top-4 right-4 flex items-center gap-1.5 text-[10px] font-black text-gray-400 hover:text-black transition-colors uppercase tracking-widest group"
+        >
+          <ArrowLeft size={12} className="group-hover:-translate-x-0.5 transition-transform" />
+          Kembali
+        </Link>
         <div className="text-center mb-10">
-          <div className="mx-auto w-16 h-16 bg-black border-2 border-black flex items-center justify-center shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] mb-6 transform -rotate-3 hover:rotate-0 transition-transform duration-300">
-            <Palette className="w-8 h-8 text-white" />
+          <div className="mx-auto w-16 h-16 bg-black border-2 border-black flex items-center justify-center shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] mb-6 transform -rotate-3 hover:rotate-0 transition-transform duration-300 overflow-hidden rounded-xl">
+            <img src="/feed arfan (20).png" alt="AllFanajalh Logo" className="w-full h-full object-cover" />
           </div>
           <h1 className="text-3xl font-black text-black uppercase tracking-widest">
             {step === "otp" ? "Verifikasi" : "Admin Login"}

@@ -6,7 +6,8 @@ import { useSession, signOut } from "next-auth/react"
 import {
   Palette, MessageCircle, Briefcase, Tag, Link2,
   ChevronRight, LogOut, Shield, Star, Crown,
-  Clock, X, Sparkles, Zap, Bell, Activity, ShoppingBag, Camera
+  Clock, X, Sparkles, Zap, Bell, Activity, ShoppingBag, Camera,
+  Home, HelpCircle
 } from "lucide-react"
 
 interface NewsItem {
@@ -64,7 +65,6 @@ export default function UserHome() {
       setUserOrders(o.orders || [])
     })
 
-    // Load websiteSettings
     try {
       const saved = localStorage.getItem("websiteSettings")
       if (saved) {
@@ -74,6 +74,17 @@ export default function UserHome() {
     } catch (e) {
       console.error(e)
     }
+
+    fetch("/api/website-settings")
+      .then(res => res.json())
+      .then(resData => {
+        if (resData.success && resData.data) {
+          const parsed = resData.data
+          if (parsed.services) setDbServices(parsed.services)
+          localStorage.setItem("websiteSettings", JSON.stringify(parsed))
+        }
+      })
+      .catch(err => console.error("Error fetching settings:", err))
   }, [])
 
   return (
@@ -104,9 +115,17 @@ export default function UserHome() {
               </div>
             </div>
 
-            <div className="flex gap-2">
-              <button className="w-10 h-10 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center text-white border border-white/20 active:scale-90 transition-all shadow-sm outline-none">
-                <LogOut size={18} className="pr-0.5" onClick={() => signOut({ callbackUrl: "/loginUser" })} />
+            <div className="flex items-center gap-2">
+              <Link href="/ecosystem/tutorial" title="Tutorial Ekosistem" className="h-10 px-3 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center gap-1.5 text-white border border-white/20 active:scale-90 transition-all shadow-sm outline-none text-xs font-bold">
+                <HelpCircle size={15} />
+                <span className="hidden sm:inline">Tutorial</span>
+              </Link>
+              <Link href="/" title="Kembali ke Halaman Utama (Beranda)" className="h-10 px-4 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center gap-1.5 text-white border border-white/20 active:scale-90 transition-all shadow-sm outline-none text-xs font-bold">
+                <Home size={15} />
+                <span>Ke Beranda</span>
+              </Link>
+              <button title="Log Out" onClick={() => signOut({ callbackUrl: "/loginUser" })} className="w-10 h-10 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center text-white border border-white/20 active:scale-90 transition-all shadow-sm outline-none">
+                <LogOut size={15} className="pr-0.5" />
               </button>
             </div>
           </div>
@@ -217,6 +236,27 @@ export default function UserHome() {
             <span className="text-[10px] font-extrabold text-slate-700">Menu</span>
           </button>
         </div>
+
+        {/* ================= ECOSYSTEM BISNIS BANNER SHORTCUT ================= */}
+        <Link 
+          href="/ecosystem/lead-finder" 
+          className="w-full bg-gradient-to-r from-emerald-500 via-teal-500 to-emerald-600 rounded-[1.5rem] p-4 text-white active:scale-[0.98] transition-all flex items-center justify-between shadow-[0_8px_30px_rgba(16,185,129,0.15)] group border border-emerald-400/30"
+        >
+          <div className="flex items-center gap-3">
+            <div className="w-11 h-11 bg-white/20 backdrop-blur-md rounded-2xl flex items-center justify-center shadow-inner">
+              <Sparkles size={20} className="text-white animate-pulse" />
+            </div>
+            <div>
+              <h3 className="text-sm font-extrabold uppercase tracking-wider text-white flex items-center gap-1.5">
+                Ecosystem Bisnis <span className="bg-white/20 text-white text-[8px] font-black px-1.5 py-0.5 rounded">NEW</span>
+              </h3>
+              <p className="text-[10px] text-emerald-50 font-bold opacity-90">6 Fitur CRM, Lead Finder, Email Blast & SEO Terintegrasi</p>
+            </div>
+          </div>
+          <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center group-hover:bg-white/20 transition-all group-hover:translate-x-1 duration-300">
+            <ChevronRight size={16} strokeWidth={3} className="text-white" />
+          </div>
+        </Link>
 
         {/* ================= KABAR TERBARU (YANG SEMPAT ILANG) ================= */}
         <div>
@@ -370,7 +410,8 @@ export default function UserHome() {
                 { icon: Palette, label: "Layanan", color: "orange", link: "/layanan" },
                 { icon: Tag, label: "Paket", color: "purple", link: "/paket" },
                 { icon: Briefcase, label: "Karya", color: "blue", link: "/portfolio" },
-                { icon: Camera, label: "Studio", color: "emerald", link: "/frames" }
+                { icon: Camera, label: "Studio", color: "emerald", link: "/frames" },
+                { icon: Sparkles, label: "Ecosystem", color: "emerald", link: "/ecosystem/lead-finder" }
               ].map((item, idx) => (
                 <Link key={idx} href={item.link} className={`group flex flex-col items-center gap-2 p-2 hover:bg-${item.color}-50 rounded-2xl transition-all active:scale-95`}>
                   <div className={`w-14 h-14 bg-slate-50 text-slate-600 rounded-[1.2rem] flex items-center justify-center group-hover:bg-${item.color}-100 group-hover:text-${item.color}-600 transition-colors border border-slate-100`}>

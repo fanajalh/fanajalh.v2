@@ -109,7 +109,7 @@ export default function LynkPage() {
           </Link>
 
           <Link
-            href="/commingsoon" 
+            href="/premium" 
             className="w-full flex items-center p-3 bg-white border border-slate-200/80 rounded-[1.5rem] shadow-sm text-slate-800 hover:border-slate-300 hover:bg-slate-50 active:scale-95 transition-all outline-none"
           >
             <div className="bg-slate-100 text-slate-500 p-3.5 rounded-2xl flex items-center justify-center shrink-0">

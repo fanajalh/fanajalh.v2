@@ -31,7 +31,7 @@ export function UserBottomNav() {
         </Link>
 
         {/* Kanan 1: Premium */}
-        <Link href="/commingsoon" className="flex flex-col items-center justify-center w-full py-1 group active:scale-95 transition-transform">
+        <Link href="/premium" className="flex flex-col items-center justify-center w-full py-1 group active:scale-95 transition-transform">
           <div className={`p-1.5 rounded-[1.2rem] transition-all duration-300 ${pathname === '/premium' ? 'bg-orange-50 text-orange-600' : 'text-slate-400 group-hover:text-slate-700'}`}>
             <Crown size={24} strokeWidth={pathname === '/premium' ? 2.5 : 2} />
           </div>

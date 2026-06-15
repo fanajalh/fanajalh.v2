@@ -12,7 +12,9 @@ import {
   Loader2,
   MessageCircle,
   CheckCircle2,
+  ArrowLeft,
 } from "lucide-react"
+import Link from "next/link"
 
 type ProductDetail = {
   id: string
@@ -27,11 +29,16 @@ type ProductDetail = {
   categoryIcon: string
 }
 
+import { useSession } from "next-auth/react"
+
 export default function PremiumProductDetail({
   params,
 }: {
   params: { id: string }
 }) {
+  const { data: session, status: sessionStatus } = useSession()
+  const [checkingAccess, setCheckingAccess] = useState(true)
+  const [accessDenied, setAccessDenied] = useState(false)
   const [product, setProduct] = useState<ProductDetail | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
@@ -40,7 +47,41 @@ export default function PremiumProductDetail({
   const [orderError, setOrderError] = useState<string | null>(null)
   const router = useRouter()
 
+  // --- ACCESS CHECK ---
   useEffect(() => {
+    async function checkAccess() {
+      try {
+        const res = await fetch(`/api/website-settings?t=${Date.now()}`, {
+          cache: "no-store",
+          headers: { "Cache-Control": "no-cache, no-store, must-revalidate", "Pragma": "no-cache" }
+        })
+        const json = await res.json()
+        if (json.success && json.data) {
+          const isOpen = json.data.premiumPageOpen === true
+          const isAdmin = session?.user && (session.user as any).role === "admin"
+          if (!isOpen && !isAdmin) {
+            setAccessDenied(true)
+            return
+          }
+        } else {
+          setAccessDenied(true)
+        }
+      } catch (err) {
+        console.error("Error checking page access:", err)
+        setAccessDenied(true)
+      } finally {
+        setCheckingAccess(false)
+      }
+    }
+    if (sessionStatus !== "loading") {
+      checkAccess()
+    }
+  }, [session, sessionStatus])
+
+  // --- DATA FETCH: hanya jalan jika access granted ---
+  useEffect(() => {
+    if (checkingAccess || accessDenied) return
+
     const abortController = new AbortController()
 
     async function fetchProduct() {
@@ -74,7 +115,7 @@ export default function PremiumProductDetail({
 
     fetchProduct()
     return () => abortController.abort()
-  }, [params.id])
+  }, [params.id, checkingAccess, accessDenied])
 
   const handleOrder = async () => {
     // Validasi nomor WA
@@ -118,7 +159,61 @@ export default function PremiumProductDetail({
     </div>
   )
 
-  // ===== LOADING =====
+  // ===== LOADING / SESSION CHECK =====
+  if (sessionStatus === "loading" || checkingAccess) {
+    return (
+      <div className="bg-[#FAFAFA] min-h-screen pb-24 font-sans select-none">
+        <StickyHeader />
+        <div className="w-full max-w-2xl mx-auto px-5 mt-6 space-y-6 animate-pulse">
+          <div className="bg-slate-200 rounded-3xl h-48 w-full" />
+          <div className="bg-slate-200 rounded-2xl h-6 w-3/4" />
+          <div className="bg-slate-200 rounded-2xl h-4 w-1/2" />
+          <div className="space-y-3">
+            {[1, 2, 3].map((i) => (
+              <div key={i} className="bg-slate-200 rounded-xl h-14 w-full" />
+            ))}
+          </div>
+          <div className="bg-slate-200 rounded-2xl h-14 w-full" />
+        </div>
+      </div>
+    )
+  }
+
+  // ===== ACCESS DENIED — hard block =====
+  if (accessDenied) {
+    return (
+      <div className="min-h-screen bg-[#050505] flex flex-col items-center justify-center p-6 relative overflow-hidden selection:bg-orange-500/20 selection:text-orange-100">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-orange-950/20 rounded-full blur-[120px] pointer-events-none" />
+        <div className="relative z-10 flex flex-col items-center text-center">
+          <div className="mb-8 animate-pulse text-orange-600/60 flex items-center gap-2">
+            <Sparkles size={20} className="blur-[1px] text-yellow-500" />
+          </div>
+          <h1
+            className="
+              text-7xl md:text-9xl lg:text-[12rem] font-black tracking-tighter uppercase leading-none
+              text-transparent bg-clip-text
+              bg-[linear-gradient(110deg,#333333,45%,#ffffff,55%,#333333)]
+              bg-[length:250%_100%]
+              hover:bg-[position:100%_0]
+              transition-[background-position] duration-[1500ms] ease-in-out
+              cursor-default mb-6
+            "
+          >
+            CLOSE
+          </h1>
+          <p className="text-gray-400 text-base md:text-lg max-w-xl font-bold leading-relaxed mb-12 animate-in fade-in slide-in-from-bottom-4 duration-1000 delay-300 uppercase tracking-wide">
+            Layanan Premium saat ini sedang ditutup sementara waktu. Hubungi admin untuk info kuota pengerjaan.
+          </p>
+          <Link href="/" className="group flex items-center gap-2 text-gray-400 hover:text-white transition-colors duration-300">
+            <ArrowLeft size={18} className="group-hover:-translate-x-1 transition-transform" />
+            <span className="text-sm font-bold uppercase tracking-widest">Kembali</span>
+          </Link>
+        </div>
+      </div>
+    )
+  }
+
+  // ===== LOADING DATA =====
   if (loading) {
     return (
       <div className="bg-[#FAFAFA] min-h-screen pb-24 font-sans select-none">

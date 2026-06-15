@@ -33,39 +33,33 @@ export default function AuthPage() {
     username: "",
   })
 
-  // ─── LOGIN: Send OTP ───────────────────────────────────
-  const sendLoginOtp = async () => {
+  // ─── LOGIN: Direct sign in (no OTP) ─────────────────────
+  const handleLogin = async () => {
     if (!formData.email || !formData.password) {
       toast.error("Isi email dan password")
       return
     }
-    setSendingOtp(true)
+    setLoading(true)
     try {
-      const res = await fetch("/api/auth/send-login-otp", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email: formData.email, password: formData.password }),
+      const { signIn } = await import("next-auth/react")
+      const res = await signIn("credentials", {
+        email: formData.email,
+        password: formData.password,
+        redirect: false,
       })
-      const data = await res.json()
-      if (res.status === 429) {
-        toast.error(data.message || "Terlalu banyak permintaan")
-        return
-      }
-      if (res.status === 503) {
-        toast.error(data.message || "Email tidak dapat dikirim")
-        return
-      }
-      if (!res.ok) {
-        toast.error(data.message || "Gagal mengirim kode")
-        return
-      }
-      toast.success(data.message || "Periksa email Anda")
-      setStep("otp")
-      setOtpValue("")
-    } catch {
-      toast.error("Jaringan bermasalah")
+
+      if (res?.error) throw new Error(res.error)
+
+      toast.success("Welcome Back!", {
+        description: "Sedang mengalihkan…",
+      })
+      setTimeout(() => {
+        window.location.href = "/home"
+      }, 800)
+    } catch (err: any) {
+      toast.error("Login Gagal", { description: err.message || "Email atau password salah." })
     } finally {
-      setSendingOtp(false)
+      setLoading(false)
     }
   }
 
@@ -140,22 +134,33 @@ export default function AuthPage() {
     }
   }
 
-  // ─── VERIFY OTP & Sign In ──────────────────────────────
+  // ─── VERIFY OTP & Sign In (register only) ─────────────
   const verifyOtpAndLogin = async () => {
     setLoading(true)
     try {
+      // First verify the OTP via the verify endpoint
+      const verifyRes = await fetch("/api/auth/verify-otp", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: formData.email, otp: otpValue.trim() }),
+      })
+      if (!verifyRes.ok) {
+        const data = await verifyRes.json()
+        throw new Error(data.message || "Kode OTP salah atau kedaluwarsa.")
+      }
+
+      // Then sign in directly
       const { signIn } = await import("next-auth/react")
       const res = await signIn("credentials", {
         email: formData.email,
         password: formData.password,
-        otp: otpValue.trim(),
         redirect: false,
       })
 
       if (res?.error) throw new Error(res.error)
 
-      toast.success(isLogin ? "Welcome Back!" : "Akun Berhasil Dibuat!", {
-        description: isLogin ? "Sedang mengalihkan…" : "Selamat bergabung!",
+      toast.success("Akun Berhasil Dibuat!", {
+        description: "Selamat bergabung!",
       })
       setTimeout(() => {
         window.location.href = "/home"
@@ -171,17 +176,18 @@ export default function AuthPage() {
   const handleAuth = async (e: React.FormEvent) => {
     e.preventDefault()
 
-    // Step 1: Send OTP
-    if (step === "form") {
-      if (isLogin) {
-        await sendLoginOtp()
-      } else {
-        await handleRegister()
-      }
+    if (isLogin) {
+      // Login: direct sign in, no OTP
+      await handleLogin()
       return
     }
 
-    // Step 2: Verify OTP
+    // Register flow
+    if (step === "form") {
+      await handleRegister()
+      return
+    }
+
     if (step === "otp") {
       await verifyOtpAndLogin()
     }
@@ -212,11 +218,9 @@ export default function AuthPage() {
 
   const buttonText =
     step === "otp"
-      ? isLogin
-        ? "Masuk"
-        : "Verifikasi & Masuk"
+      ? "Verifikasi & Masuk"
       : isLogin
-        ? "Kirim kode ke email"
+        ? "Masuk"
         : "Daftar & Kirim Kode OTP"
 
   return (
@@ -233,19 +237,19 @@ export default function AuthPage() {
           
           <div className="relative z-10">
             <Link href="/" className="inline-flex items-center gap-2 hover:opacity-80 transition-opacity">
-              <div className="w-10 h-10 border border-white/20 dark:border-black/20 flex items-center justify-center bg-white/5 dark:bg-black/5">
-                <Palette className="w-5 h-5 text-white dark:text-black" />
+              <div className="w-10 h-10 border border-white/20 dark:border-black/20 flex items-center justify-center bg-white/5 dark:bg-black/5 overflow-hidden rounded-md shrink-0">
+                <img src="/feed arfan (20).png" alt="AllFanajalh Logo" className="w-full h-full object-cover" />
               </div>
-              <span className="text-xl font-black text-white dark:text-black tracking-widest uppercase">Fanz Tech</span>
+              <span className="text-xl font-black text-white dark:text-black tracking-widest uppercase">AllFanajalh</span>
             </Link>
           </div>
 
           <div className="relative z-10 mt-20">
             <h2 className="text-4xl lg:text-5xl font-black text-white dark:text-black leading-[1.1] uppercase tracking-tight">
-              Visual Bisnis <br /> Level Selanjutnya.
+              Joki Poster & <br /> SaaS Ecosystem.
             </h2>
             <p className="mt-6 text-sm text-gray-400 dark:text-gray-500 font-medium max-w-sm leading-relaxed">
-              Platform klien eksklusif untuk memantau progress pengerjaan desain, melihat revisi, dan mengelola invoice dalam satu dashboard.
+              Platform lengkap untuk joki desain poster profesional dan SaaS Business Ecosystem (CRM, Lead Finder, Email Blast, SEO Planner & Web Audit).
             </p>
           </div>
 
@@ -256,13 +260,21 @@ export default function AuthPage() {
 
         {/* Right Side: Auth Form */}
         <div className="w-full md:w-[420px] px-8 py-10 flex flex-col justify-between shrink-0 bg-white dark:bg-black relative">
+          {/* Back button for desktop */}
+          <Link
+            href="/"
+            className="absolute top-4 right-4 hidden md:flex items-center gap-1.5 text-[10px] font-black text-gray-400 dark:text-gray-500 hover:text-black dark:hover:text-white transition-colors uppercase tracking-widest group"
+          >
+            <ArrowLeft size={12} className="group-hover:-translate-x-0.5 transition-transform" />
+            Kembali
+          </Link>
           <div className="flex flex-col justify-center flex-grow">
             <div className="text-center mb-8">
-              <div className="md:hidden mx-auto w-12 h-12 bg-black dark:bg-white border-2 border-black dark:border-white flex items-center justify-center mb-4 transform -rotate-3">
+              <div className="md:hidden mx-auto w-12 h-12 bg-black dark:bg-white border-2 border-black dark:border-white flex items-center justify-center mb-4 transform -rotate-3 overflow-hidden rounded-xl">
                 {step === "otp" ? (
                   <CheckCircle2 className="w-6 h-6 text-white dark:text-black" />
                 ) : (
-                  <Palette className="w-6 h-6 text-white dark:text-black" />
+                  <img src="/feed arfan (20).png" alt="AllFanajalh Logo" className="w-full h-full object-cover" />
                 )}
               </div>
               <h1 className="text-2xl md:text-3xl font-black text-black dark:text-white tracking-tight uppercase">
@@ -274,8 +286,8 @@ export default function AuthPage() {
             </div>
 
             <form onSubmit={handleAuth} className="space-y-4">
-              {/* ─── OTP INPUT STEP ─── */}
-              {step === "otp" && (
+              {/* ─── OTP INPUT STEP (register only) ─── */}
+              {step === "otp" && !isLogin && (
                 <div className="space-y-4 py-2">
                   <button
                     type="button"
@@ -315,13 +327,7 @@ export default function AuthPage() {
                       type="button"
                       className="text-black dark:text-white border-b border-black dark:border-white font-bold hover:text-gray-500 dark:hover:text-gray-300 transition-colors uppercase tracking-widest"
                       disabled={sendingOtp}
-                      onClick={() => {
-                        if (isLogin) {
-                          void sendLoginOtp()
-                        } else {
-                          void resendRegisterOtp()
-                        }
-                      }}
+                      onClick={() => void resendRegisterOtp()}
                     >
                       {sendingOtp ? "Mengirim…" : "Kirim Ulang"}
                     </button>
@@ -494,7 +500,7 @@ export default function AuthPage() {
             )}
           </div>
 
-          <div className="text-center mt-6 md:hidden">
+          <div className="text-center mt-6">
             <Link
               href="/"
               className="inline-flex items-center text-[10px] font-bold text-gray-400 dark:text-gray-500 hover:text-black dark:hover:text-white transition-colors uppercase tracking-widest select-none group"

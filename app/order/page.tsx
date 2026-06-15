@@ -5,6 +5,7 @@ import { useSearchParams } from "next/navigation"
 import { ArrowLeft, ChevronRight, FileText, Check, Loader2, Sparkles, ShieldCheck } from "lucide-react"
 import Link from "next/link"
 import Swal from "sweetalert2"
+import { useSession } from "next-auth/react"
 
 import {
   SuccessModal,
@@ -22,8 +23,41 @@ import {
 } from "@/components/order"
 
 function OrderPageContent() {
+  const { data: session, status: sessionStatus } = useSession()
   const searchParams = useSearchParams()
   const [step, setStep] = useState(1)
+  const [checkingAccess, setCheckingAccess] = useState(true)
+  const [accessDenied, setAccessDenied] = useState(false)
+
+  useEffect(() => {
+    async function checkAccess() {
+      try {
+        const res = await fetch(`/api/website-settings?t=${Date.now()}`, {
+          cache: "no-store",
+          headers: { "Cache-Control": "no-cache, no-store, must-revalidate", "Pragma": "no-cache" }
+        })
+        const json = await res.json()
+        if (json.success && json.data) {
+          const isOpen = json.data.orderPageOpen === true
+          const isAdmin = session?.user && (session.user as any).role === "admin"
+          if (!isOpen && !isAdmin) {
+            setAccessDenied(true)
+            return
+          }
+        } else {
+          setAccessDenied(true)
+        }
+      } catch (err) {
+        console.error("Error checking page access:", err)
+        setAccessDenied(true)
+      } finally {
+        setCheckingAccess(false)
+      }
+    }
+    if (sessionStatus !== "loading") {
+      checkAccess()
+    }
+  }, [session, sessionStatus])
 
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isSuccess, setIsSuccess] = useState(false)
@@ -38,6 +72,7 @@ function OrderPageContent() {
 
   // Auto-select service/package dari query parameter
   useEffect(() => {
+    if (!searchParams) return
     const serviceParam = searchParams.get("service")
     const packageParam = searchParams.get("package")
     const skipParam = searchParams.get("skip")
@@ -131,6 +166,52 @@ function OrderPageContent() {
   }
 
   // ==================== RENDER ====================
+  if (sessionStatus === "loading" || checkingAccess) {
+    return (
+      <div className="min-h-screen bg-[#f4f6f9] dark:bg-black flex items-center justify-center">
+        <Loader2 className="w-10 h-10 animate-spin text-orange-500" />
+      </div>
+    )
+  }
+
+  const isAdmin = session?.user && (session.user as any).role === "admin"
+
+  if (accessDenied) {
+    return (
+      <div className="min-h-screen bg-[#050505] flex flex-col items-center justify-center p-6 relative overflow-hidden selection:bg-orange-500/20 selection:text-orange-100">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-orange-950/20 rounded-full blur-[120px] pointer-events-none" />
+        <div className="relative z-10 flex flex-col items-center text-center">
+          <div className="mb-8 animate-pulse text-orange-600/60 flex items-center gap-2">
+            <Sparkles size={20} className="blur-[1px] text-yellow-500" />
+          </div>
+          <h1
+            className="
+              text-7xl md:text-9xl lg:text-[12rem] font-black tracking-tighter uppercase leading-none
+              text-transparent bg-clip-text
+              bg-[linear-gradient(110deg,#333333,45%,#ffffff,55%,#333333)]
+              bg-[length:250%_100%]
+              hover:bg-[position:100%_0]
+              transition-[background-position] duration-[1500ms] ease-in-out
+              cursor-default mb-6
+            "
+          >
+            CLOSE
+          </h1>
+          <p className="text-gray-400 text-base md:text-lg max-w-xl font-bold leading-relaxed mb-12 animate-in fade-in slide-in-from-bottom-4 duration-1000 delay-300 uppercase tracking-wide">
+            Layanan Pemesanan saat ini sedang ditutup sementara waktu. Hubungi admin untuk info kuota pengerjaan.
+          </p>
+          <Link 
+            href="/" 
+            className="group flex items-center gap-2 text-gray-400 hover:text-white transition-colors duration-300"
+          >
+            <ArrowLeft size={18} className="group-hover:-translate-x-1 transition-transform" />
+            <span className="text-sm font-bold uppercase tracking-widest">Kembali ke Beranda</span>
+          </Link>
+        </div>
+      </div>
+    )
+  }
+
   return (
     <div className="relative min-h-screen bg-[#f4f6f9] pt-6 md:pt-12 pb-32 selection:bg-orange-200 selection:text-orange-900 overflow-x-hidden font-sans select-none">
 

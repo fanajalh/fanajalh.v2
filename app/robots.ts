@@ -1,12 +1,24 @@
-import { MetadataRoute } from 'next'
- 
+import { MetadataRoute } from "next"
+
 export default function robots(): MetadataRoute.Robots {
   return {
-    rules: {
-      userAgent: '*',
-      allow: '/',
-      disallow: ['/dashboard/', '/private/'],
-    },
-    sitemap: 'https://fanajah.com/sitemap.xml',
+    rules: [
+      {
+        userAgent: "*",
+        allow: "/",
+        disallow: ["/api/", "/admin/", "/_next/"],
+      },
+      {
+        userAgent: "Googlebot",
+        allow: "/",
+        disallow: ["/api/", "/admin/"],
+      },
+      {
+        userAgent: "Googlebot-Image",
+        allow: "/",
+      },
+    ],
+    sitemap: "https://allfanajalh.tech/sitemap.xml",
+    host: "https://allfanajalh.tech",
   }
 }

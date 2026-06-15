@@ -1,12 +1,12 @@
 export default function Marquee() {
   const words = [
-    "FANZ TECH STUDIO",
+    "ALLFANAJALH",
     "UI/UX DESIGN",
     "POSTER DESIGN",
     "BRANDING",
     "SOCIAL MEDIA",
     "WEB DEVELOPMENT",
-    "CREATIVE AGENCY",
+    "SAAS ECOSYSTEM",
   ]
 
   // Duplicate words to make it seamless

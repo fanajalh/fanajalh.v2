@@ -4,14 +4,19 @@ import { authOptions } from "@/app/api/auth/[...nextauth]/route"
 import { UserBottomNav } from "@/components/UserBottomNav"
 import { CartProvider, CartDrawer } from "@/components/cart"
 
+import { headers } from "next/headers"
+
 export default async function UserAppLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
+  const pathname = headers().get("x-pathname") || ""
+  const isEcosystem = pathname.startsWith("/ecosystem")
+  
   const session = await getServerSession(authOptions)
   
-  if (!session) {
+  if (!session && !isEcosystem) {
     redirect("/loginUser")
   }
 

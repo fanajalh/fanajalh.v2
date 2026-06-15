@@ -37,6 +37,8 @@ export interface WebsiteSettings {
   instagram: string
   primaryColor: string
   emptyStateMessage?: string
+  orderPageOpen?: boolean
+  premiumPageOpen?: boolean
   services: { id: string; name: string; price: number; active: boolean; customStatus?: string }[]
 }
 
@@ -66,6 +68,8 @@ export const DEFAULT_SETTINGS: WebsiteSettings = {
   instagram: "@fanajalh",
   primaryColor: "#FF7A00",
   emptyStateMessage: "Maaf, layanan kami sedang dalam mode libur/tutup sementara.",
+  orderPageOpen: true,
+  premiumPageOpen: true,
   services: [
     // === Halaman Layanan: Poster & Banner ===
     { id: "poster-promosi-bisnis", name: "Poster Promosi Bisnis", price: 15000, active: true },

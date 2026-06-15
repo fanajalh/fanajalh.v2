@@ -20,6 +20,18 @@ export default function Services() {
     } catch (e) {
       console.error(e)
     }
+
+    fetch("/api/website-settings")
+      .then(res => res.json())
+      .then(resData => {
+        if (resData.success && resData.data) {
+          const parsed = resData.data
+          if (parsed.services) setDbServices(parsed.services)
+          if (parsed.emptyStateMessage) setEmptyMessage(parsed.emptyStateMessage)
+          localStorage.setItem("websiteSettings", JSON.stringify(parsed))
+        }
+      })
+      .catch(err => console.error("Error fetching settings:", err))
   }, [])
 
   const categories = [

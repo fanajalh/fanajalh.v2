@@ -71,7 +71,8 @@ export function TabPortfolioDesigns() {
     if (!result.isConfirmed) return
 
     try {
-      await fetch(`/api/admin/portfolio-designs/${id}`, { method: "DELETE" })
+      const res = await fetch(`/api/admin/portfolio-designs/${id}`, { method: "DELETE" })
+      if (!res.ok) throw new Error("Gagal")
       fetchItems()
       Swal.fire({ icon: 'success', title: 'Terhapus', timer: 1500, showConfirmButton: false })
     } catch {

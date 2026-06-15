@@ -4,24 +4,20 @@ import bcrypt from "bcryptjs";
 import { getDb } from "@/lib/db";
 
 export const authOptions: NextAuthOptions = {
+  useSecureCookies: process.env.NODE_ENV === "production" && !process.env.NEXTAUTH_URL?.includes("localhost"),
   providers: [
     CredentialsProvider({
       name: "Credentials",
       credentials: {
         email: { label: "Email", type: "email" },
         password: { label: "Password", type: "password" },
-        otp: { label: "OTP", type: "text" },
       },
       async authorize(credentials) {
         if (!credentials?.email || !credentials.password) {
           throw new Error("Email dan password wajib diisi");
         }
-        if (!credentials.otp || !String(credentials.otp).trim()) {
-          throw new Error("Kode OTP wajib diisi");
-        }
 
         const email = String(credentials.email).trim().toLowerCase();
-        const otp = String(credentials.otp).trim();
 
         const sql = getDb();
         const users = await sql`SELECT * FROM users WHERE email = ${email}`;
@@ -35,12 +31,6 @@ export const authOptions: NextAuthOptions = {
 
         if (!isPasswordMatch) {
           throw new Error("Email atau password tidak valid");
-        }
-
-        const { verifyAndConsumeOtp } = await import("@/lib/otp");
-        const otpOk = await verifyAndConsumeOtp(email, otp, "login");
-        if (!otpOk) {
-          throw new Error("Kode OTP salah atau kedaluwarsa");
         }
 
         return {

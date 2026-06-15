@@ -46,21 +46,21 @@ export default function Hero() {
             <motion.div variants={itemVariants} className="inline-flex items-center gap-2.5 px-4 py-2 bg-black text-white dark:bg-white dark:text-black border-2 border-black dark:border-white rounded-none shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,1)]">
               <Sparkles size={14} />
               <span className="text-[11px] font-black uppercase tracking-[0.2em]">
-                Premium Design Studio
+                Joki Poster & SaaS Ecosystem
               </span>
             </motion.div>
 
             {/* Editorial Heading */}
             <motion.h1 variants={itemVariants} className="text-5xl sm:text-6xl lg:text-7xl font-black text-black dark:text-white leading-[1.05] tracking-tighter uppercase">
-              Visual Bisnis <br className="hidden sm:block" />
+              Joki Poster & <br className="hidden sm:block" />
               <span className="text-gray-400 dark:text-gray-500">
-                Level Selanjutnya.
+                SaaS Ecosystem.
               </span>
             </motion.h1>
 
             {/* Sub-headline */}
             <motion.p variants={itemVariants} className="text-lg md:text-xl text-black dark:text-gray-300 leading-relaxed max-w-2xl mx-auto lg:mx-0 font-bold uppercase tracking-wider">
-              Kami merancang identitas visual yang membangun kepercayaan dan meningkatkan konversi. Desain eksklusif untuk brand yang ingin tampil beda.
+              Jasa joki desain poster profesional di Purwokerto dan platform SaaS Business Ecosystem lengkap untuk mempercepat pertumbuhan bisnis Anda.
             </motion.p>
 
             {/* CTA Group */}
@@ -177,8 +177,8 @@ export default function Hero() {
                 <Sparkles className="w-5 h-5 text-black dark:text-white" />
               </div>
               <div>
-                <p className="text-sm font-black uppercase tracking-wider">Desain Eksklusif</p>
-                <p className="text-[10px] font-black text-gray-300 dark:text-gray-600 uppercase tracking-widest mt-0.5">Custom Tailored</p>
+                <p className="text-sm font-black uppercase tracking-wider">AllFanajalh</p>
+                <p className="text-[10px] font-black text-gray-300 dark:text-gray-600 uppercase tracking-widest mt-0.5">Joki Poster & SaaS</p>
               </div>
             </motion.div>
 

@@ -48,8 +48,8 @@ export default function WelcomePage() {
           <div className="flex flex-col items-center justify-center flex-none">
             <div className="relative mb-4">
               <div className="absolute inset-0 bg-orange-500 rounded-3xl blur-2xl opacity-30 animate-pulse" />
-              <div className="relative w-24 h-24 bg-gradient-to-br from-orange-400 to-orange-600 rounded-3xl flex items-center justify-center shadow-2xl ring-1 ring-white/20">
-                <Palette className="w-12 h-12 text-white" />
+              <div className="relative w-24 h-24 bg-gradient-to-br from-orange-400 to-orange-600 rounded-3xl flex items-center justify-center shadow-2xl ring-1 ring-white/20 overflow-hidden">
+                <img src="/feed arfan (20).png" alt="AllFanajalh Logo" className="w-full h-full object-cover" />
               </div>
             </div>
             <h1 className="text-3xl font-black text-white tracking-tight">Fanajah</h1>
@@ -91,8 +91,8 @@ export default function WelcomePage() {
         <div className="flex flex-col items-center mb-10 mt-6">
           <div className="relative group cursor-pointer mb-6">
             <div className="absolute inset-0 bg-orange-500 rounded-3xl blur-xl opacity-40 group-hover:opacity-60 transition-opacity duration-500" />
-            <div className="relative w-20 h-20 bg-gradient-to-br from-orange-400 to-orange-600 rounded-3xl flex items-center justify-center shadow-xl transform -rotate-3 group-hover:rotate-0 transition-all duration-300 ring-1 ring-white/20">
-              <Palette className="w-10 h-10 text-white" />
+            <div className="relative w-20 h-20 bg-gradient-to-br from-orange-400 to-orange-600 rounded-3xl flex items-center justify-center shadow-xl transform -rotate-3 group-hover:rotate-0 transition-all duration-300 ring-1 ring-white/20 overflow-hidden">
+              <img src="/feed arfan (20).png" alt="AllFanajalh Logo" className="w-full h-full object-cover" />
             </div>
           </div>
           

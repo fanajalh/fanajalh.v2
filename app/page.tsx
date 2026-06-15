@@ -25,6 +25,7 @@ function Navbar() {
     { label: "Poster Design", href: "#portfolio" },
     { label: "Web/APK", href: "/dev-portfolio" },
     { label: "Harga", href: "#pricing" },
+    { label: "Ecosystem", href: "/lead-finder" },
     { label: "Kontak", href: "#contact" },
   ]
 
@@ -39,24 +40,24 @@ function Navbar() {
           
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2.5 group">
-            <div className="w-9 h-9 bg-black dark:bg-white rounded-xl flex items-center justify-center">
-              <Palette size={18} className="text-white dark:text-black" />
+            <div className="w-9 h-9 relative overflow-hidden rounded-xl flex items-center justify-center border border-gray-200 dark:border-white/10 shrink-0">
+              <img src="/feed arfan (20).png" alt="AllFanajalh Logo" className="w-full h-full object-cover" />
             </div>
             <span className="text-lg font-bold tracking-tight text-black dark:text-white">
-              Fanz Tech
+              AllFanajalh
             </span>
           </Link>
 
           {/* Desktop Nav */}
           <div className="hidden md:flex items-center gap-1">
             {navLinks.map((link) => (
-              <a
+              <Link
                 key={link.label}
                 href={link.href}
                 className="px-4 py-2 rounded-xl text-sm font-semibold text-gray-600 dark:text-gray-400 hover:text-black dark:hover:text-white hover:bg-gray-100 dark:hover:bg-white/5 transition-all duration-300"
               >
                 {link.label}
-              </a>
+              </Link>
             ))}
           </div>
 
@@ -90,14 +91,14 @@ function Navbar() {
         <div className="md:hidden absolute top-full left-0 right-0 bg-white/95 dark:bg-black/95 backdrop-blur-xl border-b border-gray-200 dark:border-white/10 shadow-xl animate-in slide-in-from-top-2 duration-200">
           <div className="px-6 py-4 space-y-1">
             {navLinks.map((link) => (
-              <a
+              <Link
                 key={link.label}
                 href={link.href}
                 onClick={() => setMenuOpen(false)}
                 className="block px-4 py-3 text-gray-600 dark:text-gray-400 hover:text-black dark:hover:text-white hover:bg-gray-50 dark:hover:bg-white/5 rounded-xl font-semibold text-sm transition-colors"
               >
                 {link.label}
-              </a>
+              </Link>
             ))}
             <div className="pt-3 mt-2 border-t border-gray-100 dark:border-white/10 space-y-2">
               <Link href={status === "authenticated" ? "/home" : "/loginUser"} className="block px-4 py-3 bg-black dark:bg-white text-white dark:text-black font-bold text-sm text-center rounded-xl active:scale-95 transition-all">
@@ -120,10 +121,10 @@ function Footer() {
           {/* Brand */}
           <div className="md:col-span-1">
             <div className="flex items-center gap-2.5 mb-5">
-              <div className="w-9 h-9 bg-black dark:bg-white rounded-xl flex items-center justify-center">
-                <Palette size={18} className="text-white dark:text-black" />
+              <div className="w-9 h-9 relative overflow-hidden rounded-xl flex items-center justify-center border border-gray-200 dark:border-white/10 shrink-0">
+                <img src="/feed arfan (20).png" alt="AllFanajalh Logo" className="w-full h-full object-cover" />
               </div>
-              <span className="text-lg font-bold tracking-tight text-black dark:text-white">Fanz Tech</span>
+              <span className="text-lg font-bold tracking-tight text-black dark:text-white">AllFanajalh</span>
             </div>
             <p className="text-gray-500 dark:text-gray-400 text-sm leading-relaxed font-medium">
               Jasa desain premium dan solusi teknologi untuk bisnis skala menengah hingga enterprise. Kualitas berstandar industri.
@@ -153,7 +154,7 @@ function Footer() {
                 { label: "Kotak Saran", href: "/saran" },
               ].map((item) => (
                 <li key={item.label}>
-                  <a href={item.href} className="text-sm text-gray-500 dark:text-gray-400 hover:text-black dark:hover:text-white transition-colors font-medium">{item.label}</a>
+                  <Link href={item.href} className="text-sm text-gray-500 dark:text-gray-400 hover:text-black dark:hover:text-white transition-colors font-medium">{item.label}</Link>
                 </li>
               ))}
             </ul>
@@ -181,7 +182,7 @@ function Footer() {
         {/* Bottom Bar */}
         <div className="border-t border-gray-200 dark:border-white/10 py-6 flex flex-col md:flex-row items-center justify-between gap-4">
           <p className="text-xs text-gray-500 font-medium tracking-wide">
-            © {new Date().getFullYear()} Fanz Tech. Crafted with precision by <a href="https://instagram.com/fan_ajalah" target="_blank" rel="noopener noreferrer" className="text-black dark:text-white hover:text-gray-700 dark:hover:text-gray-300 transition-colors font-bold">@fan_ajalah</a>
+            © {new Date().getFullYear()} AllFanajalh. Crafted with precision by <a href="https://instagram.com/fan_ajalah" target="_blank" rel="noopener noreferrer" className="text-black dark:text-white hover:text-gray-700 dark:hover:text-gray-300 transition-colors font-bold">@fan_ajalah</a>
           </p>
           <div className="flex items-center gap-6">
             <a href="https://instagram.com/fan_ajalah" target="_blank" rel="noopener noreferrer" className="text-xs text-gray-500 hover:text-black dark:hover:text-white font-bold transition-colors uppercase tracking-widest">Instagram</a>
@@ -224,6 +225,7 @@ import Hero from "@/components/sections/Hero"
 import Services from "@/components/sections/Services"
 import Portfolio from "@/components/sections/Portfolio"
 import DevPortfolioSection from "@/components/sections/DevPortfolioSection"
+import EcosystemSection from "@/components/sections/EcosystemSection"
 import Pricing from "@/components/sections/Pricing"
 import Lynk from "@/components/sections/Lynk"
 import Contact from "@/components/sections/Contact"
@@ -242,13 +244,16 @@ export default function LandingPage() {
           <Marquee />
         </FadeIn>
         <FadeIn delay={0.1}>
-          <Services />
-        </FadeIn>
-        <FadeIn delay={0.1}>
           <Portfolio />
         </FadeIn>
         <FadeIn delay={0.1}>
           <DevPortfolioSection />
+        </FadeIn>
+        <FadeIn delay={0.1}>
+          <EcosystemSection />
+        </FadeIn>
+        <FadeIn delay={0.1}>
+          <Services />
         </FadeIn>
         <FadeIn delay={0.1}>
           <Pricing />

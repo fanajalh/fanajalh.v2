@@ -96,6 +96,56 @@ export function TabPricing({ settings, setSettings, editing, setEditing, onSave 
         </div>
       )}
 
+      {/* Akses Halaman Kontrol */}
+      <div className="bg-white p-5 border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] rounded-none space-y-4">
+        <h3 className="text-sm font-black uppercase tracking-wider text-black border-b-2 border-black pb-2 flex items-center gap-2">
+          <span>🔒 Kontrol Akses Halaman (Buka / Tutup)</span>
+        </h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
+          {/* Order Page Toggle */}
+          <div className="flex items-center justify-between p-4 bg-gray-50 border-2 border-black">
+            <div>
+              <p className="text-xs font-black uppercase tracking-wider text-black">Akses Form Pemesanan (/order)</p>
+              <p className="text-[10px] font-bold text-gray-500 uppercase tracking-widest mt-0.5">
+                {settings.orderPageOpen !== false ? "🟢 Dibuka untuk publik" : "🔴 Ditutup (Hanya Admin)"}
+              </p>
+            </div>
+            <label className="relative inline-flex items-center cursor-pointer">
+              <input 
+                type="checkbox" 
+                className="sr-only peer" 
+                checked={settings.orderPageOpen !== false}
+                onChange={(e) => editing && setSettings({ ...settings, orderPageOpen: e.target.checked })}
+                disabled={!editing}
+              />
+              <div className="w-12 h-6 bg-white border-2 border-black peer-focus:outline-none peer-checked:bg-black disabled:opacity-50 transition-colors"></div>
+              <div className="absolute left-[2px] top-[2px] bg-black peer-checked:bg-white w-5 h-4 transition-transform peer-checked:translate-x-6 border-r-2 peer-checked:border-r-0 peer-checked:border-l-2 border-white peer-checked:border-black"></div>
+            </label>
+          </div>
+
+          {/* Premium Page Toggle */}
+          <div className="flex items-center justify-between p-4 bg-gray-50 border-2 border-black">
+            <div>
+              <p className="text-xs font-black uppercase tracking-wider text-black">Akses Katalog Premium (/premium)</p>
+              <p className="text-[10px] font-bold text-gray-500 uppercase tracking-widest mt-0.5">
+                {settings.premiumPageOpen !== false ? "🟢 Dibuka untuk publik" : "🔴 Ditutup (Hanya Admin)"}
+              </p>
+            </div>
+            <label className="relative inline-flex items-center cursor-pointer">
+              <input 
+                type="checkbox" 
+                className="sr-only peer" 
+                checked={settings.premiumPageOpen !== false}
+                onChange={(e) => editing && setSettings({ ...settings, premiumPageOpen: e.target.checked })}
+                disabled={!editing}
+              />
+              <div className="w-12 h-6 bg-white border-2 border-black peer-focus:outline-none peer-checked:bg-black disabled:opacity-50 transition-colors"></div>
+              <div className="absolute left-[2px] top-[2px] bg-black peer-checked:bg-white w-5 h-4 transition-transform peer-checked:translate-x-6 border-r-2 peer-checked:border-r-0 peer-checked:border-l-2 border-white peer-checked:border-black"></div>
+            </label>
+          </div>
+        </div>
+      </div>
+
       {/* Grid of Items */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {settings.services.map((service, idx) => (

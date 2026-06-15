@@ -19,6 +19,18 @@ export default function Pricing() {
     } catch (e) {
       console.error(e)
     }
+
+    fetch("/api/website-settings")
+      .then(res => res.json())
+      .then(resData => {
+        if (resData.success && resData.data) {
+          const parsed = resData.data
+          if (parsed.services) setDbServices(parsed.services)
+          if (parsed.emptyStateMessage) setEmptyMessage(parsed.emptyStateMessage)
+          localStorage.setItem("websiteSettings", JSON.stringify(parsed))
+        }
+      })
+      .catch(err => console.error("Error fetching settings:", err))
   }, [])
   const plans = [
     {
@@ -261,7 +273,23 @@ export default function Pricing() {
               },
               {
                 q: "Bagaimana jika saya tidak suka hasilnya?",
-                a: "Setiap paket sudah mencakup jatah revisi (bahkan unlimited untuk Enterprise) agar hasil akhirnya benar-benar sesuai dengan brand guidelines Anda."
+                a: "Setiap paket mencakup jatah revisi (unlimited untuk Enterprise) agar hasil akhirnya benar-benar sesuai dengan brand guidelines Anda."
+              },
+              {
+                q: "Bagaimana cara kerja Ekosistem Bisnis?",
+                a: "Ini adalah alur terintegrasi: cari prospek di Google Maps (Lead Finder), kelola kontak (CRM), jalankan promosi SMTP (Email Blast), riset ide kata kunci AI (Keyword Planner), tulis konten web (SEO Writer), dan pantau ranking Google (SERP Tracker)."
+              },
+              {
+                q: "Apa itu batas uji coba Akun Tamu (Guest)?",
+                a: "Tamu dapat memilih 1 fitur apa saja secara gratis. Begitu fitur tersebut digunakan, IP Anda akan terkunci pada fitur itu dengan batas 5 email blast atau 1 kali input AI/SERP. Modul lainnya otomatis dinonaktifkan."
+              },
+              {
+                q: "Bagaimana cara membuka fitur yang terkunci?",
+                a: "Cukup daftar atau masuk ke Akun Gratis. 6 fitur ekosistem akan langsung terbuka untuk Anda gunakan secara berurutan sesuai alur pengerjaan bisnis."
+              },
+              {
+                q: "Apakah ada batas kuota untuk Akun Gratis?",
+                a: "Ya. Akun gratis dibatasi maksimal mengirim 45 email blast, dan 5 kali input fitur AI/SERP per 5 hari. Hubungi admin via WhatsApp untuk upgrade ke paket Premium/Unlimited."
               }
             ].map((faq, i) => (
               <div key={i} className="bg-white dark:bg-black p-6 lg:p-8 border-r border-b border-gray-200 dark:border-white/10 hover:bg-gray-50 dark:hover:bg-white/5 transition-colors">

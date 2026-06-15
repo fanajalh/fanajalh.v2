@@ -26,7 +26,22 @@ async function sendEmail(mailOptions: nodemailer.SendMailOptions) {
 
 export async function POST(request: NextRequest) {
     try {
+        const session = await getServerSession(authOptions)
         const sql = getDb();
+        
+        // Fetch website settings to check orderPageOpen status
+        const settingsRows = await sql`SELECT settings FROM website_settings WHERE id = 1`;
+        const orderPageOpen = settingsRows.length > 0 ? (settingsRows[0].settings.orderPageOpen !== false) : true;
+        const isAdmin = session?.user && (session.user as any).role === "admin";
+
+        if (!orderPageOpen && !isAdmin) {
+            return NextResponse.json({ success: false, message: "Pemesanan tutup sementara. Hanya Admin yang dapat memproses order." }, { status: 403 })
+        }
+
+        if (!session) {
+            return NextResponse.json({ success: false, message: "Harap login untuk memesan." }, { status: 401 })
+        }
+
         const orderData = await request.json()
         const orderNumber = `JP${Date.now()}`
 

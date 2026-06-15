@@ -111,17 +111,39 @@ export default function Dashboard() {
     } catch { setSuggestions([]) }
   }
 
-  const loadWebsiteSettings = () => {
+  const loadWebsiteSettings = async () => {
     const saved = localStorage.getItem("websiteSettings")
     if (saved) setWebsiteSettings(JSON.parse(saved))
+    try {
+      const res = await fetch("/api/website-settings")
+      const json = await res.json()
+      if (json.success && json.data) {
+        setWebsiteSettings(json.data)
+        localStorage.setItem("websiteSettings", JSON.stringify(json.data))
+      }
+    } catch (err) {
+      console.error("Failed to load settings from DB", err)
+    }
   }
 
   const saveWebsiteSettings = async () => {
     try {
-      localStorage.setItem("websiteSettings", JSON.stringify(websiteSettings))
-      Swal.fire({ icon: 'success', title: 'Berhasil', text: 'Settings saved successfully!', timer: 1500, showConfirmButton: false })
-      setEditingSettings(false)
-    } catch { Swal.fire({ icon: 'error', text: 'Failed to save settings' }) }
+      const res = await fetch("/api/website-settings", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(websiteSettings),
+      })
+      const json = await res.json()
+      if (json.success) {
+        localStorage.setItem("websiteSettings", JSON.stringify(websiteSettings))
+        Swal.fire({ icon: 'success', title: 'Berhasil', text: 'Pengaturan berhasil disimpan!', timer: 1500, showConfirmButton: false })
+        setEditingSettings(false)
+      } else {
+        throw new Error(json.message)
+      }
+    } catch (err: any) {
+      Swal.fire({ icon: 'error', text: err.message || 'Gagal menyimpan pengaturan' })
+    }
   }
 
   const updateOrder = async (orderId: string, updates: Partial<Order>) => {
@@ -234,8 +256,8 @@ export default function Dashboard() {
       <nav className="sticky top-0 z-[40] bg-white border-b-4 border-black py-4 px-4 mb-8">
         <div className="max-w-7xl mx-auto flex justify-between items-center gap-4">
           <div className="flex items-center gap-4">
-            <div className="w-12 h-12 bg-black border-2 border-black rounded-none flex items-center justify-center shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] shrink-0 transform -rotate-3">
-              <Palette className="w-6 h-6 text-white" />
+            <div className="w-12 h-12 bg-black border-2 border-black rounded-none flex items-center justify-center shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] shrink-0 transform -rotate-3 overflow-hidden">
+              <img src="/feed arfan (20).png" alt="AllFanajalh Logo" className="w-full h-full object-cover" />
             </div>
             <div>
               <h1 className="text-xl font-black tracking-widest uppercase text-black leading-none">JokiPoster <span className="text-orange-500 underline decoration-black decoration-4 underline-offset-4">Admin</span></h1>
