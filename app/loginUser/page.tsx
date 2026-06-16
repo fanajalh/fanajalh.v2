@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react"
 import Link from "next/link"
-import { useRouter } from "next/navigation"
+import { useRouter, useSearchParams } from "next/navigation"
 import { useSession } from "next-auth/react"
 import { Palette, Mail, Lock, User, ArrowRight, Loader2, Eye, EyeOff, ArrowLeft, CheckCircle2 } from "lucide-react"
 import { toast } from "sonner"
@@ -20,10 +20,20 @@ export default function AuthPage() {
   
   const { status } = useSession()
   const router = useRouter()
+  const searchParams = useSearchParams()
+  const mode = searchParams.get("mode")
+
+  useEffect(() => {
+    if (mode === "register") {
+      setIsLogin(false)
+    } else if (mode === "login") {
+      setIsLogin(true)
+    }
+  }, [mode])
 
   useEffect(() => {
     if (status === "authenticated") {
-      router.push("/home")
+      router.push("/")
     }
   }, [status, router])
 
@@ -54,7 +64,7 @@ export default function AuthPage() {
         description: "Sedang mengalihkan…",
       })
       setTimeout(() => {
-        window.location.href = "/home"
+        window.location.href = "/"
       }, 800)
     } catch (err: any) {
       toast.error("Login Gagal", { description: err.message || "Email atau password salah." })
@@ -163,7 +173,7 @@ export default function AuthPage() {
         description: "Selamat bergabung!",
       })
       setTimeout(() => {
-        window.location.href = "/home"
+        window.location.href = "/"
       }, 800)
     } catch (err: any) {
       toast.error("Verifikasi Gagal", { description: err.message || "Kode OTP salah atau kedaluwarsa." })

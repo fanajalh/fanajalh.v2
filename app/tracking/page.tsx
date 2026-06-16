@@ -243,45 +243,44 @@ export default function TrackingPage() {
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-10 border-l-8 border-black dark:border-white pl-5 gap-4">
               <div>
                 <div className="inline-flex items-center gap-2 px-3 py-1 bg-yellow-400 text-black border-2 border-black font-black text-[10px] uppercase tracking-widest mb-3 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
-
-              <TrendingUp size={12} strokeWidth={2.5} /> Real-Time Analytics
+                  <TrendingUp size={12} strokeWidth={2.5} /> Analisis Real-Time
+                </div>
+                <h2 className="text-3xl md:text-4xl font-black text-black dark:text-white uppercase tracking-wider">Pelacakan & Analisis</h2>
+                <p className="text-xs font-bold text-gray-500 uppercase tracking-widest mt-1">Pantau performa funnel konversi dan ranking SEO Google Indonesia</p>
+              </div>
+              
+              <button
+                onClick={() => { fetchDashboardData(); fetchKeywords(); }}
+                disabled={loading}
+                className="flex items-center gap-2 px-5 py-3 bg-white dark:bg-zinc-900 text-black dark:text-white border-4 border-black dark:border-white text-xs font-black uppercase tracking-widest shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,0.2)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] dark:hover:shadow-[2px_2px_0px_0px_rgba(255,255,255,0.1)] transition-all active:scale-95 shrink-0"
+              >
+                <RefreshCw size={14} className={loading ? "animate-spin" : ""} strokeWidth={2.5} />
+                Segarkan Dashboard
+              </button>
             </div>
-            <h2 className="text-3xl md:text-4xl font-black text-black dark:text-white uppercase tracking-wider">Tracking & Analytics</h2>
-            <p className="text-xs font-bold text-gray-500 uppercase tracking-widest mt-1">Pantau performa funnel konversi dan ranking SEO Google Indonesia</p>
-          </div>
-          
-          <button
-            onClick={() => { fetchDashboardData(); fetchKeywords(); }}
-            disabled={loading}
-            className="flex items-center gap-2 px-5 py-3 bg-white dark:bg-zinc-900 text-black dark:text-white border-4 border-black dark:border-white text-xs font-black uppercase tracking-widest shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,0.2)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] dark:hover:shadow-[2px_2px_0px_0px_rgba(255,255,255,0.1)] transition-all active:scale-95 shrink-0"
-          >
-            <RefreshCw size={14} className={loading ? "animate-spin" : ""} strokeWidth={2.5} />
-            Refresh Dashboard
-          </button>
-        </div>
 
-        {loading ? (
-          <div className="py-32 text-center">
-            <Loader2 size={56} className="animate-spin mx-auto text-black dark:text-white mb-4" strokeWidth={2.5} />
-            <h3 className="text-lg font-black uppercase tracking-widest text-black dark:text-white">Menyusun Data Laporan...</h3>
-            <p className="text-xs font-bold text-gray-400 uppercase tracking-widest mt-1">Sistem sedang menghubungi database & API pihak ketiga</p>
-          </div>
-        ) : !stats ? (
-          <div className="py-24 text-center border-4 border-dashed border-red-500 bg-red-50 dark:bg-red-950/20 max-w-2xl mx-auto">
-            <h3 className="text-lg font-black text-red-500 uppercase tracking-widest">Gagal memuat stats</h3>
-            <p className="text-xs font-semibold text-red-400 mt-1">Koneksi API bermasalah. Coba refresh halaman beberapa saat lagi.</p>
-          </div>
-        ) : (
-          <div className="space-y-10">
-            
-            {/* KPI Cards Grid */}
-            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-              {[
-                { title: "CRM Contacts", value: stats.contacts.total_contacts, desc: `${stats.contacts.leads_found} prospek Google Maps`, icon: Users, color: "from-blue-500 to-indigo-600", border: "border-blue-500" },
-                { title: "Email Blast Sent", value: stats.emails.emails_sent, desc: `${stats.rates.openRate}% rata-rata dibuka`, icon: Mail, color: "from-purple-500 to-fuchsia-600", border: "border-purple-500" },
-                { title: "SEO Projects", value: stats.seo.total_projects, desc: `${stats.seo.generated} artikel blog AI dibuat`, icon: Key, color: "from-emerald-500 to-teal-600", border: "border-emerald-500" },
-                { title: "Avg. Rank Google", value: stats.keywords.avg_position ? parseFloat(stats.keywords.avg_position).toFixed(1) : "—", desc: `${stats.keywords.total_keywords} kata kunci dilacak`, icon: BarChart3, color: "from-amber-400 to-orange-500", border: "border-amber-500" },
-              ].map((kpi, idx) => (
+            {loading ? (
+              <div className="py-32 text-center">
+                <Loader2 size={56} className="animate-spin mx-auto text-black dark:text-white mb-4" strokeWidth={2.5} />
+                <h3 className="text-lg font-black uppercase tracking-widest text-black dark:text-white">Menyusun Data Laporan...</h3>
+                <p className="text-xs font-bold text-gray-400 uppercase tracking-widest mt-1">Sistem sedang menghubungi database & API pihak ketiga</p>
+              </div>
+            ) : !stats ? (
+              <div className="py-24 text-center border-4 border-dashed border-red-500 bg-red-50 dark:bg-red-950/20 max-w-2xl mx-auto">
+                <h3 className="text-lg font-black text-red-500 uppercase tracking-widest">Gagal memuat stats</h3>
+                <p className="text-xs font-semibold text-red-400 mt-1">Koneksi API bermasalah. Coba refresh halaman beberapa saat lagi.</p>
+              </div>
+            ) : (
+              <div className="space-y-10">
+                
+                {/* KPI Cards Grid */}
+                <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                  {[
+                    { title: "Kontak CRM", value: stats.contacts.total_contacts, desc: `${stats.contacts.leads_found} prospek Google Maps`, icon: Users, color: "from-blue-500 to-indigo-600", border: "border-blue-500" },
+                    { title: "Email Blast Terkirim", value: stats.emails.emails_sent, desc: `${stats.rates.openRate}% rata-rata dibuka`, icon: Mail, color: "from-purple-500 to-fuchsia-600", border: "border-purple-500" },
+                    { title: "Proyek SEO", value: stats.seo.total_projects, desc: `${stats.seo.generated} artikel blog AI dibuat`, icon: Key, color: "from-emerald-500 to-teal-600", border: "border-emerald-500" },
+                    { title: "Rerata Rank Google", value: stats.keywords.avg_position ? parseFloat(stats.keywords.avg_position).toFixed(1) : "—", desc: `${stats.keywords.total_keywords} kata kunci dilacak`, icon: BarChart3, color: "from-amber-400 to-orange-500", border: "border-amber-500" },
+                  ].map((kpi, idx) => (
                 <div 
                   key={idx} 
                   className="bg-white dark:bg-zinc-950 border-4 border-black dark:border-white p-6 shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] dark:shadow-[6px_6px_0px_0px_rgba(255,255,255,0.15)] relative overflow-hidden group hover:translate-y-[-4px] transition-transform duration-300"
@@ -539,11 +538,11 @@ export default function TrackingPage() {
                             </div>
                             <div className="border-r border-gray-200 dark:border-zinc-850">
                               <p className="font-black text-2xl text-purple-600">{openPercent}%</p>
-                              <p className="text-[8px] font-black text-gray-400 uppercase tracking-widest mt-1">Opened</p>
+                              <p className="text-[8px] font-black text-gray-400 uppercase tracking-widest mt-1">Dibuka</p>
                             </div>
                             <div>
                               <p className="font-black text-2xl text-teal-600">{replyPercent}%</p>
-                              <p className="text-[8px] font-black text-gray-400 uppercase tracking-widest mt-1">Replied</p>
+                              <p className="text-[8px] font-black text-gray-400 uppercase tracking-widest mt-1">Dibalas</p>
                             </div>
                           </div>
                         </div>

@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server"
 import { getDb } from "@/lib/db"
 import { getServerSession } from "next-auth/next"
-import { authOptions } from "@/app/api/auth/[...nextauth]/route"
+import { authOptions } from "@/lib/auth"
 import bcrypt from "bcryptjs"
 
 export async function PUT(request: NextRequest) {
@@ -37,3 +37,4 @@ export async function PUT(request: NextRequest) {
         return NextResponse.json({ success: false, message: "Terjadi kesalahan server" }, { status: 500 })
     }
 }
+

@@ -10,12 +10,14 @@ import Swal from "sweetalert2"
 interface NewsItem { id: number; title: string; description: string; badge: string; color_from: string; color_to: string; link: string; is_active: boolean }
 interface FeaturedWork { id: number; title: string; client_name: string; badge: string; duration_text: string; is_active: boolean }
 interface ClientUpdate { id: number; client_email: string; title: string; status_text: string; is_active: boolean }
+interface TopProduct { id: number; name: string; default_price: string; icon: string; badge: string; badge_class: string; hover_bg: string; hover_icon: string; link: string; badge_icon: string }
 
 export function TabContent() {
-  const [activeSection, setActiveSection] = useState<"news" | "works" | "updates">("news")
+  const [activeSection, setActiveSection] = useState<"news" | "works" | "updates" | "top_products">("news")
   const [news, setNews] = useState<NewsItem[]>([])
   const [works, setWorks] = useState<FeaturedWork[]>([])
   const [updates, setUpdates] = useState<ClientUpdate[]>([])
+  const [topProducts, setTopProducts] = useState<TopProduct[]>([])
   const [loading, setLoading] = useState(true)
   const [isSubmitting, setIsSubmitting] = useState(false)
 
@@ -28,21 +30,28 @@ export function TabContent() {
   const fetchAll = async () => {
     setLoading(true)
     try {
-      const [n, w, u] = await Promise.all([
+      const [n, w, u, tp] = await Promise.all([
         fetch("/api/admin/news").then(r => r.json()).catch(() => ({ data: [] })),
         fetch("/api/admin/featured-works").then(r => r.json()).catch(() => ({ data: [] })),
         fetch("/api/admin/client-updates").then(r => r.json()).catch(() => ({ data: [] })),
+        fetch("/api/admin/top-products").then(r => r.json()).catch(() => ({ data: [] })),
       ])
       setNews(n.data || [])
       setWorks(w.data || [])
       setUpdates(u.data || [])
+      setTopProducts(tp.data || [])
     } catch { /* silently fail */ }
     setLoading(false)
   }
 
   const handleAdd = async () => {
     setIsSubmitting(true)
-    const endpoints: Record<string, string> = { news: "/api/admin/news", works: "/api/admin/featured-works", updates: "/api/admin/client-updates" }
+    const endpoints: Record<string, string> = { 
+      news: "/api/admin/news", 
+      works: "/api/admin/featured-works", 
+      updates: "/api/admin/client-updates",
+      top_products: "/api/admin/top-products"
+    }
     try {
       const res = await fetch(endpoints[activeSection], {
         method: "POST", headers: { "Content-Type": "application/json" },
@@ -57,7 +66,12 @@ export function TabContent() {
   const handleDelete = async (section: string, id: number) => {
     const result = await Swal.fire({ title: 'Hapus Item?', text: "Data akan dihapus secara permanen.", icon: 'warning', showCancelButton: true, confirmButtonText: 'Ya, Hapus!' })
     if (!result.isConfirmed) return
-    const endpoints: Record<string, string> = { news: "/api/admin/news", works: "/api/admin/featured-works", updates: "/api/admin/client-updates" }
+    const endpoints: Record<string, string> = { 
+      news: "/api/admin/news", 
+      works: "/api/admin/featured-works", 
+      updates: "/api/admin/client-updates",
+      top_products: "/api/admin/top-products"
+    }
     try {
       const res = await fetch(`${endpoints[section]}/${id}`, { method: "DELETE" })
       if (!res.ok) throw new Error("Gagal")
@@ -70,6 +84,7 @@ export function TabContent() {
     { id: "news" as const, label: "Kabar Info", icon: Newspaper, count: news.length, color: "orange" },
     { id: "works" as const, label: "Karya Top", icon: Crown, count: works.length, color: "blue" },
     { id: "updates" as const, label: "Live Order", icon: Activity, count: updates.length, color: "emerald" },
+    { id: "top_products" as const, label: "Produk Top", icon: Sparkles, count: topProducts.length, color: "purple" },
   ]
 
   if (loading) return (
@@ -210,6 +225,57 @@ export function TabContent() {
               </>
             )}
 
+            {activeSection === "top_products" && (
+              <>
+                <div className="space-y-2">
+                  <label className="text-[11px] font-black text-black uppercase tracking-widest">NAMA PRODUK TOP</label>
+                  <input placeholder="MISAL: DESAIN POSTER" value={formData.name || ""} onChange={(e) => setFormData({ ...formData, name: e.target.value })} className="w-full px-4 py-3 bg-white border-2 border-black rounded-none text-sm font-black text-black outline-none focus:bg-black focus:text-white transition-all placeholder:text-gray-400 uppercase tracking-widest" />
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="space-y-2">
+                    <label className="text-[11px] font-black text-black uppercase tracking-widest">HARGA AWAL (DEFAULT PRICE)</label>
+                    <input placeholder="MISAL: 15.000" value={formData.default_price || ""} onChange={(e) => setFormData({ ...formData, default_price: e.target.value })} className="w-full px-4 py-3 bg-white border-2 border-black rounded-none text-sm font-black text-black outline-none focus:bg-black focus:text-white transition-all uppercase tracking-widest" />
+                  </div>
+                  <div className="space-y-2">
+                    <label className="text-[11px] font-black text-black uppercase tracking-widest">ICON PRODUK</label>
+                    <select value={formData.icon || "Sparkles"} onChange={(e) => setFormData({ ...formData, icon: e.target.value })} className="w-full px-4 py-3 bg-white border-2 border-black rounded-none text-sm font-black text-black outline-none focus:bg-black focus:text-white transition-all uppercase tracking-widest">
+                      <option value="Palette">Palette (Desain)</option>
+                      <option value="Briefcase">Briefcase (Bisnis)</option>
+                      <option value="Tag">Tag (Promo)</option>
+                      <option value="Sparkles">Sparkles (Spesial)</option>
+                      <option value="Camera">Camera (Studio)</option>
+                      <option value="Star">Star (Bintang)</option>
+                      <option value="Zap">Zap (Petir)</option>
+                      <option value="Clock">Clock (Waktu)</option>
+                      <option value="HelpCircle">HelpCircle (Bantuan)</option>
+                    </select>
+                  </div>
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="space-y-2">
+                    <label className="text-[11px] font-black text-black uppercase tracking-widest">TEKS BADGE (MISAL: TOP / HOT)</label>
+                    <input placeholder="MISAL: TOP" value={formData.badge || ""} onChange={(e) => setFormData({ ...formData, badge: e.target.value })} className="w-full px-4 py-3 bg-white border-2 border-black rounded-none text-sm font-black text-black outline-none focus:bg-black focus:text-white transition-all uppercase tracking-widest" />
+                  </div>
+                  <div className="space-y-2">
+                    <label className="text-[11px] font-black text-black uppercase tracking-widest">ICON BADGE</label>
+                    <select value={formData.badge_icon || "Star"} onChange={(e) => setFormData({ ...formData, badge_icon: e.target.value })} className="w-full px-4 py-3 bg-white border-2 border-black rounded-none text-sm font-black text-black outline-none focus:bg-black focus:text-white transition-all uppercase tracking-widest">
+                      <option value="Star">Star</option>
+                      <option value="Zap">Zap</option>
+                      <option value="Sparkles">Sparkles</option>
+                    </select>
+                  </div>
+                </div>
+                <div className="space-y-2">
+                  <label className="text-[11px] font-black text-black uppercase tracking-widest">WARNA BADGE (CSS CLASS)</label>
+                  <input placeholder="MISAL: bg-yellow-400 text-yellow-900" value={formData.badge_class || ""} onChange={(e) => setFormData({ ...formData, badge_class: e.target.value })} className="w-full px-4 py-3 bg-white border-2 border-black rounded-none text-sm font-black text-black outline-none focus:bg-black focus:text-white transition-all uppercase tracking-widest" />
+                </div>
+                <div className="space-y-2">
+                  <label className="text-[11px] font-black text-black uppercase tracking-widest">LINK ORDER / HALAMAN</label>
+                  <input placeholder="MISAL: /order?service=poster&package=professional" value={formData.link || ""} onChange={(e) => setFormData({ ...formData, link: e.target.value })} className="w-full px-4 py-3 bg-white border-2 border-black rounded-none text-sm font-black text-black outline-none focus:bg-black focus:text-white transition-all uppercase tracking-widest" />
+                </div>
+              </>
+            )}
+
             {/* Action Buttons Form */}
             <div className="flex flex-col-reverse sm:flex-row gap-4 justify-end mt-8 pt-6 border-t-4 border-black">
               <button onClick={() => setShowForm(false)} className="px-6 py-3 bg-white text-black border-2 border-black rounded-none text-xs font-black uppercase tracking-widest hover:bg-gray-100 active:translate-y-0.5 outline-none transition-all">
@@ -303,6 +369,36 @@ export function TabContent() {
               </div>
             </div>
           )) : <EmptyState section="Live Order" />
+        )}
+
+        {/* ---- TOP PRODUCTS LIST ---- */}
+        {activeSection === "top_products" && (
+          topProducts.length > 0 ? topProducts.map((item) => (
+            <div key={item.id} className="bg-white p-5 border-4 border-black rounded-none flex items-center justify-between shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:-translate-y-1 hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] transition-all">
+              <div className="flex items-center gap-4 flex-1 min-w-0">
+                <div className="hidden sm:flex w-14 h-14 bg-purple-500 text-white rounded-none items-center justify-center border-2 border-black shrink-0 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
+                  <Sparkles size={24} strokeWidth={3} />
+                </div>
+                <div className="min-w-0 flex-1">
+                  <h3 className="text-lg font-black text-black truncate mb-1 uppercase tracking-widest">{item.name}</h3>
+                  <div className="flex flex-wrap items-center gap-2 text-xs font-bold uppercase tracking-widest text-gray-500">
+                    <span>Mulai Rp {item.default_price}</span>
+                    <span>&bull;</span>
+                    <span className={`px-2 py-0.5 border border-black ${item.badge_class}`}>
+                      {item.badge}
+                    </span>
+                    <span>&bull;</span>
+                    <span>Icon: {item.icon}</span>
+                  </div>
+                </div>
+              </div>
+              <div className="flex items-center gap-4 shrink-0 ml-4">
+                <button onClick={() => handleDelete("top_products", item.id)} className="w-12 h-12 flex items-center justify-center rounded-none bg-red-500 text-white border-2 border-black hover:bg-black transition-all active:translate-y-0.5 active:shadow-none shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] outline-none">
+                  <Trash2 size={20} strokeWidth={3} />
+                </button>
+              </div>
+            </div>
+          )) : <EmptyState section="Produk Top" />
         )}
       </div>
     </div>

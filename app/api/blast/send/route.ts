@@ -4,7 +4,7 @@ import nodemailer from "nodemailer"
 import { v4 as uuidv4 } from "uuid"
 import { checkEcosystemLimit, logEcosystemUsage } from "@/lib/ecosystem-limit"
 import { getServerSession } from "next-auth"
-import { authOptions } from "@/app/api/auth/[...nextauth]/route"
+import { authOptions } from "@/lib/auth"
 import { getClientIp } from "@/lib/request-ip"
 import { decryptId } from "@/lib/id-cipher"
 
@@ -180,3 +180,4 @@ export async function POST(request: NextRequest) {
     )
   }
 }
+

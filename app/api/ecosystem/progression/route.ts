@@ -2,7 +2,7 @@ import { type NextRequest, NextResponse } from "next/server"
 import { getDb } from "@/lib/db"
 import { getClientIp } from "@/lib/request-ip"
 import { getServerSession } from "next-auth"
-import { authOptions } from "@/app/api/auth/[...nextauth]/route"
+import { authOptions } from "@/lib/auth"
 import { PREREQUISITES, logEcosystemUsage, checkEcosystemLimit } from "@/lib/ecosystem-limit"
 
 export const dynamic = 'force-dynamic'
@@ -37,11 +37,11 @@ export async function GET(request: NextRequest) {
     let logs = []
     if (userEmail) {
       logs = await sql`
-        SELECT DISTINCT feature FROM ecosystem_usage_logs WHERE user_email = ${userEmail}
+        SELECT DISTINCT feature FROM ecosystem_usage_logs WHERE user_email = ${userEmail} AND usage_count > 0
       `
     } else {
       logs = await sql`
-        SELECT DISTINCT feature FROM ecosystem_usage_logs WHERE ip_address = ${ip}
+        SELECT DISTINCT feature FROM ecosystem_usage_logs WHERE ip_address = ${ip} AND usage_count > 0
       `
     }
 
@@ -119,3 +119,4 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ success: false, message: error.message }, { status: 500 })
   }
 }
+

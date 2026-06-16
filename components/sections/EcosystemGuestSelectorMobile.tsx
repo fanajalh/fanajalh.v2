@@ -241,13 +241,13 @@ export default function EcosystemGuestSelectorMobile() {
           <div className="border-t border-dashed border-slate-200/80 pt-4 flex items-center justify-between mt-1">
             <div className="max-w-[55%]">
               <span className="block text-[8px] font-bold uppercase tracking-wider text-slate-400">Batas Tamu:</span>
-              <span className="text-[10px] font-bold text-slate-650 leading-snug">{selectedFeature.limit}</span>
+              <span className="text-[10px] font-bold text-slate-600 leading-snug">{selectedFeature.limit}</span>
             </div>
 
             <button
               onClick={() => handleSelectFeature(selectedFeature.key, selectedFeature.title, selectedFeature.path)}
               disabled={selectingKey !== null}
-              className="bg-orange-650 hover:bg-orange-700 text-white px-5 py-2.5 rounded-full text-xs font-extrabold transition-colors active:scale-95 outline-none flex items-center gap-1.5 shadow-sm shadow-orange-600/20 disabled:opacity-50"
+              className="bg-orange-600 hover:bg-orange-700 text-white px-5 py-2.5 rounded-full text-xs font-extrabold transition-colors active:scale-95 outline-none flex items-center gap-1.5 shadow-sm shadow-orange-600/20 disabled:opacity-50"
             >
               {selectingKey === selectedFeature.key ? (
                 <>

@@ -3,7 +3,7 @@ import { GoogleGenerativeAI } from "@google/generative-ai"
 import { getDb } from "@/lib/db"
 import { checkEcosystemLimit, logEcosystemUsage } from "@/lib/ecosystem-limit"
 import { getServerSession } from "next-auth"
-import { authOptions } from "@/app/api/auth/[...nextauth]/route"
+import { authOptions } from "@/lib/auth"
 import { getClientIp } from "@/lib/request-ip"
 import { decryptId } from "@/lib/id-cipher"
 
@@ -120,3 +120,4 @@ PENTING: Output dalam format JSON, tanpa markdown wrapper:
     )
   }
 }
+

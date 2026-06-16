@@ -204,7 +204,7 @@ export default function LeadFinderPage() {
                       className="flex items-center gap-2 px-4 py-2 bg-emerald-500 text-white font-black uppercase tracking-widest text-xs border-2 border-black shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] hover:translate-y-0.5 hover:shadow-[1px_1px_0px_0px_rgba(0,0,0,1)] transition-all disabled:opacity-50"
                     >
                       {saving ? <Loader2 size={14} className="animate-spin" /> : <Save size={14} />}
-                      Save {selectedCount} ke CRM
+                      Simpan {selectedCount} ke CRM
                     </button>
                   )}
                 </div>

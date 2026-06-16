@@ -192,7 +192,25 @@ export function TabPortfolioDev() {
           <div key={item.id} className="bg-white border-4 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:-translate-y-1 hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] transition-all flex flex-col">
             <div className="aspect-video border-b-4 border-black overflow-hidden relative bg-gray-100">
                {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={item.image} alt={item.title} className="w-full h-full object-cover" />
+              <img 
+                src={item.image} 
+                alt={item.title} 
+                className="w-full h-full object-cover cursor-pointer hover:scale-105 transition-transform" 
+                onClick={() => {
+                  Swal.fire({
+                    title: item.title,
+                    text: item.description,
+                    imageUrl: item.image,
+                    imageAlt: item.title,
+                    confirmButtonText: 'TUTUP',
+                    confirmButtonColor: '#000000',
+                    customClass: {
+                      popup: 'border-4 border-black rounded-none shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] font-sans',
+                      confirmButton: 'border-2 border-black rounded-none font-black uppercase text-xs px-6 py-3 tracking-widest bg-yellow-400 text-black hover:bg-white transition-all shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]',
+                    }
+                  })
+                }}
+              />
               <div className="absolute top-3 left-3 bg-white text-black px-3 py-1 text-[10px] font-black uppercase border-2 border-black flex items-center gap-1">
                 {item.category === 'Web' ? <Monitor size={12}/> : <Smartphone size={12}/>}
                 {item.category}

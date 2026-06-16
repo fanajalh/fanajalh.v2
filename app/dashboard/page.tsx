@@ -24,18 +24,18 @@ const TAB_ICONS: Record<string, any> = {
 }
 
 const TABS = [
-  { id: "overview", label: "Overview", color: "blue" },
-  { id: "orders", label: "Orders", color: "orange" },
+  { id: "overview", label: "Ringkasan", color: "blue" },
+  { id: "orders", label: "Pesanan", color: "orange" },
   { id: "content", label: "Konten", color: "rose" },
   { id: "frames", label: "Frame", color: "pink" },
   { id: "portfolio_designs", label: "Porto Desain", color: "indigo" },
   { id: "portfolio_dev", label: "Porto Dev", color: "blue" },
   { id: "premium", label: "Premium", color: "yellow" },
   { id: "suggestions", label: "Saran", color: "amber" },
-  { id: "analytics", label: "Analytics", color: "emerald" },
+  { id: "analytics", label: "Analitik", color: "emerald" },
   { id: "website", label: "Website", color: "indigo" },
-  { id: "pricing", label: "Pricing", color: "purple" },
-  { id: "settings", label: "System", color: "slate" },
+  { id: "pricing", label: "Harga", color: "purple" },
+  { id: "settings", label: "Sistem", color: "slate" },
 ]
 
 export default function Dashboard() {

@@ -1,7 +1,7 @@
 import { type NextRequest, NextResponse } from "next/server"
 import { getDb } from "@/lib/db"
 import { getServerSession } from "next-auth/next"
-import { authOptions } from "@/app/api/auth/[...nextauth]/route"
+import { authOptions } from "@/lib/auth"
 
 export const dynamic = 'force-dynamic'
 
@@ -43,3 +43,4 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ success: false, message: "Terjadi kesalahan server" }, { status: 500 })
   }
 }
+

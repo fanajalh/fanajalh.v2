@@ -1,7 +1,7 @@
 import { type NextRequest, NextResponse } from "next/server"
 import { getDb } from "@/lib/db"
 import { getServerSession } from "next-auth"
-import { authOptions } from "@/app/api/auth/[...nextauth]/route"
+import { authOptions } from "@/lib/auth"
 import { getClientIp } from "@/lib/request-ip"
 import { logEcosystemUsage } from "@/lib/ecosystem-limit"
 
@@ -72,3 +72,4 @@ export async function POST(request: NextRequest) {
     )
   }
 }
+

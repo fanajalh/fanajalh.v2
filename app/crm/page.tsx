@@ -76,7 +76,7 @@ export default function CRMPage() {
       })
       const data = await res.json()
       if (data.success) {
-        Swal.fire({ icon: "success", text: "Contact ditambahkan!", timer: 1500, showConfirmButton: false })
+        Swal.fire({ icon: "success", text: "Kontak ditambahkan!", timer: 1500, showConfirmButton: false })
         setShowAddModal(false)
         setFormData({ name: "", email: "", phone: "", website: "", address: "", category: "", notes: "" })
         fetchContacts()
@@ -93,7 +93,7 @@ export default function CRMPage() {
         body: JSON.stringify(formData),
       })
       if ((await res.json()).success) {
-        Swal.fire({ icon: "success", text: "Contact diupdate!", timer: 1500, showConfirmButton: false })
+        Swal.fire({ icon: "success", text: "Kontak diperbarui!", timer: 1500, showConfirmButton: false })
         setEditingContact(null)
         fetchContacts()
       }
@@ -101,7 +101,7 @@ export default function CRMPage() {
   }
 
   const handleDelete = async (id: string) => {
-    const result = await Swal.fire({ title: "Hapus Contact?", icon: "warning", showCancelButton: true, confirmButtonText: "Ya, Hapus!" })
+    const result = await Swal.fire({ title: "Hapus Kontak?", icon: "warning", showCancelButton: true, confirmButtonText: "Ya, Hapus!" })
     if (!result.isConfirmed) return
     try {
       await fetch(`/api/crm/${id}`, { method: "DELETE" })
@@ -303,7 +303,7 @@ export default function CRMPage() {
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
           <div className="bg-white dark:bg-black border-4 border-black dark:border-white p-6 shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] dark:shadow-[12px_12px_0px_0px_rgba(255,255,255,0.2)] w-full max-w-lg max-h-[90vh] overflow-y-auto">
             <div className="flex justify-between items-center mb-6 border-b-4 border-black dark:border-white pb-4">
-              <h3 className="text-xl font-black uppercase tracking-widest text-black dark:text-white">{editingContact ? "Edit Contact" : "Tambah Contact"}</h3>
+              <h3 className="text-xl font-black uppercase tracking-widest text-black dark:text-white">{editingContact ? "Edit Kontak" : "Tambah Kontak"}</h3>
               <button onClick={() => { setShowAddModal(false); setEditingContact(null) }} className="p-2 border-2 border-black dark:border-white hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-all">
                 <X size={18} />
               </button>
@@ -333,7 +333,7 @@ export default function CRMPage() {
               onClick={editingContact ? handleUpdate : handleAdd}
               className="w-full mt-6 py-3 bg-black dark:bg-white text-white dark:text-black font-black uppercase tracking-widest text-sm border-2 border-black dark:border-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-y-1 hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-all"
             >
-              {editingContact ? "Update Contact" : "Tambah Contact"}
+              {editingContact ? "Perbarui Kontak" : "Tambah Kontak"}
             </button>
           </div>
         </div>
@@ -363,7 +363,7 @@ export default function CRMPage() {
               className="w-full mt-4 py-3 bg-black dark:bg-white text-white dark:text-black font-black uppercase tracking-widest text-sm border-2 border-black dark:border-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-y-1 hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-all disabled:opacity-50 flex items-center justify-center gap-2"
             >
               {importing ? <Loader2 size={16} className="animate-spin" /> : <Upload size={16} />}
-              {importing ? "Mengimport..." : "Import Data"}
+              {importing ? "Mengimpor..." : "Impor Data"}
             </button>
           </div>
         </div>

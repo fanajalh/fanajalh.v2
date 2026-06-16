@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { Search, Users, Mail, Key, Wrench, BarChart3, ArrowLeft, Palette, Lock, HelpCircle, Sparkles, Globe } from "lucide-react"
@@ -30,6 +30,7 @@ const FEATURE_KEYS: Record<string, string> = {
 
 export default function EcosystemNav() {
   const pathname = usePathname()
+  const activeRef = useRef<HTMLAnchorElement>(null)
   const [unlocked, setUnlocked] = useState<Record<string, boolean>>(() => {
     if (typeof window !== "undefined") {
       try {
@@ -68,6 +69,16 @@ export default function EcosystemNav() {
     fetchStatus()
   }, [])
 
+  useEffect(() => {
+    if (activeRef.current) {
+      activeRef.current.scrollIntoView({
+        behavior: "smooth",
+        block: "nearest",
+        inline: "center",
+      })
+    }
+  }, [pathname])
+
   return (
     <nav className="sticky top-0 z-[40] bg-white dark:bg-black border-b-4 border-black dark:border-white">
       <div className="max-w-7xl mx-auto px-4">
@@ -97,7 +108,18 @@ export default function EcosystemNav() {
               <span className="hidden sm:inline">Tutorial</span>
             </Link>
             <Link
-              href="/"
+              href={(() => {
+                if (typeof window !== "undefined") {
+                  try {
+                    const cache = sessionStorage.getItem("ecosystem_progression")
+                    if (cache) {
+                      const parsed = JSON.parse(cache)
+                      if (parsed.role && parsed.role !== "guest") return "/dashboard"
+                    }
+                  } catch {}
+                }
+                return "/"
+              })()}
               className="flex items-center gap-2 px-3 py-2 text-xs font-black uppercase tracking-widest text-gray-500 dark:text-gray-400 hover:text-black dark:hover:text-white border-2 border-transparent hover:border-black dark:hover:border-white transition-all"
             >
               <ArrowLeft size={14} strokeWidth={3} />
@@ -129,6 +151,7 @@ export default function EcosystemNav() {
             return (
               <Link
                 key={item.href}
+                ref={isActive ? activeRef : undefined}
                 href={item.href}
                 onClick={handleClick}
                 className={`flex items-center gap-2 px-4 py-3 text-xs font-black uppercase tracking-widest whitespace-nowrap border-b-4 transition-all ${

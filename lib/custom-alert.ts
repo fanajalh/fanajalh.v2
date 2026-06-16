@@ -97,7 +97,7 @@ const Swal = {
 
       const contentClass = isMobileEcosystem
         ? "text-slate-500 text-xs font-semibold mt-2 leading-relaxed"
-        : "text-gray-650 text-xs font-bold uppercase tracking-wider mt-3 leading-relaxed"
+        : "text-gray-600 text-xs font-bold uppercase tracking-wider mt-3 leading-relaxed"
 
       // Build inner HTML
       container.innerHTML = `

@@ -1,8 +1,9 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import Link from "next/link"
 import { useSession } from "next-auth/react"
+import { useSearchParams } from "next/navigation"
 import { 
   Search, Users, Send, Key, FileText, LineChart, 
   Sparkles, ArrowRight, CheckCircle2, Lock, HelpCircle, Globe, Mail
@@ -17,51 +18,71 @@ export default function EcosystemSection() {
       icon: Search,
       title: "Cari Lead Bisnis",
       description: "Temukan prospek bisnis potensial berdasarkan kategori & lokasi langsung dari Google Maps. Lengkap dengan website, alamat, dan kontak publik.",
-      tag: "Serper.dev API"
+      tag: "Serper.dev API",
+      href: "/lead-finder"
     },
     {
       icon: Users,
       title: "CRM Terintegrasi",
       description: "Jantung dari ekosistem bisnis. Kelola database prospek, catat histori interaksi, dan pantau status deals (New, Contacted, Deal) dengan mudah.",
-      tag: "Database Hub"
+      tag: "Database Hub",
+      href: "/crm"
     },
     {
       icon: Send,
       title: "Email Blast Personal",
       description: "Kirim email massal terpersonalisasi langsung menggunakan server SMTP Anda sendiri (seperti Gmail App Pass). 100% kontrol & aman di tangan Anda.",
-      tag: "Nodemailer SMTP"
+      tag: "Nodemailer SMTP",
+      href: "/blast"
     },
     {
       icon: Key,
       title: "Riset Kata Kunci AI",
       description: "Dapatkan puluhan saran keyword SEO relevan, metrik volume pencarian bulanan, tingkat kesulitan, serta user intent dalam hitungan detik.",
-      tag: "Gemini 2.5 Flash AI"
+      tag: "Gemini 2.5 Flash AI",
+      href: "/keyword"
     },
     {
       icon: FileText,
       title: "SEO Content Writer",
       description: "Generate draf artikel blog 800+ kata SEO-friendly, meta tag optimal, dan JSON-LD FAQ schema siap pakai untuk menaikkan ranking web Anda.",
-      tag: "Gemini 2.5 Flash AI"
+      tag: "Gemini 2.5 Flash AI",
+      href: "/seo-tools"
     },
     {
       icon: Sparkles,
       title: "AI SEO Optimization",
       description: "Optimalkan konten website Anda untuk pencarian AI & Generative Search Engine (GEO) agar bisnis Anda masuk rekomendasi Gemini/ChatGPT.",
-      tag: "Gemini AI GEO"
+      tag: "Gemini AI GEO",
+      href: "/ai-optimization"
     },
     {
       icon: Globe,
       title: "Website Audit Score",
       description: "Analisis kesehatan teknis SEO website Anda, perbaiki error crawl, serta tingkatkan kecepatan performa loading secara instan.",
-      tag: "Technical SEO"
+      tag: "Technical SEO",
+      href: "/site-audit"
     },
     {
       icon: LineChart,
       title: "SERP Rank Tracking",
       description: "Pantau pergerakan peringkat keyword bisnis Anda di mesin pencari Google Indonesia secara akurat dan berkala untuk analisis kompetitor.",
-      tag: "Rank Monitor"
+      tag: "Rank Monitor",
+      href: "/tracking"
     }
   ]
+
+  const searchParams = useSearchParams()
+
+  useEffect(() => {
+    const stepParam = searchParams.get("step")
+    if (stepParam !== null) {
+      const idx = parseInt(stepParam, 10)
+      if (!isNaN(idx) && idx >= 0 && idx < features.length) {
+        setActiveIdx(idx)
+      }
+    }
+  }, [searchParams])
 
   const tiers = [
     {
@@ -132,6 +153,13 @@ export default function EcosystemSection() {
           </div>
         </div>
 
+        {/* Helper swipe hint for mobile */}
+        <div className="block lg:hidden text-center mb-3">
+          <span className="text-[9px] font-black text-emerald-500 dark:text-emerald-400 uppercase tracking-widest animate-pulse">
+            ← Geser Horizontal Untuk Langkah Lain →
+          </span>
+        </div>
+
         {/* ================= INTERACTIVE WORKFLOW SELECTOR ================= */}
         <div className="flex flex-col lg:flex-row items-stretch mb-24 border-l border-t border-gray-200 dark:border-white/10 bg-white dark:bg-black">
           
@@ -194,7 +222,7 @@ export default function EcosystemSection() {
 
               <div className="mt-10 pt-6 border-t border-gray-100 dark:border-white/10">
                 <Link
-                  href="/lead-finder"
+                  href={features[activeIdx].href}
                   className="inline-flex items-center gap-2 px-6 py-3 bg-black dark:bg-white text-white dark:text-black font-bold uppercase tracking-widest text-xs border border-black dark:border-white hover:bg-white dark:hover:bg-black hover:text-black dark:hover:text-white transition-colors"
                 >
                   Buka & Coba Modul Ini <ArrowRight size={14} />

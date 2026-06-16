@@ -11,7 +11,7 @@ export default function WelcomePage() {
 
   // Logika Loading Bar seperti aplikasi sungguhan
   useEffect(() => {
-    let interval;
+    let interval: NodeJS.Timeout | undefined;
     if (progress < 100) {
       interval = setInterval(() => {
         setProgress((prev) => {

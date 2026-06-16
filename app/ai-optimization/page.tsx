@@ -176,7 +176,7 @@ function AIOptimizationPageContent() {
             {/* Header */}
             <div className="mb-8 border-l-8 border-black dark:border-white pl-4">
 
-          <h2 className="text-3xl font-black text-black dark:text-white uppercase tracking-widest">Google AI Search Optimization</h2>
+          <h2 className="text-3xl font-black text-black dark:text-white uppercase tracking-widest">Optimasi Google AI Search</h2>
           <p className="text-xs font-bold text-gray-500 uppercase tracking-widest mt-1">
             Optimasi GEO (Generative Engine Optimization) agar brand Anda dideteksi & dirangkum oleh Google AI Gemini
           </p>
@@ -294,7 +294,7 @@ function AIOptimizationPageContent() {
               className="w-full flex items-center justify-center gap-2 px-6 py-4 bg-black dark:bg-white text-white dark:text-black font-black uppercase tracking-widest text-sm border-2 border-black dark:border-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,0.3)] hover:translate-y-1 hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-all disabled:opacity-50"
             >
               {loading ? <Loader2 size={18} className="animate-spin" /> : <Sparkles size={18} />}
-              {loading ? "Generating GEO..." : "Generate Optimasi AI"}
+              {loading ? "Memproses GEO..." : "Generate Optimasi AI"}
             </button>
           </div>
 
@@ -354,7 +354,7 @@ function AIOptimizationPageContent() {
                           : "text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-white/5"
                       }`}
                     >
-                      Organization Schema
+                      Schema Organisasi
                     </button>
                     <button
                       onClick={() => setSchemaTab("faq")}
@@ -364,7 +364,7 @@ function AIOptimizationPageContent() {
                           : "text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-white/5"
                       }`}
                     >
-                      FAQ Schema (Brand Entity)
+                      Schema FAQ (Entitas Brand)
                     </button>
                   </div>
 
@@ -378,7 +378,7 @@ function AIOptimizationPageContent() {
                         className="flex items-center gap-1 px-3 py-1.5 bg-emerald-500 text-white border-2 border-black text-xs font-black uppercase tracking-wider hover:translate-y-0.5 hover:shadow-[1px_1px_0px_rgba(0,0,0,1)] shadow-[2px_2px_0px_rgba(0,0,0,1)] transition-all"
                       >
                         <Copy size={12} />
-                        Copy Code
+                        Salin Kode
                       </button>
                     </div>
 

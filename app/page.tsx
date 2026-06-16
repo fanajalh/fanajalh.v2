@@ -5,14 +5,14 @@ import Link from "next/link"
 import { 
   Menu, X, Palette, MessageCircle
 } from "lucide-react"
-import { useSession } from "next-auth/react"
+import { useSession, signOut } from "next-auth/react"
 import { ThemeToggle } from "@/components/ThemeToggle"
 
 // ─────────────────────────── NAVBAR ───────────────────────────
 function Navbar() {
   const [scrolled, setScrolled] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
-  const { status } = useSession()
+  const { data: session, status } = useSession()
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20)
@@ -21,11 +21,12 @@ function Navbar() {
   }, [])
 
   const navLinks = [
-    { label: "Layanan", href: "#services" },
     { label: "Poster Design", href: "#portfolio" },
-    { label: "Web/APK", href: "/dev-portfolio" },
+    { label: "Ecosystem", href: "#ecosystem" },
+    { label: "Layanan", href: "#services" },
     { label: "Harga", href: "#pricing" },
-    { label: "Ecosystem", href: "/lead-finder" },
+    { label: "Unduh APK", href: "#download-apk" },
+    { label: "Web/APK", href: "/dev-portfolio" },
     { label: "Kontak", href: "#contact" },
   ]
 
@@ -64,12 +65,35 @@ function Navbar() {
           {/* Desktop CTA */}
           <div className="hidden md:flex items-center gap-3">
             <ThemeToggle />
-            <Link 
-              href={status === "authenticated" ? "/home" : "/loginUser"}
-              className="px-6 py-2.5 bg-black dark:bg-white hover:bg-gray-800 dark:hover:bg-gray-200 text-white dark:text-black text-sm font-bold rounded-xl transition-all duration-300 hover:-translate-y-0.5 active:scale-95"
-            >
-              {status === "authenticated" ? "Dashboard" : "Login"}
-            </Link>
+            {status === "authenticated" ? (
+              <div className="flex items-center gap-3">
+                <span className="text-sm font-semibold text-gray-700 dark:text-gray-300">
+                  Hai, {session?.user?.name?.split(' ')[0] || "User"}
+                </span>
+                <button 
+                  onClick={() => signOut({ callbackUrl: "/" })}
+                  className="px-5 py-2 bg-red-600 hover:bg-red-500 text-white text-sm font-bold rounded-xl transition-all duration-300 hover:-translate-y-0.5 active:scale-95 shadow-sm"
+                  title="Keluar dari Akun"
+                >
+                  Logout
+                </button>
+              </div>
+            ) : (
+              <div className="flex items-center gap-2">
+                <Link 
+                  href="/loginUser?mode=register"
+                  className="px-5 py-2.5 bg-transparent border border-gray-300 dark:border-white/20 hover:border-black dark:hover:border-white text-gray-700 dark:text-gray-350 hover:text-black dark:hover:text-white text-sm font-bold rounded-xl transition-all duration-300 hover:-translate-y-0.5 active:scale-95"
+                >
+                  Daftar
+                </Link>
+                <Link 
+                  href="/loginUser?mode=login"
+                  className="px-6 py-2.5 bg-black dark:bg-white hover:bg-gray-800 dark:hover:bg-gray-200 text-white dark:text-black text-sm font-bold rounded-xl transition-all duration-300 hover:-translate-y-0.5 active:scale-95"
+                >
+                  Login
+                </Link>
+              </div>
+            )}
           </div>
 
           {/* Mobile Menu Button */}
@@ -101,9 +125,36 @@ function Navbar() {
               </Link>
             ))}
             <div className="pt-3 mt-2 border-t border-gray-100 dark:border-white/10 space-y-2">
-              <Link href={status === "authenticated" ? "/home" : "/loginUser"} className="block px-4 py-3 bg-black dark:bg-white text-white dark:text-black font-bold text-sm text-center rounded-xl active:scale-95 transition-all">
-                {status === "authenticated" ? "Dashboard" : "Login"}
-              </Link>
+              {status === "authenticated" ? (
+                <div className="space-y-2">
+                  <p className="text-xs font-bold text-center text-gray-500 dark:text-gray-400">
+                    Masuk sebagai: {session?.user?.name || "User"}
+                  </p>
+                  <button 
+                    onClick={() => signOut({ callbackUrl: "/" })}
+                    className="w-full block px-4 py-3 bg-red-600 hover:bg-red-700 text-white font-bold text-sm text-center rounded-xl active:scale-95 transition-all"
+                  >
+                    Logout
+                  </button>
+                </div>
+              ) : (
+                <div className="grid grid-cols-2 gap-2">
+                  <Link 
+                    href="/loginUser?mode=register" 
+                    onClick={() => setMenuOpen(false)}
+                    className="block px-4 py-3 bg-transparent border border-gray-300 dark:border-white/20 text-gray-700 dark:text-gray-300 text-center font-bold text-sm rounded-xl active:scale-95 transition-all"
+                  >
+                    Daftar
+                  </Link>
+                  <Link 
+                    href="/loginUser?mode=login" 
+                    onClick={() => setMenuOpen(false)}
+                    className="block px-4 py-3 bg-black dark:bg-white text-white dark:text-black text-center font-bold text-sm rounded-xl active:scale-95 transition-all"
+                  >
+                    Login
+                  </Link>
+                </div>
+              )}
             </div>
           </div>
         </div>
@@ -222,47 +273,95 @@ function FloatingWhatsApp() {
 
 // ─────────────────────────── MAIN LANDING PAGE ───────────────────────────
 import Hero from "@/components/sections/Hero"
-import Services from "@/components/sections/Services"
-import Portfolio from "@/components/sections/Portfolio"
-import DevPortfolioSection from "@/components/sections/DevPortfolioSection"
-import EcosystemSection from "@/components/sections/EcosystemSection"
-import Pricing from "@/components/sections/Pricing"
+import ServicesAndPricing from "@/components/sections/ServicesAndPricing"
+import PortfolioSection from "@/components/sections/PortfolioSection"
+import EcosystemPreview from "@/components/sections/EcosystemPreview"
+import DownloadApkSection from "@/components/sections/DownloadApkSection"
 import Lynk from "@/components/sections/Lynk"
 import Contact from "@/components/sections/Contact"
 import Marquee from "@/components/ui/Marquee"
 import FadeIn from "@/components/ui/FadeIn"
 
+function ValuePropositionBanner() {
+  return (
+    <section className="bg-white dark:bg-black text-black dark:text-white border-y-4 border-black dark:border-white py-16 px-6 relative z-10 selection:bg-orange-500 selection:text-white">
+      <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center justify-between gap-12">
+        <div className="max-w-md text-center lg:text-left space-y-3">
+          <span className="text-[10px] font-black uppercase tracking-[0.2em] text-orange-500 block">Value Integration</span>
+          <h3 className="text-3xl sm:text-4xl font-black uppercase tracking-tight leading-[1.1] text-black dark:text-white">
+            Dari Visual Kreatif <br className="hidden lg:block"/> Hingga Automasi Bisnis
+          </h3>
+          <p className="text-xs text-gray-500 dark:text-gray-400 font-medium">
+            Alur pemasaran modern terlengkap dari hulu ke hilir untuk mendongkrak omzet UMKM hingga Korporasi.
+          </p>
+        </div>
+        <div className="flex-1 grid md:grid-cols-2 gap-8 w-full">
+          <div className="bg-gray-50 dark:bg-white/5 border-4 border-black dark:border-white shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] dark:shadow-[8px_8px_0px_0px_rgba(255,255,255,0.15)] p-8 flex flex-col justify-between rounded-none hover:translate-y-[-2px] hover:shadow-[10px_10px_0px_0px_rgba(0,0,0,1)] transition-all duration-350">
+            <div>
+              <span className="w-9 h-9 bg-orange-500 text-white flex items-center justify-center font-black text-sm mb-6 border-2 border-black dark:border-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] dark:shadow-[2px_2px_0px_0px_rgba(255,255,255,0.1)] rounded-none">01</span>
+              <h4 className="font-black text-sm uppercase tracking-widest mb-3 text-orange-500">Joki Poster (Visual)</h4>
+              <p className="text-xs text-gray-500 dark:text-gray-400 leading-relaxed font-semibold">
+                Pengerjaan desain grafis premium (poster, feed IG, banner) berdaya konversi tinggi untuk membangun identitas brand Anda.
+              </p>
+            </div>
+          </div>
+          <div className="bg-gray-50 dark:bg-white/5 border-4 border-black dark:border-white shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] dark:shadow-[8px_8px_0px_0px_rgba(255,255,255,0.15)] p-8 flex flex-col justify-between rounded-none hover:translate-y-[-2px] hover:shadow-[10px_10px_0px_0px_rgba(0,0,0,1)] transition-all duration-350">
+            <div>
+              <span className="w-9 h-9 bg-emerald-500 text-white flex items-center justify-center font-black text-sm mb-6 border-2 border-black dark:border-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] dark:shadow-[2px_2px_0px_0px_rgba(255,255,255,0.1)] rounded-none">02</span>
+              <h4 className="font-black text-sm uppercase tracking-widest mb-3 text-emerald-500">SaaS Ecosystem (Outreach)</h4>
+              <p className="text-xs text-gray-500 dark:text-gray-400 leading-relaxed font-semibold">
+                Temukan data prospek tertarget (Lead Finder), kelola interaksi (CRM), dan sebar materi desain Anda via Email Blast secara instan.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  )
+}
+
 export default function LandingPage() {
+  const [orderPageOpen, setOrderPageOpen] = useState(true)
+
+  useEffect(() => {
+    fetch("/api/website-settings")
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.success && data.data) {
+          setOrderPageOpen(data.data.orderPageOpen !== false)
+        }
+      })
+      .catch((err) => console.error("Error fetching settings in page.tsx:", err))
+  }, [])
+
   return (
     <>
       <Navbar />
       <main>
         <FadeIn delay={0.1}>
-          <Hero />
+          <Hero orderPageOpen={orderPageOpen} />
         </FadeIn>
         <FadeIn delay={0.2}>
           <Marquee />
         </FadeIn>
+        <ValuePropositionBanner />
         <FadeIn delay={0.1}>
-          <Portfolio />
+          <PortfolioSection />
         </FadeIn>
         <FadeIn delay={0.1}>
-          <DevPortfolioSection />
+          <EcosystemPreview />
         </FadeIn>
         <FadeIn delay={0.1}>
-          <EcosystemSection />
+          <ServicesAndPricing />
         </FadeIn>
         <FadeIn delay={0.1}>
-          <Services />
-        </FadeIn>
-        <FadeIn delay={0.1}>
-          <Pricing />
+          <DownloadApkSection />
         </FadeIn>
         <FadeIn delay={0.1}>
           <Lynk />
         </FadeIn>
         <FadeIn delay={0.1}>
-          <Contact />
+          <Contact orderPageOpen={orderPageOpen} />
         </FadeIn>
       </main>
       <Footer />

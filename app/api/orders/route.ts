@@ -2,7 +2,7 @@ import { type NextRequest, NextResponse } from "next/server"
 import nodemailer from 'nodemailer'
 import { getDb } from "@/lib/db"
 import { getServerSession } from "next-auth/next"
-import { authOptions } from "@/app/api/auth/[...nextauth]/route"
+import { authOptions } from "@/lib/auth"
 
 export const dynamic = 'force-dynamic'
 

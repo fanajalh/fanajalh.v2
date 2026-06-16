@@ -4,7 +4,11 @@ import { ArrowRight, Star, Sparkles, Layout, MonitorSmartphone, Layers } from "l
 import MagneticButton from "@/components/ui/MagneticButton"
 import { motion } from "framer-motion"
 
-export default function Hero() {
+interface HeroProps {
+  orderPageOpen?: boolean
+}
+
+export default function Hero({ orderPageOpen = true }: HeroProps) {
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -24,6 +28,9 @@ export default function Hero() {
       transition: { type: "spring" as const, stiffness: 100, damping: 10 },
     },
   }
+
+  const primaryLink = orderPageOpen ? "/order" : "/ecosystem"
+  const primaryText = orderPageOpen ? "Mulai Project" : "Coba SaaS Ecosystem"
 
   return (
     <section className="relative pt-32 pb-24 lg:pt-40 lg:pb-32 bg-white dark:bg-black overflow-hidden selection:bg-black dark:selection:bg-white selection:text-white dark:selection:text-black min-h-screen flex items-center">
@@ -67,10 +74,10 @@ export default function Hero() {
             <motion.div variants={itemVariants} className="flex flex-col sm:flex-row items-center gap-4 justify-center lg:justify-start pt-4">
               <MagneticButton>
                 <Link 
-                  href="/order" 
+                  href={primaryLink} 
                   className="group flex items-center justify-center gap-3 w-full sm:w-auto px-8 py-4 bg-black dark:bg-white text-white dark:text-black font-black uppercase tracking-widest rounded-none border-2 border-black dark:border-white shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] dark:shadow-[6px_6px_0px_0px_rgba(255,255,255,1)] hover:translate-y-1 hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] dark:hover:shadow-[2px_2px_0px_0px_rgba(255,255,255,1)] transition-all duration-300"
                 >
-                  Mulai Project
+                  {primaryText}
                   <ArrowRight className="w-5 h-5 group-hover:translate-x-1.5 transition-transform" />
                 </Link>
               </MagneticButton>
@@ -86,25 +93,6 @@ export default function Hero() {
               </MagneticButton>
             </motion.div>
 
-            {/* Social Proof / Avatars */}
-            <motion.div variants={itemVariants} className="flex flex-col sm:flex-row items-center gap-4 justify-center lg:justify-start pt-8 border-t-4 border-black dark:border-white mt-8">
-              <div className="flex -space-x-3">
-                {[1, 2, 3].map((i) => (
-                  <div key={i} className="w-10 h-10 rounded-none border-2 border-black dark:border-white bg-gray-100 dark:bg-white/10 flex items-center justify-center overflow-hidden grayscale hover:grayscale-0 transition-all">
-                    <img src={`https://i.pravatar.cc/100?img=${i + 25}`} alt="Client" className="w-full h-full object-cover" />
-                  </div>
-                ))}
-                <div className="w-10 h-10 rounded-none border-2 border-black dark:border-white bg-black dark:bg-white text-white dark:text-black flex items-center justify-center text-[10px] font-black z-10">
-                  100+
-                </div>
-              </div>
-              <div className="text-sm text-left">
-                <div className="flex items-center gap-1 justify-center sm:justify-start text-black dark:text-white mb-1">
-                  {[1,2,3,4,5].map(i => <Star key={i} className="w-3.5 h-3.5 fill-current" />)}
-                </div>
-                <p className="font-black text-black dark:text-white text-xs uppercase tracking-wider">Dipercaya Klien Bisnis</p>
-              </div>
-            </motion.div>
 
           </motion.div>
 
@@ -143,7 +131,7 @@ export default function Hero() {
                    </div>
                 </div>
                 <Image
-                  src="/feed arfan (20).png" // Replace with a light-themed premium mockup image later
+                  src="/feed arfan (20).png"
                   alt="Desain Poster Premium"
                   fill
                   priority

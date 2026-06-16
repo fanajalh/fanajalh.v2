@@ -5,44 +5,7 @@ import Link from "next/link"
 import { ArrowLeft, Monitor, Smartphone, ExternalLink, Github, Code2, Sparkles } from "lucide-react"
 import FadeIn from "@/components/ui/FadeIn"
 
-const DEFAULT_DEV_PORTFOLIO = [
-  {
-    id: "default-1",
-    title: "Amanah E-Commerce & Custom CMS",
-    category: "Web",
-    type: "E-Commerce System",
-    description: "Platform e-commerce modern dengan integrasi gerbang pembayaran otomatis, sinkronisasi stok real-time, dan dashboard admin kustom yang komprehensif.",
-    tech: "Next.js, TailwindCSS, PostgreSQL, Midtrans",
-    image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&auto=format&fit=crop&q=80",
-    color: "from-blue-500 to-indigo-600",
-    link: "https://amanah-store.demo",
-    github_link: "https://github.com/fanajah/amanah-store"
-  },
-  {
-    id: "default-2",
-    title: "Cafe Jakarta Reservasi App",
-    category: "APK",
-    type: "Mobile App",
-    description: "Aplikasi mobile kustom untuk pemesanan meja, pre-order menu makanan, dan loyalitas pelanggan terintegrasi QR Code Scanner.",
-    tech: "React Native, Node.js, Express, MongoDB",
-    image: "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=600&auto=format&fit=crop&q=80",
-    color: "from-amber-500 to-orange-600",
-    link: null,
-    github_link: "https://github.com/fanajah/cafe-jakarta-app"
-  },
-  {
-    id: "default-3",
-    title: "Fanz ERP Business Dashboard",
-    category: "Web",
-    type: "Enterprise Solution",
-    description: "Sistem perencanaan sumber daya perusahaan (ERP) internal untuk analitik real-time penjualan, inventarisasi pergudangan, dan keuangan.",
-    tech: "React.js, Express, Chart.js, PostgreSQL",
-    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&auto=format&fit=crop&q=80",
-    color: "from-emerald-500 to-teal-600",
-    link: "https://erp-dashboard.demo",
-    github_link: null
-  }
-]
+
 
 export default function PortfolioPage() {
   const [portfolioItems, setPortfolioItems] = useState<any[]>([])

@@ -202,11 +202,11 @@ function BlastPageContent() {
 
   const STEPS = [
     { num: 1, label: "SMTP", icon: Settings },
-    { num: 2, label: "Target", icon: Users },
-    { num: 3, label: "Template", icon: FileText },
+    { num: 2, label: "Penerima", icon: Users },
+    { num: 3, label: "Templat", icon: FileText },
     { num: 4, label: "Kirim", icon: Send },
   ]
-
+ 
   if (accessLoading || !allowed) {
     return (
       <div className="min-h-screen bg-gray-50 dark:bg-black flex items-center justify-center">
@@ -214,7 +214,7 @@ function BlastPageContent() {
       </div>
     )
   }
-
+ 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-black">
       {!SelectorModal && <EcosystemNav />}
@@ -229,7 +229,7 @@ function BlastPageContent() {
               <h2 className="text-3xl font-black text-black dark:text-white uppercase tracking-widest">Blast Email</h2>
               <p className="text-xs font-bold text-gray-500 uppercase tracking-widest mt-1">Kirim email massal dari alamat email Anda sendiri</p>
             </div>
-
+ 
             {/* Stepper */}
             <div className="flex items-center gap-2 mb-8 overflow-x-auto no-scrollbar">
               {STEPS.map((s, i) => (
@@ -251,10 +251,10 @@ function BlastPageContent() {
                 </div>
               ))}
             </div>
-
+ 
             {/* Step Content */}
             <div className="bg-white dark:bg-white/5 border-4 border-black dark:border-white p-6 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] dark:shadow-[8px_8px_0px_0px_rgba(255,255,255,0.2)]">
-
+ 
               {/* Step 1: SMTP Setup */}
               {step === 1 && (
                 <div>
@@ -265,13 +265,13 @@ function BlastPageContent() {
                   ) : (
                     <div className="space-y-4 max-w-lg">
                       <div>
-                        <label className="block text-[10px] font-black uppercase tracking-widest text-gray-500 mb-1">Email Address *</label>
+                        <label className="block text-[10px] font-black uppercase tracking-widest text-gray-500 mb-1">Alamat Email *</label>
                         <input value={smtp.smtp_email} onChange={(e) => setSmtp(p => ({ ...p, smtp_email: e.target.value }))} placeholder="email@gmail.com" className="w-full px-4 py-3 bg-white dark:bg-black text-black dark:text-white border-2 border-black dark:border-white text-sm font-bold focus:outline-none" />
                       </div>
                       <div>
-                        <label className="block text-[10px] font-black uppercase tracking-widest text-gray-500 mb-1">App Password *</label>
-                        <input type="password" value={smtp.smtp_password} onChange={(e) => setSmtp(p => ({ ...p, smtp_password: e.target.value }))} placeholder="App password dari Google" className="w-full px-4 py-3 bg-white dark:bg-black text-black dark:text-white border-2 border-black dark:border-white text-sm font-bold focus:outline-none" />
-                        <p className="text-[10px] font-bold text-gray-400 mt-1">Google Account → Security → 2-Step Verification → App Passwords</p>
+                        <label className="block text-[10px] font-black uppercase tracking-widest text-gray-500 mb-1">Password Aplikasi *</label>
+                        <input type="password" value={smtp.smtp_password} onChange={(e) => setSmtp(p => ({ ...p, smtp_password: e.target.value }))} placeholder="Password aplikasi dari Google" className="w-full px-4 py-3 bg-white dark:bg-black text-black dark:text-white border-2 border-black dark:border-white text-sm font-bold focus:outline-none" />
+                        <p className="text-[10px] font-bold text-gray-400 mt-1">Akun Google → Keamanan → Verifikasi 2-Langkah → Password Aplikasi</p>
                       </div>
                       <div>
                         <label className="block text-[10px] font-black uppercase tracking-widest text-gray-500 mb-1">Nama Pengirim</label>
@@ -280,7 +280,7 @@ function BlastPageContent() {
                       <div className="flex gap-3 pt-4">
                         <button onClick={saveSmtp} disabled={savingSmtp} className="flex-1 flex items-center justify-center gap-2 py-3 bg-black dark:bg-white text-white dark:text-black font-black uppercase tracking-widest text-sm border-2 border-black dark:border-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-y-1 hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-all disabled:opacity-50">
                           {savingSmtp ? <Loader2 size={16} className="animate-spin" /> : <Settings size={16} />}
-                          {smtpConfigured ? "Update SMTP" : "Simpan SMTP"}
+                          {smtpConfigured ? "Perbarui SMTP" : "Simpan SMTP"}
                         </button>
                         {smtpConfigured && (
                           <button onClick={() => setStep(2)} className="flex-1 flex items-center justify-center gap-2 py-3 bg-emerald-500 text-white font-black uppercase tracking-widest text-sm border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-y-1 hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-all">
@@ -423,16 +423,16 @@ function BlastPageContent() {
             {/* Campaign History */}
             {campaigns.length > 0 && (
               <div className="mt-8">
-                <h3 className="text-lg font-black uppercase tracking-widest text-black dark:text-white mb-4">Riwayat Campaign</h3>
+                <h3 className="text-lg font-black uppercase tracking-widest text-black dark:text-white mb-4">Riwayat Kampanye</h3>
                 <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-0 border-l border-t border-black dark:border-white">
                   {campaigns.map(c => (
                     <div key={c.id} className="p-4 border-r border-b border-black dark:border-white bg-white dark:bg-black">
                       <p className="font-black text-sm text-black dark:text-white uppercase tracking-wider truncate">{c.name}</p>
                       <p className="text-[10px] font-bold text-gray-400 mt-1">{c.subject}</p>
                       <div className="flex gap-4 mt-3">
-                        <div><p className="text-lg font-black text-black dark:text-white">{c.sent_count}</p><p className="text-[9px] font-black text-gray-400 uppercase tracking-widest">Sent</p></div>
-                        <div><p className="text-lg font-black text-emerald-500">{c.open_count}</p><p className="text-[9px] font-black text-gray-400 uppercase tracking-widest">Open</p></div>
-                        <div><p className="text-lg font-black text-blue-500">{c.reply_count}</p><p className="text-[9px] font-black text-gray-400 uppercase tracking-widest">Reply</p></div>
+                        <div><p className="text-lg font-black text-black dark:text-white">{c.sent_count}</p><p className="text-[9px] font-black text-gray-400 uppercase tracking-widest">Terkirim</p></div>
+                        <div><p className="text-lg font-black text-emerald-500">{c.open_count}</p><p className="text-[9px] font-black text-gray-400 uppercase tracking-widest">Dibuka</p></div>
+                        <div><p className="text-lg font-black text-blue-500">{c.reply_count}</p><p className="text-[9px] font-black text-gray-400 uppercase tracking-widest">Dibalas</p></div>
                       </div>
                       <div className="mt-2 h-2 bg-gray-100 dark:bg-white/10 border border-black dark:border-white">
                         <div className="h-full bg-emerald-500" style={{ width: `${c.sent_count > 0 ? (c.open_count / c.sent_count * 100) : 0}%` }} />

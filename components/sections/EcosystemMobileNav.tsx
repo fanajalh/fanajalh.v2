@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { Search, Users, Mail, Key, Wrench, BarChart3, Lock, Sparkles, Globe } from "lucide-react"
@@ -19,6 +19,7 @@ const MOBILE_NAV_ITEMS = [
 
 export default function EcosystemMobileNav() {
   const pathname = usePathname()
+  const activeRef = useRef<HTMLAnchorElement>(null)
   const [unlocked, setUnlocked] = useState<Record<string, boolean>>(() => {
     if (typeof window !== "undefined") {
       try {
@@ -57,6 +58,16 @@ export default function EcosystemMobileNav() {
     fetchStatus()
   }, [])
 
+  useEffect(() => {
+    if (activeRef.current) {
+      activeRef.current.scrollIntoView({
+        behavior: "smooth",
+        block: "nearest",
+        inline: "center",
+      })
+    }
+  }, [pathname])
+
   return (
     <div className="sticky top-[110px] z-40 bg-[#f4f6f9]/90 backdrop-blur-xl py-3 border-b border-slate-200/60 shadow-sm w-full">
       <div className="flex gap-2 px-4 overflow-x-auto snap-x [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden w-full max-w-md mx-auto">
@@ -80,6 +91,7 @@ export default function EcosystemMobileNav() {
           return (
             <Link
               key={item.href}
+              ref={isActive ? activeRef : undefined}
               href={item.href}
               onClick={handleClick}
               className={`snap-center flex items-center gap-1.5 px-4 py-2.5 rounded-full text-[12px] font-extrabold transition-all duration-200 whitespace-nowrap active:scale-95 outline-none border ${

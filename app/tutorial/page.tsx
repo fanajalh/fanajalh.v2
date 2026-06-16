@@ -262,7 +262,7 @@ export default function TutorialPage() {
               </div>
             </div>
             <Link
-              href="/"
+              href="/lead-finder"
               className="flex items-center gap-2 px-3 py-2 text-xs font-black uppercase tracking-widest text-gray-500 dark:text-gray-400 hover:text-black dark:hover:text-white border-2 border-transparent hover:border-black dark:hover:border-white transition-all"
             >
               <ArrowLeft size={14} strokeWidth={3} />
@@ -382,7 +382,7 @@ export default function TutorialPage() {
                   <h5 className="font-black text-xs uppercase tracking-wider text-black dark:text-white">
                     {index + 1}. {flow.title}
                   </h5>
-                  <p className="text-xs font-bold text-gray-400 dark:text-gray-500 mt-1 leading-relaxed">
+                  <p className="text-xs font-bold text-gray-600 dark:text-gray-400 mt-1 leading-relaxed">
                     {flow.desc}
                   </p>
                 </div>

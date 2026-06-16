@@ -11,7 +11,11 @@ interface FormData {
     message: string;
 }
 
-export default function Contact() {
+interface ContactProps {
+    orderPageOpen?: boolean;
+}
+
+export default function Contact({ orderPageOpen = true }: ContactProps) {
     const [formData, setFormData] = useState<FormData>({
         name: "", email: "", phone: "", message: "",
     })
@@ -123,7 +127,13 @@ export default function Contact() {
                             <h3 className="text-[10px] font-bold text-gray-400 dark:text-gray-500 mb-8 uppercase tracking-widest">Informasi Kontak</h3>
                             <div className="space-y-8">
                                 {[
-                                    { icon: Phone, title: "WhatsApp", desc: "+62 851-3373-7623", link: "https://wa.me/6285133737623", linkText: "Chat Sekarang" },
+                                    { 
+                                        icon: Phone, 
+                                        title: "WhatsApp", 
+                                        desc: orderPageOpen ? "+62 851-3373-7623" : "+62 851-3373-7623\n(Slow Response — Layanan Tutup)", 
+                                        link: "https://wa.me/6285133737623", 
+                                        linkText: orderPageOpen ? "Chat Sekarang" : "Hubungi (Slow Response)" 
+                                    },
                                     { icon: Mail, title: "Email", desc: "arfan.7ovo@gmail.com", link: "mailto:arfan.7ovo@gmail.com", linkText: "Kirim Email" },
                                     { icon: Clock, title: "Jam Operasional", desc: "Senin - Sabtu: 13:00 - 21:00\nMinggu: 10:00 - 18:00" },
                                     { icon: MapPin, title: "Lokasi", desc: "Purwokerto, Jawa Tengah\n(Layanan Online)" },
@@ -149,15 +159,19 @@ export default function Contact() {
                         {/* Quick WhatsApp Action Card */}
                         <div className="bg-black dark:bg-white text-white dark:text-black p-8 relative overflow-hidden transition-transform hover:-translate-y-1">
                             <div className="relative z-10">
-                                <h4 className="font-bold text-xl mb-3">Butuh Respon Kilat?</h4>
-                                <p className="text-gray-400 dark:text-gray-500 text-sm mb-6 leading-relaxed font-medium">Tim kami siap melayani konsultasi desain Anda langsung via WhatsApp.</p>
+                                <h4 className="font-bold text-xl mb-3">{orderPageOpen ? "Butuh Respon Kilat?" : "Layanan Sedang Tutup"}</h4>
+                                <p className="text-gray-400 dark:text-gray-500 text-sm mb-6 leading-relaxed font-medium">
+                                    {orderPageOpen 
+                                        ? "Tim kami siap melayani konsultasi desain Anda langsung via WhatsApp." 
+                                        : "Layanan kami sedang libur/tutup sementara. Kami akan membalas pesan Anda sesegera mungkin (slow response)."}
+                                </p>
                                 <a 
-                                    href="https://wa.me/6285133737623?text=Halo,%20saya%20tertarik%20dengan%20layanan%20desain%20poster%20Anda" 
+                                    href="https://wa.me/6285133737623?text=Halo,%20saya%20tertarik%2520menghubungi%2520AllFanajalh" 
                                     target="_blank" 
                                     rel="noopener noreferrer" 
                                     className="w-full flex items-center justify-center gap-2 bg-white dark:bg-black text-black dark:text-white py-4 font-bold transition-all active:scale-[0.98] border border-transparent hover:border-white dark:hover:border-black hover:bg-transparent dark:hover:bg-transparent hover:text-white dark:hover:text-black"
                                 >
-                                    <MessageCircle size={20} /> Chat WhatsApp
+                                    <MessageCircle size={20} /> {orderPageOpen ? "Chat WhatsApp" : "Hubungi Admin (Slow)"}
                                 </a>
                             </div>
                         </div>
@@ -167,11 +181,26 @@ export default function Contact() {
                     <div className="lg:col-span-3">
                         <div className="bg-white dark:bg-black border border-gray-200 dark:border-white/10 p-8 md:p-10 shadow-[20px_20px_0px_0px_rgba(0,0,0,0.05)] dark:shadow-[20px_20px_0px_0px_rgba(255,255,255,0.05)]">
                             <div className="mb-10">
-                                <h3 className="text-2xl font-bold text-black dark:text-white mb-2">Kirim Pesan Langsung</h3>
-                                <p className="text-gray-500 dark:text-gray-400 text-sm font-medium">Kami akan membalas pesan Anda ke email yang tertera di bawah.</p>
+                                <h3 className="text-2xl font-bold text-black dark:text-white mb-2">
+                                    {orderPageOpen ? "Kirim Pesan Langsung" : "Tinggalkan Pesan"}
+                                </h3>
+                                <p className="text-gray-500 dark:text-gray-400 text-sm font-medium">
+                                    {orderPageOpen 
+                                        ? "Kami akan membalas pesan Anda ke email yang tertera di bawah." 
+                                        : "Tinggalkan pertanyaan atau daftar notifikasi ketika layanan aktif kembali."}
+                                </p>
                             </div>
                             
                             <form onSubmit={handleSubmit} className="space-y-6">
+                                {!orderPageOpen && (
+                                    <div className="p-4 bg-red-50 dark:bg-red-950/20 border-2 border-red-500 text-red-700 dark:text-red-400 text-xs font-bold uppercase tracking-wider flex items-start gap-3 animate-in fade-in">
+                                        <AlertCircle size={18} className="mt-0.5 flex-shrink-0 text-red-500" />
+                                        <span>
+                                            Layanan desain kami sedang tutup/libur sementara. Anda tetap dapat mengirim pesan untuk bertukar info atau meminta notifikasi jika kami buka kembali.
+                                        </span>
+                                    </div>
+                                )}
+
                                 {submitError && (
                                     <div className="p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-900/50 text-red-600 dark:text-red-400 text-sm font-medium flex items-start gap-3 animate-in fade-in">
                                         <AlertCircle size={18} className="mt-0.5 flex-shrink-0 text-red-500 dark:text-red-400" />
@@ -229,7 +258,7 @@ export default function Contact() {
                                         {isSubmitting ? (
                                             <><Loader2 size={20} className="animate-spin" /> Mengirim...</>
                                         ) : (
-                                            <><Send size={20} /> Kirim Pesan</>
+                                            <><Send size={20} /> {orderPageOpen ? "Kirim Pesan" : "Tinggalkan Pesan & Notifikasi Saya Saat Buka"}</>
                                         )}
                                     </button>
                                 </div>

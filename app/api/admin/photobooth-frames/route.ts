@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth/next";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { authOptions } from "@/lib/auth";
 import { getDb } from "@/lib/db";
 import { validateFrameImageUrl, validateFrameSlug } from "@/lib/photobooth-validation";
 
@@ -70,3 +70,4 @@ export async function POST(req: Request) {
     return NextResponse.json({ success: false, message: e.message }, { status: 500 });
   }
 }
+

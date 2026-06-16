@@ -1,7 +1,7 @@
 import { getDb } from "@/lib/db";
 import { getClientIp } from "@/lib/request-ip";
 import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { authOptions } from "@/lib/auth";
 
 export interface LimitCheckResult {
   allowed: boolean;
@@ -38,7 +38,7 @@ export async function checkEcosystemLimit(req: Request, feature: string, request
     // Check if guest has used other features
     const otherFeatures = await sql`
       SELECT DISTINCT feature FROM ecosystem_usage_logs 
-      WHERE ip_address = ${ip} AND feature != ${feature}
+      WHERE ip_address = ${ip} AND feature != ${feature} AND usage_count > 0
     `;
     if (otherFeatures.length > 0) {
       const formattedFeature = otherFeatures[0].feature.replace('_', ' ').toUpperCase();
@@ -66,10 +66,10 @@ export async function checkEcosystemLimit(req: Request, feature: string, request
         };
       }
     } else {
-      // Check other features count
+      // Check other features count (only count actual usage, not page visits)
       const [featureCount] = await sql`
         SELECT COUNT(*) as total FROM ecosystem_usage_logs
-        WHERE ip_address = ${ip} AND feature = ${feature}
+        WHERE ip_address = ${ip} AND feature = ${feature} AND usage_count > 0
       `;
       const total = parseInt(featureCount.total || "0");
       if (total >= 1) {
@@ -123,10 +123,12 @@ export async function checkEcosystemLimit(req: Request, feature: string, request
     }
   } else {
     // Other features limit: max 5 times/inputs per 5 days (across all non-blast features combined)
+    // Only count actual usage (usage_count > 0), not page visits
     const [usageCount] = await sql`
       SELECT COUNT(*) as total FROM ecosystem_usage_logs
       WHERE user_email = ${userEmail} 
       AND feature != 'blast'
+      AND usage_count > 0
       AND created_at >= NOW() - INTERVAL '5 days'
     `;
     const total = parseInt(usageCount.total || "0");
@@ -148,3 +150,4 @@ export async function logEcosystemUsage(feature: string, usageCount: number, ip:
     VALUES (${ip || null}, ${email || null}, ${feature}, ${usageCount})
   `;
 }
+

@@ -23,6 +23,19 @@ interface KeywordSuggestion {
   selected?: boolean
 }
 
+const DIFFICULTY_LABELS: Record<string, string> = {
+  easy: "Mudah",
+  medium: "Sedang",
+  hard: "Sulit",
+}
+
+const INTENT_LABELS: Record<string, string> = {
+  informational: "Informasi",
+  commercial: "Komersial",
+  transactional: "Transaksi",
+  navigational: "Navigasi",
+}
+
 function KeywordPageContent() {
   const { loading: accessLoading, allowed, SelectorModal } = useEcosystemAccess("keyword")
   const searchParams = useSearchParams()
@@ -216,7 +229,7 @@ function KeywordPageContent() {
           <>
             {/* Header */}
             <div className="mb-8 border-l-8 border-black dark:border-white pl-4">
-              <h2 className="text-3xl font-black text-black dark:text-white uppercase tracking-widest">Keyword Suggestion</h2>
+              <h2 className="text-3xl font-black text-black dark:text-white uppercase tracking-widest">Rekomendasi Keyword</h2>
               <p className="text-xs font-bold text-gray-500 uppercase tracking-widest mt-1">Cari keyword target potensial menggunakan AI</p>
             </div>
 
@@ -293,7 +306,7 @@ function KeywordPageContent() {
                   className="w-full flex items-center justify-center gap-2 px-6 py-4 bg-black dark:bg-white text-white dark:text-black font-black uppercase tracking-widest text-sm border-2 border-black dark:border-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,0.3)] hover:translate-y-1 hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-all disabled:opacity-50"
                 >
                   {loading ? <Loader2 size={18} className="animate-spin" /> : <Sparkles size={18} />}
-                  {loading ? "Generating..." : "Generate dengan AI"}
+                  {loading ? "Memproses..." : "Generate dengan AI"}
                 </button>
               </div>
 
@@ -321,7 +334,7 @@ function KeywordPageContent() {
                         <button onClick={toggleSelectAll} className="text-xs font-black uppercase tracking-widest text-gray-500 hover:text-black dark:hover:text-white transition-colors">
                           {keywords.every(k => k.selected) ? "Batal Pilih Semua" : "Pilih Semua"}
                         </button>
-                        <span className="text-xs font-bold text-gray-400">{keywords.length} Keyword Suggestion</span>
+                        <span className="text-xs font-bold text-gray-400">{keywords.length} Rekomendasi Keyword</span>
                       </div>
                       {selectedCount > 0 && (
                         <button
@@ -343,8 +356,8 @@ function KeywordPageContent() {
                             <th className="w-12 p-4 text-left"></th>
                             <th className="text-left p-4 text-[10px] font-black uppercase tracking-widest text-gray-500">Keyword</th>
                             <th className="text-left p-4 text-[10px] font-black uppercase tracking-widest text-gray-500">Pencarian / Bln (Volume)</th>
-                            <th className="text-left p-4 text-[10px] font-black uppercase tracking-widest text-gray-500">Difficulty</th>
-                            <th className="text-left p-4 text-[10px] font-black uppercase tracking-widest text-gray-500">Search Intent</th>
+                            <th className="text-left p-4 text-[10px] font-black uppercase tracking-widest text-gray-500">Tingkat Kesulitan</th>
+                            <th className="text-left p-4 text-[10px] font-black uppercase tracking-widest text-gray-500">Tujuan Pencarian (Intent)</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -371,12 +384,12 @@ function KeywordPageContent() {
                               </td>
                               <td className="p-4">
                                 <span className={`px-2 py-1 text-[9px] font-black uppercase tracking-widest border-2 rounded-none ${difficultyColors[kw.difficulty] || ""}`}>
-                                  {kw.difficulty}
+                                  {DIFFICULTY_LABELS[kw.difficulty] || kw.difficulty}
                                 </span>
                               </td>
                               <td className="p-4">
                                 <span className={`px-2 py-1 text-[9px] font-black uppercase tracking-widest border-2 rounded-none ${intentColors[kw.intent] || ""}`}>
-                                  {kw.intent}
+                                  {INTENT_LABELS[kw.intent] || kw.intent}
                                 </span>
                               </td>
                             </tr>
@@ -394,7 +407,7 @@ function KeywordPageContent() {
                 ) : (
                   <div className="text-center py-24 bg-white dark:bg-white/5 border-4 border-dashed border-gray-300 dark:border-gray-700">
                     <Key size={48} className="mx-auto mb-4 text-gray-300 dark:text-gray-600" />
-                    <h3 className="text-xl font-black text-gray-300 dark:text-gray-600 uppercase tracking-widest mb-2">Generate Keyword Suggestion</h3>
+                    <h3 className="text-xl font-black text-gray-300 dark:text-gray-600 uppercase tracking-widest mb-2">Rekomendasi Keyword AI</h3>
                     <p className="text-sm font-bold text-gray-400 dark:text-gray-500">Isi data bisnis di form sebelah kiri untuk mendeteksi keyword potensial.</p>
                   </div>
                 )}
