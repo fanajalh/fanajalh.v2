@@ -236,18 +236,18 @@ function AuthFormContent() {
   return (
     <div className="min-h-screen bg-white dark:bg-black flex justify-center items-center p-4 selection:bg-black selection:text-white dark:selection:bg-white dark:selection:text-black">
       {/* Background Decor (Grid tipis) */}
-      <div className="absolute inset-0 bg-[linear-gradient(rgba(0,0,0,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(0,0,0,0.03)_1px,transparent_1px)] dark:bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),dark:linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:64px_64px] pointer-events-none z-0"></div>
+      <div className="absolute inset-0 bg-[linear-gradient(rgba(0,0,0,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(0,0,0,0.03)_1px,transparent_1px)] dark:bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:64px_64px] pointer-events-none z-0"></div>
 
-      <div className="relative w-full max-w-4xl bg-white dark:bg-black flex flex-col md:flex-row overflow-hidden border-2 border-black dark:border-white shadow-[15px_15px_0px_0px_rgba(0,0,0,1)] dark:shadow-[15px_15px_0px_0px_rgba(255,255,255,1)] min-h-[550px] z-10">
+      <div className="relative w-full max-w-4xl bg-white dark:bg-slate-900 flex flex-col md:flex-row overflow-hidden rounded-[2rem] border border-slate-100 dark:border-slate-800 shadow-2xl shadow-orange-500/10 dark:shadow-orange-500/5 min-h-[550px] z-10">
         
         {/* Left Side: Branding Banner */}
-        <div className="hidden md:flex flex-col flex-1 bg-black dark:bg-white p-10 justify-between relative overflow-hidden border-b-2 md:border-b-0 md:border-r-2 border-black dark:border-white">
+        <div className="hidden md:flex flex-col flex-1 bg-gradient-to-br from-slate-950 via-slate-900 to-black dark:from-white dark:via-slate-50 dark:to-slate-100 p-10 justify-between relative overflow-hidden border-b md:border-b-0 md:border-r border-slate-100 dark:border-slate-800">
           {/* Grid bg inside banner */}
-          <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.05)_1px,transparent_1px)] dark:bg-[linear-gradient(rgba(0,0,0,0.05)_1px,transparent_1px),dark:linear-gradient(90deg,rgba(0,0,0,0.05)_1px,transparent_1px)] bg-[size:32px_32px]"></div>
+          <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)] dark:bg-[linear-gradient(rgba(0,0,0,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(0,0,0,0.03)_1px,transparent_1px)] bg-[size:32px_32px]"></div>
           
           <div className="relative z-10">
             <Link href="/" className="inline-flex items-center gap-2 hover:opacity-80 transition-opacity">
-              <div className="w-10 h-10 border border-white/20 dark:border-black/20 flex items-center justify-center bg-white/5 dark:bg-black/5 overflow-hidden rounded-md shrink-0">
+              <div className="w-10 h-10 border border-white/10 dark:border-black/10 flex items-center justify-center bg-white/5 dark:bg-black/5 overflow-hidden rounded-xl shrink-0">
                 <img src="/feed arfan (20).png" alt="AllFanajalh Logo" className="w-full h-full object-cover" />
               </div>
               <span className="text-xl font-black text-white dark:text-black tracking-widest uppercase">AllFanajalh</span>
@@ -256,41 +256,41 @@ function AuthFormContent() {
 
           <div className="relative z-10 mt-20">
             <h2 className="text-4xl lg:text-5xl font-black text-white dark:text-black leading-[1.1] uppercase tracking-tight">
-              Joki Poster & <br /> SaaS Ecosystem.
+              Template Poster &amp; <br /> SaaS Ecosystem.
             </h2>
-            <p className="mt-6 text-sm text-gray-400 dark:text-gray-500 font-medium max-w-sm leading-relaxed">
-              Platform lengkap untuk joki desain poster profesional dan SaaS Business Ecosystem (CRM, Lead Finder, Email Blast, SEO Planner & Web Audit).
+            <p className="mt-6 text-sm text-gray-400 dark:text-gray-555 font-medium max-w-sm leading-relaxed">
+              Platform lengkap untuk template desain poster profesional dan SaaS Business Ecosystem (CRM, Lead Finder, Email Blast, SEO Planner &amp; Web Audit).
             </p>
           </div>
 
           {/* Abstract circles */}
-          <div className="absolute -bottom-32 -right-32 w-[500px] h-[500px] border border-white/10 dark:border-black/10 rounded-full pointer-events-none" />
-          <div className="absolute -bottom-16 -right-16 w-[400px] h-[400px] border border-white/20 dark:border-black/20 rounded-full pointer-events-none" />
+          <div className="absolute -bottom-32 -right-32 w-[500px] h-[500px] border border-white/5 dark:border-black/5 rounded-full pointer-events-none" />
+          <div className="absolute -bottom-16 -right-16 w-[400px] h-[400px] border border-white/10 dark:border-black/10 rounded-full pointer-events-none" />
         </div>
 
         {/* Right Side: Auth Form */}
-        <div className="w-full md:w-[420px] px-8 py-10 flex flex-col justify-between shrink-0 bg-white dark:bg-black relative">
+        <div className="w-full md:w-[420px] px-8 py-10 flex flex-col justify-between shrink-0 bg-white dark:bg-slate-900 relative">
           {/* Back button for desktop */}
           <Link
             href="/"
-            className="absolute top-4 right-4 hidden md:flex items-center gap-1.5 text-[10px] font-black text-gray-400 dark:text-gray-500 hover:text-black dark:hover:text-white transition-colors uppercase tracking-widest group"
+            className="absolute top-4 right-4 hidden md:flex items-center gap-1.5 text-[10px] font-black text-gray-400 dark:text-gray-555 hover:text-orange-500 transition-colors uppercase tracking-widest group"
           >
             <ArrowLeft size={12} className="group-hover:-translate-x-0.5 transition-transform" />
             Kembali
           </Link>
           <div className="flex flex-col justify-center flex-grow">
             <div className="text-center mb-8">
-              <div className="md:hidden mx-auto w-12 h-12 bg-black dark:bg-white border-2 border-black dark:border-white flex items-center justify-center mb-4 transform -rotate-3 overflow-hidden rounded-xl">
+              <div className="md:hidden mx-auto w-12 h-12 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 flex items-center justify-center mb-4 overflow-hidden rounded-2xl shadow-md">
                 {step === "otp" ? (
-                  <CheckCircle2 className="w-6 h-6 text-white dark:text-black" />
+                  <CheckCircle2 className="w-6 h-6 text-orange-500" />
                 ) : (
                   <img src="/feed arfan (20).png" alt="AllFanajalh Logo" className="w-full h-full object-cover" />
                 )}
               </div>
-              <h1 className="text-2xl md:text-3xl font-black text-black dark:text-white tracking-tight uppercase">
+              <h1 className="text-2xl md:text-3xl font-black text-slate-800 dark:text-white tracking-tight uppercase">
                 {headingText}
               </h1>
-              <p className="text-gray-500 dark:text-gray-400 mt-2 font-medium text-xs md:text-sm">
+              <p className="text-slate-400 dark:text-slate-500 mt-2 font-semibold text-xs md:text-sm">
                 {subtitleText}
               </p>
             </div>
@@ -305,16 +305,16 @@ function AuthFormContent() {
                       setStep("form")
                       setOtpValue("")
                     }}
-                    className="flex items-center gap-2 text-sm font-bold text-black dark:text-white hover:text-gray-500 dark:hover:text-gray-400 transition-colors uppercase tracking-widest"
+                    className="flex items-center gap-2 text-sm font-bold text-slate-700 dark:text-slate-350 hover:text-orange-500 dark:hover:text-orange-500 transition-colors uppercase tracking-widest"
                   >
                     <ArrowLeft size={16} /> Kembali
                   </button>
 
                   {/* Email info pill */}
                   <div className="flex justify-center">
-                    <div className="bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 px-4 py-2 flex items-center gap-2">
-                      <Mail size={14} className="text-black dark:text-white" />
-                      <span className="text-xs font-bold text-black dark:text-white">{formData.email}</span>
+                    <div className="bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700/50 px-4 py-2 rounded-full flex items-center gap-2 shadow-sm">
+                      <Mail size={14} className="text-orange-500" />
+                      <span className="text-xs font-bold text-slate-750 dark:text-slate-300">{formData.email}</span>
                     </div>
                   </div>
 
@@ -331,11 +331,11 @@ function AuthFormContent() {
                     </InputOTP>
                   </div>
 
-                  <p className="text-center text-xs text-gray-500 dark:text-gray-400 font-medium">
+                  <p className="text-center text-xs text-slate-400 dark:text-slate-555 font-semibold">
                     Tidak masuk? Periksa spam atau{" "}
                     <button
                       type="button"
-                      className="text-black dark:text-white border-b border-black dark:border-white font-bold hover:text-gray-500 dark:hover:text-gray-300 transition-colors uppercase tracking-widest"
+                      className="text-orange-500 border-b border-orange-500 font-bold hover:text-orange-600 transition-colors uppercase tracking-widest"
                       disabled={sendingOtp}
                       onClick={() => void resendRegisterOtp()}
                     >
@@ -354,10 +354,10 @@ function AuthFormContent() {
                       !isLogin ? "max-h-24 opacity-100" : "max-h-0 opacity-0"
                     }`}
                   >
-                    <div className="flex bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 group focus-within:border-black dark:focus-within:border-white transition-all">
-                      <div className="flex items-center justify-center px-5 border-r border-gray-200 dark:border-white/10">
+                    <div className="flex bg-slate-50/50 dark:bg-slate-800/30 border border-slate-200 dark:border-slate-800/80 rounded-2xl group focus-within:border-orange-500 focus-within:ring-2 focus-within:ring-orange-500/10 dark:focus-within:border-orange-500 transition-all duration-300">
+                      <div className="flex items-center justify-center px-5 border-r border-slate-200 dark:border-slate-800">
                         <User
-                          className="text-gray-400 dark:text-gray-500 group-focus-within:text-black dark:group-focus-within:text-white transition-colors"
+                          className="text-slate-400 dark:text-slate-500 group-focus-within:text-orange-500 dark:group-focus-within:text-orange-400 transition-colors"
                           size={18}
                         />
                       </div>
@@ -367,7 +367,7 @@ function AuthFormContent() {
                         required={!isLogin}
                         placeholder="Username (e.g. ArfanDesign)"
                         disabled={loading || sendingOtp}
-                        className="w-full px-4 py-4 bg-transparent text-black dark:text-white text-sm font-bold placeholder:font-medium placeholder:text-gray-400 dark:placeholder:text-gray-600 focus:outline-none disabled:opacity-50"
+                        className="w-full px-4 py-4 bg-transparent text-slate-800 dark:text-white text-sm font-semibold placeholder:font-medium placeholder:text-slate-400 dark:placeholder:text-slate-600 focus:outline-none disabled:opacity-50"
                         value={formData.username}
                         onChange={(e) => setFormData({ ...formData, username: e.target.value })}
                       />
@@ -375,10 +375,10 @@ function AuthFormContent() {
                   </div>
 
                   {/* Email */}
-                  <div className="flex bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 group focus-within:border-black dark:focus-within:border-white transition-all">
-                    <div className="flex items-center justify-center px-5 border-r border-gray-200 dark:border-white/10">
+                  <div className="flex bg-slate-50/50 dark:bg-slate-800/30 border border-slate-200 dark:border-slate-800/80 rounded-2xl group focus-within:border-orange-500 focus-within:ring-2 focus-within:ring-orange-500/10 dark:focus-within:border-orange-500 transition-all duration-300">
+                    <div className="flex items-center justify-center px-5 border-r border-slate-200 dark:border-slate-800">
                       <Mail
-                        className="text-gray-400 dark:text-gray-500 group-focus-within:text-black dark:group-focus-within:text-white transition-colors"
+                        className="text-slate-400 dark:text-slate-500 group-focus-within:text-orange-500 dark:group-focus-within:text-orange-400 transition-colors"
                         size={18}
                       />
                     </div>
@@ -388,7 +388,7 @@ function AuthFormContent() {
                       required
                       placeholder="Email Address"
                       disabled={loading || sendingOtp}
-                      className="w-full px-4 py-4 bg-transparent text-black dark:text-white text-sm font-bold placeholder:font-medium placeholder:text-gray-400 dark:placeholder:text-gray-600 focus:outline-none disabled:opacity-50"
+                      className="w-full px-4 py-4 bg-transparent text-slate-800 dark:text-white text-sm font-semibold placeholder:font-medium placeholder:text-slate-400 dark:placeholder:text-slate-600 focus:outline-none disabled:opacity-50"
                       value={formData.email}
                       onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                     />
@@ -396,10 +396,10 @@ function AuthFormContent() {
 
                   {/* Password */}
                   <div className="flex flex-col gap-2">
-                    <div className="flex bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 group focus-within:border-black dark:focus-within:border-white transition-all">
-                      <div className="flex items-center justify-center px-5 border-r border-gray-200 dark:border-white/10">
+                    <div className="flex bg-slate-50/50 dark:bg-slate-800/30 border border-slate-200 dark:border-slate-800/80 rounded-2xl group focus-within:border-orange-500 focus-within:ring-2 focus-within:ring-orange-500/10 dark:focus-within:border-orange-500 transition-all duration-300">
+                      <div className="flex items-center justify-center px-5 border-r border-slate-200 dark:border-slate-800">
                         <Lock
-                          className="text-gray-400 dark:text-gray-500 group-focus-within:text-black dark:group-focus-within:text-white transition-colors"
+                          className="text-slate-400 dark:text-slate-500 group-focus-within:text-orange-500 dark:group-focus-within:text-orange-400 transition-colors"
                           size={18}
                         />
                       </div>
@@ -410,7 +410,7 @@ function AuthFormContent() {
                           required
                           placeholder="Password"
                           disabled={loading || sendingOtp}
-                          className="w-full px-4 py-4 bg-transparent text-black dark:text-white text-sm font-bold placeholder:font-medium placeholder:text-gray-400 dark:placeholder:text-gray-600 focus:outline-none disabled:opacity-50 pr-12"
+                          className="w-full px-4 py-4 bg-transparent text-slate-800 dark:text-white text-sm font-semibold placeholder:font-medium placeholder:text-slate-400 dark:placeholder:text-slate-600 focus:outline-none disabled:opacity-50 pr-12"
                           value={formData.password}
                           onChange={(e) => setFormData({ ...formData, password: e.target.value })}
                         />
@@ -418,7 +418,7 @@ function AuthFormContent() {
                           type="button"
                           onClick={() => setShowPassword(!showPassword)}
                           disabled={loading || sendingOtp}
-                          className="absolute right-3 top-1/2 transform -translate-y-1/2 p-1.5 text-gray-400 dark:text-gray-500 hover:text-black dark:hover:text-white hover:bg-gray-100 dark:hover:bg-white/10 transition-all focus:outline-none disabled:opacity-50 select-none"
+                          className="absolute right-3 top-1/2 transform -translate-y-1/2 p-1.5 text-slate-400 dark:text-slate-500 hover:text-orange-500 dark:hover:text-orange-400 hover:bg-slate-100 dark:hover:bg-slate-800/50 rounded-xl transition-all focus:outline-none disabled:opacity-50 select-none"
                         >
                           {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
                         </button>
@@ -428,7 +428,7 @@ function AuthFormContent() {
                     {/* Password Helpers (Forgot Password / Min 6 chars) */}
                     <div className="flex justify-between items-center px-1">
                       {!isLogin ? (
-                        <span className="text-[10px] text-gray-400 dark:text-gray-500 font-medium uppercase tracking-widest">
+                        <span className="text-[10px] text-slate-400 dark:text-slate-500 font-semibold uppercase tracking-widest">
                           Minimal 6 karakter
                         </span>
                       ) : (
@@ -438,7 +438,7 @@ function AuthFormContent() {
                       {isLogin && (
                         <Link
                           href="/forgot-password"
-                          className="text-[10px] font-bold text-black dark:text-white border-b border-black dark:border-white hover:text-gray-500 dark:hover:text-gray-300 transition-colors uppercase tracking-widest"
+                          className="text-[10px] font-bold text-slate-500 dark:text-slate-400 hover:text-orange-500 border-b border-transparent hover:border-orange-500 transition-colors uppercase tracking-widest"
                         >
                           Lupa Password?
                         </Link>
@@ -453,7 +453,7 @@ function AuthFormContent() {
                 <button
                   type="submit"
                   disabled={loading || sendingOtp || (step === "otp" && otpValue.length !== 6)}
-                  className="w-full relative flex items-center justify-center py-4 bg-black dark:bg-white text-white dark:text-black font-bold uppercase tracking-widest border border-black dark:border-white hover:bg-transparent dark:hover:bg-transparent hover:text-black dark:hover:text-white transition-all duration-300 active:scale-[0.98] disabled:opacity-70 disabled:hover:bg-black dark:disabled:hover:bg-white disabled:hover:text-white dark:disabled:hover:text-black disabled:cursor-not-allowed group"
+                  className="w-full relative flex items-center justify-center py-4 rounded-2xl bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white font-bold uppercase tracking-widest shadow-lg shadow-orange-500/20 active:scale-[0.97] transition-all duration-300 disabled:opacity-70 disabled:cursor-not-allowed group"
                 >
                   {loading || sendingOtp ? (
                     <Loader2 className="w-5 h-5 animate-spin" />
@@ -472,17 +472,17 @@ function AuthFormContent() {
               <>
                 <div className="mt-8 text-center relative">
                   <div className="absolute inset-0 flex items-center">
-                    <div className="w-full border-t border-gray-200 dark:border-white/10"></div>
+                    <div className="w-full border-t border-slate-100 dark:border-slate-800"></div>
                   </div>
                   <div className="relative flex justify-center">
-                    <span className="bg-white dark:bg-black px-4 text-[10px] font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest">Atau</span>
+                    <span className="bg-white dark:bg-slate-900 px-4 text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest">Atau</span>
                   </div>
                 </div>
 
                 <div className="mt-6 flex flex-col gap-4 text-center">
                   <Link
                     href="/frames"
-                    className="w-full flex items-center justify-center py-4 bg-transparent text-black dark:text-white border border-gray-200 dark:border-white/20 hover:border-black dark:hover:border-white font-bold text-sm transition-all duration-300 active:scale-[0.98] uppercase tracking-widest group"
+                    className="w-full flex items-center justify-center py-4 bg-slate-50 dark:bg-slate-800/30 text-slate-700 dark:text-slate-300 hover:text-orange-500 dark:hover:text-orange-400 border border-slate-200 dark:border-slate-800 hover:border-orange-500/50 dark:hover:border-orange-500/30 rounded-2xl font-bold text-sm transition-all duration-300 active:scale-[0.97] uppercase tracking-widest group"
                   >
                     <span>Lanjut sebagai Tamu</span>
                     <ArrowRight size={16} className="ml-2 group-hover:translate-x-1 transition-transform" />
@@ -491,17 +491,17 @@ function AuthFormContent() {
                   <button
                     type="button"
                     onClick={toggleAuthMode}
-                    className="text-xs font-bold text-gray-500 dark:text-gray-400 hover:text-black dark:hover:text-white transition-colors mt-2 uppercase tracking-widest"
+                    className="text-xs font-bold text-slate-400 dark:text-slate-500 hover:text-orange-500 transition-colors mt-2 uppercase tracking-widest"
                   >
                     {isLogin ? (
                       <p>
                         Belum punya akun?{" "}
-                        <span className="text-black dark:text-white border-b border-black dark:border-white ml-1">Daftar gratis</span>
+                        <span className="text-orange-500 border-b border-orange-500 ml-1">Daftar gratis</span>
                       </p>
                     ) : (
                       <p>
                         Sudah punya akun?{" "}
-                        <span className="text-black dark:text-white border-b border-black dark:border-white ml-1">Masuk di sini</span>
+                        <span className="text-orange-500 border-b border-orange-500 ml-1">Masuk di sini</span>
                       </p>
                     )}
                   </button>
@@ -513,7 +513,7 @@ function AuthFormContent() {
           <div className="text-center mt-6">
             <Link
               href="/"
-              className="inline-flex items-center text-[10px] font-bold text-gray-400 dark:text-gray-500 hover:text-black dark:hover:text-white transition-colors uppercase tracking-widest select-none group"
+              className="inline-flex items-center text-[10px] font-bold text-slate-400 dark:text-slate-555 hover:text-orange-500 transition-colors uppercase tracking-widest select-none group"
             >
               <ArrowLeft size={14} className="mr-2 group-hover:-translate-x-1 transition-transform" />
               Kembali

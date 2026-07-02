@@ -6,19 +6,19 @@ export default function robots(): MetadataRoute.Robots {
       {
         userAgent: "*",
         allow: "/",
-        disallow: ["/api/", "/admin/", "/_next/"],
+        disallow: ["/api/", "/_next/", "/loginUser/"],
       },
       {
         userAgent: "Googlebot",
-        allow: "/",
-        disallow: ["/api/", "/admin/"],
+        allow: ["/", "/poster-portfolio/", "/studio/", "/frames/", "/product/"],
+        disallow: ["/api/", "/loginUser/"],
       },
       {
         userAgent: "Googlebot-Image",
         allow: "/",
       },
     ],
-    sitemap: "https://allfanajalh.my.id/sitemap.xml",
-    host: "https://allfanajalh.my.id",
+    sitemap: "https://fanajah.my.id/sitemap.xml",
+    host: "https://fanajah.my.id",
   }
 }

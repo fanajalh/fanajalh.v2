@@ -190,40 +190,40 @@ export default function FrameSelectionPage() {
   }
 
   return (
-    <div className="bg-white dark:bg-black min-h-screen pb-28 font-sans select-none relative overflow-x-hidden selection:bg-black selection:text-white dark:selection:bg-white dark:selection:text-black">
-      {/* Background Decor (Grid) */}
-      <div className="absolute inset-0 bg-[linear-gradient(rgba(0,0,0,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(0,0,0,0.03)_1px,transparent_1px)] dark:bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),dark:linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:64px_64px] pointer-events-none z-0"></div>
+    <div className="bg-[#f8fafc] dark:bg-slate-950 min-h-screen pb-28 font-sans select-none relative overflow-x-hidden selection:bg-orange-500 selection:text-white">
+      {/* Background Decor */}
+      <div className="absolute inset-0 bg-[linear-gradient(rgba(249,115,22,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(249,115,22,0.02)_1px,transparent_1px)] bg-[size:64px_64px] pointer-events-none z-0"></div>
 
-      <header className="sticky top-0 z-50 w-full bg-white dark:bg-black border-b-2 border-black dark:border-white px-5 h-16 flex items-center justify-between">
+      <header className="sticky top-0 z-50 w-full bg-white/80 dark:bg-slate-950/80 backdrop-blur-xl border-b border-slate-100 dark:border-slate-900 px-5 h-16 flex items-center justify-between">
         <div className="flex items-center gap-3">
           <Link
             href="/"
-            className="w-10 h-10 flex items-center justify-center bg-transparent border-2 border-black dark:border-white text-black dark:text-white hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-colors"
+            className="w-10 h-10 flex items-center justify-center bg-white dark:bg-slate-900 border border-slate-200/60 dark:border-slate-800 rounded-full shadow-sm text-slate-600 dark:text-slate-300 hover:text-orange-500 hover:border-orange-200 hover:bg-orange-50 transition-all"
           >
-            <ArrowLeft className="w-5 h-5" />
+            <ArrowLeft className="w-5 h-5 pr-0.5" />
           </Link>
           <div className="flex items-center gap-2">
-            <div className="bg-black dark:bg-white p-1.5 border border-black dark:border-white">
-              <Camera className="w-4 h-4 text-white dark:text-black" />
+            <div className="bg-orange-500 p-1.5 rounded-xl">
+              <Camera className="w-4 h-4 text-white" />
             </div>
-            <h1 className="font-black text-black dark:text-white text-[15px] uppercase tracking-widest">PhotoStudio</h1>
+            <h1 className="font-extrabold text-slate-800 dark:text-white text-sm tracking-tight">PhotoStudio</h1>
           </div>
         </div>
 
         {/* Upload button in header */}
         <button
           onClick={handleUploadClick}
-          className="inline-flex items-center gap-2 px-4 py-2 bg-black dark:bg-white text-white dark:text-black border-2 border-black dark:border-white font-bold text-xs uppercase tracking-widest hover:bg-transparent dark:hover:bg-transparent hover:text-black dark:hover:text-white transition-all active:scale-95 shadow-[4px_4px_0px_0px_rgba(0,0,0,0.2)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,0.2)]"
+          className="inline-flex items-center gap-2 px-4 py-2.5 bg-gradient-to-r from-orange-500 to-amber-500 text-white rounded-xl font-bold text-xs uppercase tracking-wider hover:opacity-95 shadow-sm active:scale-95 transition-all"
         >
           {session ? (
             <>
-              <Upload className="w-4 h-4" />
+              <Upload className="w-3.5 h-3.5" />
               <span className="hidden sm:inline">Upload Frame</span>
               <span className="sm:hidden">Upload</span>
             </>
           ) : (
             <>
-              <LogIn className="w-4 h-4" />
+              <LogIn className="w-3.5 h-3.5" />
               <span className="hidden sm:inline">Login & Upload</span>
               <span className="sm:hidden">Login</span>
             </>
@@ -233,92 +233,94 @@ export default function FrameSelectionPage() {
 
       <main className="max-w-6xl mx-auto p-5 md:p-10 flex flex-col gap-8 relative z-10">
         <div className="text-center mt-2 mb-2">
-          <div className="inline-flex items-center justify-center w-12 h-12 bg-transparent border-2 border-black dark:border-white mb-4">
-            <Layout className="w-6 h-6 text-black dark:text-white" />
+          <div className="inline-flex items-center justify-center w-12 h-12 bg-orange-500/10 text-orange-500 rounded-2xl mb-4">
+            <Layout className="w-6 h-6" />
           </div>
-          <h2 className="text-3xl md:text-4xl font-black text-black dark:text-white tracking-tight uppercase">
-            Pilih <span className="text-orange-500">Bingkai</span>
+          <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight uppercase">
+            Pilih <span className="bg-gradient-to-r from-orange-500 to-amber-600 bg-clip-text text-transparent">Bingkai</span>
           </h2>
-          <p className="text-[12px] text-gray-500 dark:text-gray-400 font-bold mt-2 uppercase tracking-widest">
+          <p className="text-xs text-slate-500 dark:text-slate-400 font-bold mt-2 uppercase tracking-wider">
             Pilih desain frame untuk photobooth Anda
           </p>
           {loading && (
-            <p className="text-[11px] text-gray-500 dark:text-gray-400 mt-4 flex items-center justify-center gap-2 font-bold uppercase tracking-widest">
-              <Loader2 className="w-4 h-4 animate-spin" /> Memuat frame…
+            <p className="text-[11px] text-slate-400 mt-4 flex items-center justify-center gap-2 font-bold uppercase tracking-widest">
+              <Loader2 className="w-4 h-4 animate-spin text-orange-500" /> Memuat frame…
             </p>
           )}
         </div>
 
         {/* Upload CTA Banner */}
-        <div className="bg-white dark:bg-black border-2 border-black dark:border-white shadow-[10px_10px_0px_0px_rgba(0,0,0,1)] dark:shadow-[10px_10px_0px_0px_rgba(255,255,255,1)] p-8 text-center flex flex-col items-center">
-          <div className="inline-flex items-center justify-center w-12 h-12 bg-black dark:bg-white border-2 border-black dark:border-white mb-4">
-            <ImagePlus className="w-6 h-6 text-white dark:text-black" />
+        <div className="bg-gradient-to-br from-orange-500/5 to-amber-500/5 border border-orange-100/30 dark:border-orange-950/15 rounded-[2rem] shadow-sm p-8 text-center flex flex-col items-center">
+          <div className="inline-flex items-center justify-center w-12 h-12 bg-orange-500 text-white rounded-2xl mb-4 shadow-md shadow-orange-500/15">
+            <ImagePlus className="w-6 h-6" />
           </div>
-          <h3 className="font-black text-black dark:text-white text-xl md:text-2xl uppercase tracking-widest mb-2">Punya desain frame sendiri?</h3>
-          <p className="text-xs text-gray-500 dark:text-gray-400 font-bold mb-6 uppercase tracking-wider">Upload frame kamu dan langsung pakai di PhotoStudio!</p>
+          <h3 className="font-extrabold text-slate-900 dark:text-white text-xl md:text-2xl tracking-tight mb-2">Punya desain frame sendiri?</h3>
+          <p className="text-xs text-slate-500 dark:text-slate-400 font-semibold mb-6">Upload frame kamu dan langsung pakai di PhotoStudio!</p>
           <button
             onClick={handleUploadClick}
-            className="inline-flex items-center gap-2 px-8 py-4 bg-transparent border-2 border-black dark:border-white text-black dark:text-white font-black text-sm uppercase tracking-widest hover:bg-black dark:hover:bg-white hover:text-white dark:hover:text-black transition-all active:scale-95 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,1)]"
+            className="inline-flex items-center gap-2 px-8 py-4 bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-200 border border-slate-200/60 dark:border-slate-800 rounded-2xl font-bold text-sm hover:border-orange-500 hover:text-orange-600 active:scale-95 transition-all shadow-sm"
           >
             {session ? (
               <>
-                <Upload className="w-4 h-4" /> Upload Sekarang
+                <Upload className="w-4 h-4 text-orange-500" /> Upload Sekarang
               </>
             ) : (
               <>
-                <LogIn className="w-4 h-4" /> Login untuk Upload
+                <LogIn className="w-4 h-4 text-orange-500" /> Login untuk Upload
               </>
             )}
           </button>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {frames.map((frame) => (
             <div
               key={frame.id}
-              className={`relative bg-white dark:bg-black p-5 transition-all duration-300 border-2 border-black dark:border-white cursor-pointer ${
+              className={`relative bg-white dark:bg-slate-900/60 p-5 transition-all duration-300 border rounded-[2rem] cursor-pointer flex flex-col justify-between ${
                 selectedFrame === frame.id
-                  ? "shadow-[10px_10px_0px_0px_rgba(249,115,22,1)] -translate-y-1"
-                  : "shadow-[10px_10px_0px_0px_rgba(0,0,0,1)] dark:shadow-[10px_10px_0px_0px_rgba(255,255,255,1)] hover:-translate-y-1 hover:shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] dark:hover:shadow-[12px_12px_0px_0px_rgba(255,255,255,1)]"
+                  ? "border-orange-500 shadow-xl shadow-orange-500/5 bg-orange-50/10 dark:bg-orange-950/5 -translate-y-1.5"
+                  : "border-slate-100 dark:border-slate-900 shadow-sm shadow-slate-100 dark:shadow-none hover:-translate-y-1.5 hover:shadow-lg hover:shadow-slate-150"
               }`}
               onClick={() => setSelectedFrame(frame.id)}
             >
               {/* User upload badge */}
               {frame.uploaderName && (
-                <div className="absolute top-3 right-3 z-10">
-                  <span className="inline-flex items-center gap-1 px-2.5 py-1 bg-black dark:bg-white text-white dark:text-black text-[9px] font-black uppercase tracking-wider border-2 border-black dark:border-white">
+                <div className="absolute top-4 right-4 z-10">
+                  <span className="inline-flex items-center gap-1 px-3 py-1 bg-orange-500 text-white text-[9px] font-extrabold uppercase tracking-wider rounded-xl">
                     <Upload className="w-2.5 h-2.5" /> Community
                   </span>
                 </div>
               )}
-              <div className="flex xl:flex-col gap-5 items-center xl:items-start text-center xl:text-left">
-                <div className="w-24 h-32 xl:w-full xl:h-48 xl:aspect-[3/4] shrink-0 bg-gray-50 dark:bg-white/5 border-2 border-black dark:border-white flex items-center justify-center overflow-hidden relative">
+              <div className="flex xl:flex-col gap-5 items-center xl:items-start text-center xl:text-left h-full">
+                <div className="w-24 h-32 xl:w-full xl:h-48 xl:aspect-[3/4] shrink-0 bg-slate-50 dark:bg-slate-950 rounded-2xl border border-slate-100 dark:border-slate-850 flex items-center justify-center overflow-hidden relative">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={frame.image}
                     alt={frame.name}
-                    className="max-w-full max-h-[90%] xl:p-4 object-contain transition-transform duration-700 hover:scale-110"
+                    className="max-w-full max-h-[90%] xl:p-4 object-contain transition-transform duration-700 hover:scale-105"
                   />
                   {selectedFrame === frame.id && (
-                    <div className="absolute inset-0 bg-orange-500/20 flex items-center justify-center backdrop-blur-[2px]">
-                      <div className="bg-orange-500 text-white border-2 border-black p-2 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] animate-in zoom-in-50">
-                        <CheckCircle2 size={32} />
+                    <div className="absolute inset-0 bg-orange-500/10 flex items-center justify-center backdrop-blur-[1px]">
+                      <div className="bg-orange-500 text-white p-2.5 rounded-full shadow-lg shadow-orange-500/25 animate-in zoom-in-50">
+                        <CheckCircle2 size={24} />
                       </div>
                     </div>
                   )}
                 </div>
-                <div className="flex flex-col justify-center xl:w-full items-start xl:items-center">
-                  <span className="bg-transparent border-b-2 border-black dark:border-white text-black dark:text-white px-2 py-1 text-[10px] font-black uppercase tracking-widest w-max mb-3">
-                    {frame.slots} Photos
-                  </span>
-                  <h3 className="font-black text-black dark:text-white text-xl uppercase tracking-widest leading-tight mb-2 text-left xl:text-center">
-                    {frame.name}
-                  </h3>
-                  <p className="text-[10px] font-bold text-gray-500 dark:text-gray-400 text-left xl:text-center uppercase tracking-wider">
-                    {frame.description}
-                  </p>
+                <div className="flex flex-col justify-between h-full xl:w-full items-start xl:items-center">
+                  <div className="xl:text-center">
+                    <span className="bg-orange-50 dark:bg-orange-950/45 text-orange-600 dark:text-orange-400 px-3 py-1 text-[10px] font-extrabold uppercase rounded-lg w-max mb-3 inline-block">
+                      {frame.slots} Photos
+                    </span>
+                    <h3 className="font-extrabold text-slate-800 dark:text-white text-lg tracking-tight mb-2 text-left xl:text-center">
+                      {frame.name}
+                    </h3>
+                    <p className="text-xs font-semibold text-slate-450 dark:text-slate-400 text-left xl:text-center">
+                      {frame.description}
+                    </p>
+                  </div>
                   {frame.uploaderName && (
-                    <p className="text-[10px] text-black dark:text-white font-bold mt-2 uppercase tracking-widest bg-gray-100 dark:bg-white/10 px-2 py-1">
+                    <p className="text-[10px] text-orange-600 dark:text-orange-400 font-extrabold mt-4 uppercase bg-orange-50 dark:bg-orange-950/20 px-3 py-1.5 rounded-xl xl:mx-auto">
                       by {frame.uploaderName}
                     </p>
                   )}
@@ -328,11 +330,11 @@ export default function FrameSelectionPage() {
           ))}
         </div>
 
-        <div className="mt-12 max-w-xl mx-auto w-full flex flex-col sm:flex-row gap-6">
+        <div className="mt-12 max-w-xl mx-auto w-full flex flex-col sm:flex-row gap-4">
           <Link href="/" className="w-full sm:w-1/3">
             <Button
               variant="ghost"
-              className="w-full py-8 border-2 border-black dark:border-white rounded-none text-[15px] font-black text-black dark:text-white uppercase tracking-widest hover:bg-black dark:hover:bg-white hover:text-white dark:hover:text-black transition-all shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] dark:shadow-[6px_6px_0px_0px_rgba(255,255,255,1)]"
+              className="w-full py-7 border border-slate-200 dark:border-slate-800 rounded-2xl text-[15px] font-bold text-slate-600 dark:text-slate-350 hover:bg-slate-100 transition-all shadow-sm"
             >
               Batalkan
             </Button>
@@ -340,99 +342,96 @@ export default function FrameSelectionPage() {
           <Button
             onClick={handleStartStudio}
             disabled={!selectedFrame}
-            className="w-full sm:w-2/3 py-8 bg-orange-500 hover:bg-orange-600 text-black border-2 border-black dark:border-white rounded-none text-[15px] font-black uppercase tracking-widest shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] dark:shadow-[6px_6px_0px_0px_rgba(255,255,255,1)] transition-all active:scale-95 disabled:opacity-50 disabled:shadow-none"
+            className="w-full sm:w-2/3 py-7 bg-gradient-to-r from-orange-500 to-amber-500 hover:opacity-95 text-white rounded-2xl text-[15px] font-extrabold shadow-md shadow-orange-500/15 transition-all active:scale-95 disabled:opacity-50 disabled:shadow-none"
           >
             Lanjut ke Studio <ArrowRight className="w-5 h-5 ml-2" />
           </Button>
         </div>
 
-        <div className="flex items-center justify-center gap-4 pt-4 pb-6">
-          <div className="flex items-center gap-1.5 text-[9px] font-black text-slate-300 uppercase tracking-widest">
-            <Layout className="w-3 h-3 text-orange-400" /> Auto Crop
+        <div className="flex items-center justify-center gap-6 pt-4 pb-6">
+          <div className="flex items-center gap-1.5 text-[10px] font-bold text-slate-400 uppercase tracking-wider">
+            <Layout className="w-3.5 h-3.5 text-orange-500" /> Auto Crop
           </div>
-          <div className="flex items-center gap-1.5 text-[9px] font-black text-slate-300 uppercase tracking-widest">
-            <Monitor className="w-3 h-3 text-blue-400" /> Export HQ
+          <div className="flex items-center gap-1.5 text-[10px] font-bold text-slate-400 uppercase tracking-wider">
+            <Monitor className="w-3.5 h-3.5 text-orange-500" /> Export HQ
           </div>
         </div>
       </main>
 
       {/* ============== UPLOAD MODAL ============== */}
       {showUpload && (
-        <div className="fixed inset-0 z-[60] flex items-end sm:items-center justify-center p-4 bg-white/80 dark:bg-black/80 backdrop-blur-sm animate-in fade-in duration-200">
-          <div className="bg-white dark:bg-black border-4 border-black dark:border-white shadow-[15px_15px_0px_0px_rgba(0,0,0,1)] dark:shadow-[15px_15px_0px_0px_rgba(255,255,255,1)] w-full max-w-lg max-h-[90vh] overflow-y-auto relative animate-in zoom-in-95 duration-300">
-            {/* Header pattern */}
-            <div className="absolute top-0 left-0 w-full h-12 bg-[linear-gradient(45deg,transparent_25%,rgba(0,0,0,0.1)_25%,rgba(0,0,0,0.1)_50%,transparent_50%,transparent_75%,rgba(0,0,0,0.1)_75%,rgba(0,0,0,0.1)_100%)] dark:bg-[linear-gradient(45deg,transparent_25%,rgba(255,255,255,0.1)_25%,rgba(255,255,255,0.1)_50%,transparent_50%,transparent_75%,rgba(255,255,255,0.1)_75%,rgba(255,255,255,0.1)_100%)] bg-[length:10px_10px] pointer-events-none" />
-
-            <div className="p-8 relative z-10 mt-6">
+        <div className="fixed inset-0 z-[60] flex items-end sm:items-center justify-center p-4 bg-slate-950/60 backdrop-blur-sm animate-in fade-in duration-200">
+          <div className="bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 rounded-[2rem] shadow-2xl w-full max-w-lg max-h-[90vh] overflow-y-auto relative animate-in zoom-in-95 duration-300">
+            <div className="p-8 relative z-10">
               <button
                 type="button"
                 onClick={() => { setShowUpload(false); resetUploadForm() }}
-                className="absolute top-0 right-4 p-2 border-2 border-black dark:border-white hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-colors"
+                className="absolute top-6 right-6 p-2 rounded-full border border-slate-100 dark:border-slate-800 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors text-slate-500 hover:text-slate-850"
               >
                 <X size={20} />
               </button>
 
               <div className="flex items-center gap-4 mb-8">
-                <div className="w-14 h-14 bg-black dark:bg-white border-2 border-black dark:border-white flex items-center justify-center shadow-[4px_4px_0px_0px_rgba(0,0,0,0.2)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,0.2)]">
-                  <Upload className="w-7 h-7 text-white dark:text-black" />
+                <div className="w-14 h-14 bg-orange-500 text-white rounded-2xl flex items-center justify-center shadow-md shadow-orange-500/15">
+                  <Upload className="w-6 h-6" />
                 </div>
                 <div>
-                  <h3 className="text-2xl font-black text-black dark:text-white uppercase tracking-widest leading-none">Upload Frame</h3>
-                  <p className="text-[10px] text-gray-500 dark:text-gray-400 font-bold uppercase tracking-widest mt-1">Frame akan langsung tampil di halaman</p>
+                  <h3 className="text-2xl font-extrabold text-slate-900 dark:text-white tracking-tight leading-none">Upload Frame</h3>
+                  <p className="text-xs text-slate-500 dark:text-slate-400 font-semibold mt-1">Frame akan langsung tampil di halaman</p>
                 </div>
               </div>
 
               <form onSubmit={handleUploadSubmit} className="space-y-6">
                 {/* Nama Frame */}
                 <div>
-                  <label className="text-[10px] font-black text-black dark:text-white uppercase tracking-widest border-b-2 border-black dark:border-white inline-block mb-2">Nama Frame *</label>
+                  <label className="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider block mb-2">Nama Frame *</label>
                   <input
                     required
                     value={uploadForm.name}
                     onChange={(e) => setUploadForm({ ...uploadForm, name: e.target.value })}
-                    className="w-full px-4 py-4 border-2 border-black dark:border-white text-sm font-bold text-black dark:text-white bg-transparent focus:bg-gray-50 dark:focus:bg-white/5 focus:outline-none transition-all placeholder:text-gray-400"
-                    placeholder="CONTOH: CHERRY BLOSSOM PINK"
+                    className="w-full px-4 py-3.5 border border-slate-200/80 dark:border-slate-850 rounded-2xl text-sm font-semibold text-slate-800 dark:text-slate-200 bg-[#f8fafc] dark:bg-slate-950 focus:bg-white focus:ring-4 focus:ring-orange-500/10 focus:border-orange-500 focus:outline-none transition-all placeholder:text-gray-405"
+                    placeholder="Contoh: Cherry Blossom Pink"
                     disabled={uploading}
                   />
                 </div>
 
                 {/* Deskripsi */}
                 <div>
-                  <label className="text-[10px] font-black text-black dark:text-white uppercase tracking-widest border-b-2 border-black dark:border-white inline-block mb-2">Deskripsi</label>
+                  <label className="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider block mb-2">Deskripsi</label>
                   <textarea
                     value={uploadForm.description}
                     onChange={(e) => setUploadForm({ ...uploadForm, description: e.target.value })}
-                    className="w-full px-4 py-4 border-2 border-black dark:border-white text-sm font-bold text-black dark:text-white bg-transparent focus:bg-gray-50 dark:focus:bg-white/5 focus:outline-none transition-all min-h-[90px] resize-none placeholder:text-gray-400"
-                    placeholder="Deskripsi singkat frame kamu..."
+                    className="w-full px-4 py-3.5 border border-slate-200/80 dark:border-slate-850 rounded-2xl text-sm font-semibold text-slate-800 dark:text-slate-200 bg-[#f8fafc] dark:bg-slate-950 focus:bg-white focus:ring-4 focus:ring-orange-500/10 focus:border-orange-500 focus:outline-none transition-all min-h-[90px] resize-none placeholder:text-gray-405"
+                    placeholder="Deskripsi singkat frame..."
                     disabled={uploading}
                   />
                 </div>
 
                 {/* Image Mode Toggle */}
                 <div>
-                  <label className="text-[10px] font-black text-black dark:text-white uppercase tracking-widest border-b-2 border-black dark:border-white inline-block mb-3">Gambar Frame *</label>
-                  <div className="flex gap-4 mb-4">
+                  <label className="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider block mb-3">Gambar Frame *</label>
+                  <div className="flex gap-3 mb-4 bg-slate-50 dark:bg-slate-950 p-1 rounded-2xl border border-slate-100 dark:border-slate-900">
                     <button
                       type="button"
                       onClick={() => setUploadMode("file")}
-                      className={`flex-1 flex items-center justify-center gap-2 py-3 text-[10px] uppercase tracking-widest font-black transition-all border-2 border-black dark:border-white ${
+                      className={`flex-1 flex items-center justify-center gap-2 py-3.5 text-xs font-bold transition-all rounded-xl ${
                         uploadMode === "file"
-                          ? "bg-black text-white dark:bg-white dark:text-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,1)]"
-                          : "bg-transparent text-black dark:text-white hover:bg-gray-100 dark:hover:bg-white/10"
+                          ? "bg-white dark:bg-slate-900 text-slate-900 dark:text-white shadow-sm border border-slate-100 dark:border-slate-800"
+                          : "bg-transparent text-slate-500 hover:text-slate-950"
                       }`}
                     >
-                      <FileImage size={16} /> Upload File
+                      <FileImage size={16} className="text-orange-500" /> Upload File
                     </button>
                     <button
                       type="button"
                       onClick={() => setUploadMode("url")}
-                      className={`flex-1 flex items-center justify-center gap-2 py-3 text-[10px] uppercase tracking-widest font-black transition-all border-2 border-black dark:border-white ${
+                      className={`flex-1 flex items-center justify-center gap-2 py-3.5 text-xs font-bold transition-all rounded-xl ${
                         uploadMode === "url"
-                          ? "bg-black text-white dark:bg-white dark:text-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,1)]"
-                          : "bg-transparent text-black dark:text-white hover:bg-gray-100 dark:hover:bg-white/10"
+                          ? "bg-white dark:bg-slate-900 text-slate-900 dark:text-white shadow-sm border border-slate-100 dark:border-slate-800"
+                          : "bg-transparent text-slate-500 hover:text-slate-950"
                       }`}
                     >
-                      <Link2 size={16} /> Pakai URL
+                      <Link2 size={16} className="text-orange-500" /> Pakai URL
                     </button>
                   </div>
 
@@ -448,14 +447,14 @@ export default function FrameSelectionPage() {
                       />
                       {previewFile ? (
                         <div className="relative">
-                          <div className="w-full h-48 bg-gray-50 dark:bg-white/5 border-2 border-black dark:border-white flex items-center justify-center overflow-hidden">
+                          <div className="w-full h-48 bg-slate-50 dark:bg-slate-950 border border-slate-100 dark:border-slate-850 rounded-2xl flex items-center justify-center overflow-hidden">
                             {/* eslint-disable-next-line @next/next/no-img-element */}
                             <img src={previewFile} alt="Preview" className="max-w-full max-h-full object-contain p-4" />
                           </div>
                           <button
                             type="button"
                             onClick={() => { setPreviewFile(null); setSelectedFile(null); if (fileInputRef.current) fileInputRef.current.value = "" }}
-                            className="absolute top-2 right-2 p-2 border-2 border-black bg-white text-black hover:bg-black hover:text-white transition-colors shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]"
+                            className="absolute top-2.5 right-2.5 p-2 bg-white dark:bg-slate-900 text-slate-500 border border-slate-100 dark:border-slate-800 rounded-full hover:text-red-500 shadow-sm"
                           >
                             <X size={14} />
                           </button>
@@ -464,11 +463,11 @@ export default function FrameSelectionPage() {
                         <button
                           type="button"
                           onClick={() => fileInputRef.current?.click()}
-                          className="w-full h-40 border-2 border-dashed border-black dark:border-white bg-transparent flex flex-col items-center justify-center gap-3 text-black dark:text-white hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-all"
+                          className="w-full h-40 border border-dashed border-slate-200 dark:border-slate-800 bg-[#f8fafc] dark:bg-slate-950/40 rounded-2xl flex flex-col items-center justify-center gap-2.5 text-slate-400 hover:text-slate-600 transition-colors"
                         >
-                          <ImagePlus size={36} />
-                          <span className="text-[11px] font-black uppercase tracking-widest">Klik untuk pilih gambar</span>
-                          <span className="text-[9px] font-bold uppercase tracking-wider opacity-60">PNG, JPG, WebP • Maks 2MB</span>
+                          <ImagePlus size={36} className="text-slate-350" />
+                          <span className="text-xs font-bold text-slate-500">Klik untuk pilih gambar</span>
+                          <span className="text-[10px] font-semibold text-slate-400 opacity-70">PNG, JPG, WebP • Maks 2MB</span>
                         </button>
                       )}
                     </div>
@@ -477,12 +476,12 @@ export default function FrameSelectionPage() {
                       <input
                         value={uploadForm.image_url}
                         onChange={(e) => setUploadForm({ ...uploadForm, image_url: e.target.value })}
-                        className="w-full px-4 py-3 rounded-xl border border-slate-200 text-xs font-mono text-slate-900 bg-slate-50 focus:bg-white focus:ring-4 focus:ring-orange-500/15 focus:border-orange-500 transition-all outline-none"
+                        className="w-full px-4 py-3.5 border border-slate-200/80 dark:border-slate-850 rounded-2xl text-xs font-mono text-slate-800 dark:text-slate-200 bg-[#f8fafc] dark:bg-slate-950 focus:bg-white focus:ring-4 focus:ring-orange-500/10 focus:border-orange-500 focus:outline-none transition-all"
                         placeholder="https://cdn.example.com/frame.png"
                         disabled={uploading}
                       />
                       {uploadForm.image_url && (
-                        <div className="mt-2 w-full h-36 bg-slate-50 rounded-xl border border-slate-200 flex items-center justify-center overflow-hidden">
+                        <div className="mt-2 w-full h-36 bg-slate-50 dark:bg-slate-950 rounded-2xl border border-slate-100 dark:border-slate-850 flex items-center justify-center overflow-hidden">
                           {/* eslint-disable-next-line @next/next/no-img-element */}
                           <img
                             src={uploadForm.image_url}
@@ -496,37 +495,37 @@ export default function FrameSelectionPage() {
                   )}
                 </div>
 
-                  {/* Slots */}
-                  <div>
-                    <label className="text-[10px] font-black text-black dark:text-white uppercase tracking-widest border-b-2 border-black dark:border-white inline-block mb-2">Jumlah Foto (Slots)</label>
-                    <input
-                      type="number"
-                      min={1}
-                      max={20}
-                      value={uploadForm.slots}
-                      onChange={(e) => setUploadForm({ ...uploadForm, slots: parseInt(e.target.value, 10) || 4 })}
-                      className="w-full px-4 py-4 border-2 border-black dark:border-white text-sm font-bold text-black dark:text-white bg-transparent focus:bg-gray-50 dark:focus:bg-white/5 focus:outline-none transition-all"
-                      disabled={uploading}
-                    />
-                  </div>
-
-                  {/* Submit */}
-                  <button
-                    type="submit"
+                {/* Slots */}
+                <div>
+                  <label className="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider block mb-2">Jumlah Foto (Slots)</label>
+                  <input
+                    type="number"
+                    min={1}
+                    max={20}
+                    value={uploadForm.slots}
+                    onChange={(e) => setUploadForm({ ...uploadForm, slots: parseInt(e.target.value, 10) || 4 })}
+                    className="w-full px-4 py-3.5 border border-slate-200/80 dark:border-slate-850 rounded-2xl text-sm font-semibold text-slate-800 dark:text-slate-200 bg-[#f8fafc] dark:bg-slate-950 focus:bg-white focus:ring-4 focus:ring-orange-500/10 focus:border-orange-500 focus:outline-none transition-all"
                     disabled={uploading}
-                    className="w-full py-5 bg-black dark:bg-white text-white dark:text-black font-black text-[13px] uppercase tracking-widest border-2 border-black dark:border-white shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] dark:shadow-[6px_6px_0px_0px_rgba(255,255,255,1)] hover:translate-y-1 hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] dark:hover:shadow-[2px_2px_0px_0px_rgba(255,255,255,1)] transition-all flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed mt-4"
-                  >
-                    {uploading ? (
-                      <>
-                        <Loader2 className="w-5 h-5 animate-spin" /> Mengupload...
-                      </>
-                    ) : (
-                      <>
-                        <Upload className="w-5 h-5" /> Upload Frame
-                      </>
-                    )}
-                  </button>
-                </form>
+                  />
+                </div>
+
+                {/* Submit */}
+                <button
+                  type="submit"
+                  disabled={uploading}
+                  className="w-full py-4 bg-gradient-to-r from-orange-500 to-amber-500 text-white rounded-2xl font-extrabold text-sm uppercase tracking-wider transition-all shadow-md shadow-orange-500/15 hover:opacity-95 active:scale-[0.98] disabled:opacity-60 disabled:cursor-not-allowed mt-4 flex items-center justify-center gap-2"
+                >
+                  {uploading ? (
+                    <>
+                      <Loader2 className="w-5 h-5 animate-spin" /> Mengupload...
+                    </>
+                  ) : (
+                    <>
+                      <Upload className="w-5 h-5" /> Upload Frame
+                    </>
+                  )}
+                </button>
+              </form>
             </div>
           </div>
         </div>

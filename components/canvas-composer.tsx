@@ -252,57 +252,71 @@ export default function CanvasComposer({
 
   return (
     <div className="flex flex-col items-center w-full max-w-[450px] mx-auto space-y-5">
-      <div className="w-full bg-white dark:bg-black border-4 border-black dark:border-white p-1.5 md:p-2 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] dark:shadow-[8px_8px_0px_0px_rgba(255,255,255,1)] overflow-hidden flex items-center justify-center">
+      <div className="w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-2 rounded-[2.5rem] shadow-xl shadow-slate-100 dark:shadow-none overflow-hidden flex items-center justify-center">
         <canvas
-          ref={canvasRef} className="max-w-full h-auto max-h-[65vh] cursor-crosshair touch-none"
+          ref={canvasRef} className="max-w-full h-auto max-h-[65vh] cursor-crosshair touch-none rounded-3xl"
           onMouseDown={e => onStart(e.clientX, e.clientY)} onMouseMove={e => onMove(e.clientX, e.clientY)} onMouseUp={() => setAction(null)}
           onTouchStart={e => onStart(e.touches[0].clientX, e.touches[0].clientY)} onTouchMove={e => onMove(e.touches[0].clientX, e.touches[0].clientY)} onTouchEnd={() => setAction(null)}
         />
       </div>
 
-      <Card className="w-full p-2 bg-white dark:bg-black border-4 border-black dark:border-white rounded-none shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,1)] flex items-center justify-between px-4 relative z-30">
+      <Card className="w-full p-2 bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 rounded-2xl shadow-md flex items-center justify-between px-4 relative z-30">
         <Popover>
           <PopoverTrigger asChild>
-            <Button className="bg-black dark:bg-white text-white dark:text-black hover:bg-white hover:text-black dark:hover:bg-black dark:hover:text-white border-2 border-black dark:border-white rounded-none h-11 px-6 font-black uppercase tracking-widest shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,1)] transition-all active:translate-y-1">
+            <Button className="bg-gradient-to-r from-orange-500 to-amber-500 hover:opacity-95 text-white border-transparent rounded-xl h-11 px-5 font-bold uppercase tracking-wider shadow-md shadow-orange-500/10 transition-all active:scale-95">
               <Plus className="w-4 h-4 mr-2" /> Stiker
             </Button>
           </PopoverTrigger>
-          <PopoverContent className="w-[280px] p-4 rounded-none shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] dark:shadow-[8px_8px_0px_0px_rgba(255,255,255,1)] border-4 border-black dark:border-white bg-white dark:bg-black z-50 transform origin-bottom" sideOffset={20}>
+          <PopoverContent className="w-[280px] p-4 rounded-2xl shadow-xl border border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900 z-50 transform origin-bottom" sideOffset={20}>
             <div className="space-y-4">
               <div>
-                <h4 className="text-[10px] font-black text-black dark:text-white uppercase tracking-widest mb-3 flex items-center gap-1.5"><Sparkles className="w-3.5 h-3.5 text-black dark:text-white" /> Stiker Lucu</h4>
+                <h4 className="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider mb-3 flex items-center gap-1.5"><Sparkles className="w-3.5 h-3.5 text-orange-500" /> Stiker Lucu</h4>
                 <div className="grid grid-cols-4 gap-2">
                   {DEFAULT_EMOJIS.map((emoji) => (
                     <button
                       key={emoji}
                       onClick={() => setStickers(prev => [...prev, { id: crypto.randomUUID(), src: createEmojiSticker(emoji), x: 40, y: 40, size: 250, rotation: 0 }])}
-                      className="w-12 h-12 flex items-center justify-center text-3xl hover:bg-gray-100 dark:hover:bg-white/10 rounded-none border-2 border-transparent hover:border-black dark:hover:border-white transition-all active:translate-y-1 hover:scale-110"
+                      className="w-12 h-12 flex items-center justify-center text-3xl hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl transition-all duration-300 active:scale-95 hover:scale-110"
                     >
                       {emoji}
                     </button>
                   ))}
                 </div>
               </div>
-              <Separator className="bg-black dark:bg-white h-0.5" />
-              <Button onClick={() => fileInputRef.current?.click()} variant="outline" className="w-full rounded-none border-dashed border-2 border-black dark:border-white hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black text-black dark:text-white font-black h-12 transition-all uppercase tracking-widest">
+              <Separator className="bg-slate-100 dark:bg-slate-800" />
+              <Button onClick={() => fileInputRef.current?.click()} variant="outline" className="w-full rounded-xl border-dashed border border-slate-300 dark:border-slate-700 hover:border-orange-500 hover:text-orange-600 text-slate-700 dark:text-slate-355 font-bold h-11 transition-all duration-300 uppercase tracking-wider text-xs bg-transparent">
                 <Upload className="w-4 h-4 mr-2" /> Atau Upload Gambar
               </Button>
             </div>
           </PopoverContent>
         </Popover>
-        <Separator orientation="vertical" className="h-6 bg-black dark:bg-white w-0.5" />
+        <Separator orientation="vertical" className="h-6 bg-slate-100 dark:bg-slate-800" />
         <TooltipProvider>
-          <div className="flex bg-gray-100 dark:bg-white/10 p-1.5 rounded-none border-2 border-black dark:border-white gap-1">
-            <Tooltip><TooltipTrigger asChild><Button variant="ghost" size="icon" disabled={!activeId} onClick={() => changeZ("up")} className="text-black dark:text-white hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black rounded-none"><ArrowUp className="w-4 h-4" /></Button></TooltipTrigger><TooltipContent className="rounded-none border-2 border-black font-bold uppercase">Ke Depan</TooltipContent></Tooltip>
-            <Tooltip><TooltipTrigger asChild><Button variant="ghost" size="icon" disabled={!activeId} onClick={() => changeZ("down")} className="text-black dark:text-white hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black rounded-none"><ArrowDown className="w-4 h-4" /></Button></TooltipTrigger><TooltipContent className="rounded-none border-2 border-black font-bold uppercase">Ke Belakang</TooltipContent></Tooltip>
+          <div className="flex bg-slate-55/10 dark:bg-white/10 p-1 rounded-xl border border-slate-100 dark:border-slate-850 gap-1">
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button variant="ghost" size="icon" disabled={!activeId} onClick={() => changeZ("up")} className="text-slate-750 dark:text-white hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg">
+                  <ArrowUp className="w-4 h-4" />
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent className="rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-xs font-bold uppercase tracking-wider text-slate-800 dark:text-slate-250">Ke Depan</TooltipContent>
+            </Tooltip>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button variant="ghost" size="icon" disabled={!activeId} onClick={() => changeZ("down")} className="text-slate-755 dark:text-white hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg">
+                  <ArrowDown className="w-4 h-4" />
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent className="rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-xs font-bold uppercase tracking-wider text-slate-800 dark:text-slate-250">Ke Belakang</TooltipContent>
+            </Tooltip>
           </div>
         </TooltipProvider>
       </Card>
 
-      <div className="flex gap-6 text-[10px] font-black text-black dark:text-white uppercase tracking-widest">
-        <span className="flex items-center gap-2"><Move className="w-3 h-3" /> Geser</span>
-        <span className="flex items-center gap-2"><RefreshCw className="w-3 h-3" /> Putar</span>
-        <span className="flex items-center gap-2"><Maximize2 className="w-3 h-3" /> Ukuran</span>
+      <div className="flex gap-6 text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">
+        <span className="flex items-center gap-2"><Move className="w-3 h-3 text-orange-500" /> Geser</span>
+        <span className="flex items-center gap-2"><RefreshCw className="w-3 h-3 text-orange-500" /> Putar</span>
+        <span className="flex items-center gap-2"><Maximize2 className="w-3 h-3 text-orange-500" /> Ukuran</span>
       </div>
       <input ref={fileInputRef} type="file" accept="image/png" hidden onChange={e => { if (e.target.files?.[0]) { const r = new FileReader(); r.onload = () => setStickers(prev => [...prev, { id: crypto.randomUUID(), src: r.result as string, x: 50, y: 50, size: 250, rotation: 0 }]); r.readAsDataURL(e.target.files[0]) } }} />
     </div>

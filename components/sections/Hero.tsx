@@ -1,177 +1,176 @@
 import Link from "next/link"
 import Image from "next/image"
-import { ArrowRight, Star, Sparkles, Layout, MonitorSmartphone, Layers } from "lucide-react"
+import { ArrowRight, Sparkles, Layout, Layers, CheckCircle } from "lucide-react"
 import MagneticButton from "@/components/ui/MagneticButton"
 import { motion } from "framer-motion"
 
+import { headersConfig } from "./headersConfig"
+
 interface HeroProps {
   orderPageOpen?: boolean
+  websiteSettings?: any
 }
 
-export default function Hero({ orderPageOpen = true }: HeroProps) {
+export default function Hero({ orderPageOpen = true, websiteSettings }: HeroProps) {
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.1,
-        delayChildren: 0.3,
+        staggerChildren: 0.15,
+        delayChildren: 0.2,
       },
     },
   }
 
   const itemVariants = {
-    hidden: { y: 20, opacity: 0 },
+    hidden: { y: 30, opacity: 0, filter: "blur(10px)" },
     visible: {
       y: 0,
       opacity: 1,
-      transition: { type: "spring" as const, stiffness: 100, damping: 10 },
+      filter: "blur(0px)",
+      transition: { type: "spring" as const, stiffness: 80, damping: 15 },
     },
   }
 
-  const primaryLink = orderPageOpen ? "/order" : "/ecosystem"
-  const primaryText = orderPageOpen ? "Mulai Project" : "Coba SaaS Ecosystem"
+  const primaryLink = "#products"
+  const primaryText = headersConfig.hero.primaryBtnText
+  
+  const siteSubtitle = websiteSettings?.tagline || headersConfig.hero.subtitle
 
   return (
-    <section className="relative pt-32 pb-24 lg:pt-40 lg:pb-32 bg-white dark:bg-black overflow-hidden selection:bg-black dark:selection:bg-white selection:text-white dark:selection:text-black min-h-screen flex items-center">
+    <section className="relative pt-32 pb-24 lg:pt-40 lg:pb-32 overflow-hidden min-h-screen flex items-center selection:bg-orange-500/30 selection:text-orange-900 dark:selection:text-orange-100">
       
-      {/* Background Decor */}
-      <div className="absolute inset-0 bg-[linear-gradient(rgba(0,0,0,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(0,0,0,0.03)_1px,transparent_1px)] dark:bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),dark:linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:64px_64px] pointer-events-none z-0 [mask-image:radial-gradient(ellipse_80%_50%_at_50%_50%,#000_70%,transparent_100%)]"></div>
+      {/* ================= AMBIENT BACKGROUND ================= */}
+      <div className="absolute inset-0 bg-[linear-gradient(rgba(249,115,22,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(249,115,22,0.03)_1px,transparent_1px)] dark:bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:64px_64px] pointer-events-none z-0 [mask-image:radial-gradient(ellipse_80%_80%_at_50%_50%,#000_20%,transparent_100%)]"></div>
+      
+      <div className="absolute top-[-15%] left-[-10%] w-[600px] h-[600px] bg-gradient-to-br from-orange-500/10 to-transparent dark:from-orange-500/20 rounded-full blur-[120px] pointer-events-none animate-pulse duration-[8000ms]" />
+      <div className="absolute bottom-[10%] right-[-5%] w-[500px] h-[500px] bg-gradient-to-tl from-amber-500/10 to-rose-500/5 dark:from-orange-600/20 dark:to-rose-600/10 rounded-full blur-[120px] pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-10 relative z-10 w-full">
-        <div className="flex flex-col lg:flex-row items-center gap-16 lg:gap-20">
+        <div className="flex flex-col lg:flex-row items-center gap-16 lg:gap-24">
           
           {/* ================= LEFT CONTENT (Copywriting) ================= */}
           <motion.div 
-            className="flex-1 space-y-8 text-center lg:text-left"
+            className="flex-1 space-y-8 text-center lg:text-left relative z-20"
             variants={containerVariants}
             initial="hidden"
             animate="visible"
           >
-            
-            {/* Sleek Badge */}
-            <motion.div variants={itemVariants} className="inline-flex items-center gap-2.5 px-4 py-2 bg-black text-white dark:bg-white dark:text-black border-2 border-black dark:border-white rounded-none shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,1)]">
-              <Sparkles size={14} />
-              <span className="text-[11px] font-black uppercase tracking-[0.2em]">
-                Joki Poster & SaaS Ecosystem
-              </span>
-            </motion.div>
-
-            {/* Editorial Heading */}
-            <motion.h1 variants={itemVariants} className="text-5xl sm:text-6xl lg:text-7xl font-black text-black dark:text-white leading-[1.05] tracking-tighter uppercase">
-              Joki Poster & <br className="hidden sm:block" />
-              <span className="text-gray-400 dark:text-gray-500">
-                SaaS Ecosystem.
+            {/* Cinematic Heading */}
+            {/* Cinematic Heading */}
+            <motion.h1 variants={itemVariants} className="text-4xl sm:text-5xl lg:text-[5rem] font-black text-slate-900 dark:text-white leading-[1.1] tracking-tighter">
+              {headersConfig.hero.titleLine1} <br className="hidden lg:block" />
+              <span className="bg-gradient-to-r from-[#ff7a00] via-[#f97316] to-[#fbbf24] bg-clip-text text-transparent drop-shadow-sm">
+                {headersConfig.hero.titleLine2Gradient}
               </span>
             </motion.h1>
 
-            {/* Sub-headline */}
-            <motion.p variants={itemVariants} className="text-lg md:text-xl text-black dark:text-gray-300 leading-relaxed max-w-2xl mx-auto lg:mx-0 font-bold uppercase tracking-wider">
-              Jasa joki desain poster profesional di Purwokerto dan platform SaaS Business Ecosystem lengkap untuk mempercepat pertumbuhan bisnis Anda.
+            <motion.p variants={itemVariants} className="text-base sm:text-lg md:text-xl text-slate-600 dark:text-slate-400 leading-relaxed max-w-2xl mx-auto lg:mx-0 font-medium">
+              {siteSubtitle}
             </motion.p>
 
             {/* CTA Group */}
-            <motion.div variants={itemVariants} className="flex flex-col sm:flex-row items-center gap-4 justify-center lg:justify-start pt-4">
+            <motion.div variants={itemVariants} className="flex flex-col sm:flex-row items-center gap-5 justify-center lg:justify-start pt-6">
               <MagneticButton>
                 <Link 
                   href={primaryLink} 
-                  className="group flex items-center justify-center gap-3 w-full sm:w-auto px-8 py-4 bg-black dark:bg-white text-white dark:text-black font-black uppercase tracking-widest rounded-none border-2 border-black dark:border-white shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] dark:shadow-[6px_6px_0px_0px_rgba(255,255,255,1)] hover:translate-y-1 hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] dark:hover:shadow-[2px_2px_0px_0px_rgba(255,255,255,1)] transition-all duration-300"
+                  className="group relative flex items-center justify-center gap-3 w-full sm:w-auto px-8 py-4 bg-gradient-to-r from-[#ff7a00] to-[#ea580c] text-white font-bold text-base rounded-2xl shadow-[0_0_40px_rgba(249,115,22,0.3)] hover:shadow-[0_0_60px_rgba(249,115,22,0.4)] hover:-translate-y-1 active:scale-95 transition-all duration-300 overflow-hidden"
                 >
-                  {primaryText}
-                  <ArrowRight className="w-5 h-5 group-hover:translate-x-1.5 transition-transform" />
+                  <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out"></div>
+                  <span className="relative z-10 flex items-center gap-2">
+                    {primaryText}
+                    <ArrowRight className="w-5 h-5 group-hover:translate-x-1.5 transition-transform duration-300" />
+                  </span>
                 </Link>
               </MagneticButton>
 
               <MagneticButton>
                 <Link 
                   href="#portfolio" 
-                  className="group flex items-center justify-center gap-3 w-full sm:w-auto px-8 py-4 bg-white dark:bg-black text-black dark:text-white font-black uppercase tracking-widest rounded-none border-2 border-black dark:border-white shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] dark:shadow-[6px_6px_0px_0px_rgba(255,255,255,1)] hover:translate-y-1 hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] dark:hover:shadow-[2px_2px_0px_0px_rgba(255,255,255,1)] hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-all duration-300"
+                  className="group flex items-center justify-center gap-3 w-full sm:w-auto px-8 py-4 bg-white dark:bg-white/5 backdrop-blur-md text-slate-800 dark:text-white font-bold text-base rounded-2xl border border-slate-200 dark:border-white/10 shadow-sm hover:bg-slate-50 dark:hover:bg-white/10 transition-all duration-300"
                 >
-                  <Layout className="w-5 h-5 transition-colors" />
-                  Lihat Portfolio
+                  <Layout className="w-5 h-5 text-slate-400 group-hover:text-orange-500 transition-colors" />
+                  {headersConfig.hero.secondaryBtnText}
                 </Link>
               </MagneticButton>
             </motion.div>
-
-
           </motion.div>
 
-          {/* ================= RIGHT CONTENT (Visual Presentation) ================= */}
+          {/* ================= RIGHT CONTENT: 3 STACKED CARDS ================= */}
           <motion.div 
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.7, delay: 0.5 }}
-            className="flex-1 w-full relative max-w-lg lg:max-w-none mx-auto mt-12 lg:mt-0"
+            transition={{ duration: 0.8, delay: 0.3, ease: [0.21, 0.47, 0.32, 0.98] }}
+            className="flex-1 w-full relative max-w-[280px] sm:max-w-sm lg:max-w-md mx-auto mt-20 lg:mt-0 aspect-[4/5] perspective-[1200px] group cursor-pointer"
           >
-            
-            {/* The Main "Canvas" Box */}
-            <div className="relative z-10 bg-white dark:bg-black p-4 border-4 border-black dark:border-white shadow-[20px_20px_0px_0px_rgba(0,0,0,1)] dark:shadow-[20px_20px_0px_0px_rgba(255,255,255,1)] rounded-none transition-transform hover:-translate-y-2 duration-500">
-              <div className="relative overflow-hidden bg-gray-100 dark:bg-white/5 aspect-[4/5] w-full border-4 border-black dark:border-white rounded-none">
-                {/* Abstract placeholder for the design mockup */}
-                <div className="absolute inset-0 flex flex-col justify-between p-8 bg-white dark:bg-black">
-                   <div className="flex justify-between items-start">
-                      <div className="w-12 h-12 border-2 border-black dark:border-white bg-black dark:bg-white flex items-center justify-center rounded-none shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,1)]">
-                         <MonitorSmartphone className="text-white dark:text-black w-6 h-6" />
-                      </div>
-                      <div className="flex gap-2">
-                         <div className="w-3 h-3 bg-black dark:bg-white rounded-none" />
-                         <div className="w-3 h-3 bg-black dark:bg-white rounded-none" />
-                         <div className="w-3 h-3 bg-black dark:bg-white rounded-none" />
-                      </div>
-                   </div>
-                   <div className="space-y-4">
-                      <div className="h-6 w-1/3 bg-gray-200 dark:bg-white/10 rounded-none border-2 border-black dark:border-white" />
-                      <div className="h-12 w-3/4 bg-black dark:bg-white rounded-none shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,1)]" />
-                      <div className="h-4 w-full bg-gray-100 dark:bg-white/5 rounded-none border-2 border-black dark:border-white" />
-                      <div className="h-4 w-5/6 bg-gray-100 dark:bg-white/5 rounded-none border-2 border-black dark:border-white" />
-                   </div>
-                   <div className="mt-8 flex gap-3">
-                      <div className="h-14 w-full bg-black dark:bg-white rounded-none shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,1)] border-2 border-black dark:border-white" />
-                      <div className="h-14 w-14 bg-white dark:bg-black flex-shrink-0 rounded-none shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,1)] border-2 border-black dark:border-white" />
-                   </div>
-                </div>
-                <Image
-                  src="/feed arfan (20).png"
-                  alt="Desain Poster Premium"
-                  fill
-                  priority
-                  className="object-cover mix-blend-multiply dark:mix-blend-normal opacity-90 hover:opacity-100 transition-all duration-700 cursor-pointer grayscale hover:grayscale-0"
-                />
-              </div>
-            </div>
+            {/* Ambient Glow for Cards */}
+            <div className="absolute inset-0 bg-gradient-to-tr from-orange-500/30 via-amber-400/20 to-purple-500/20 blur-[80px] -z-10 rounded-full animate-pulse duration-[7000ms]" />
 
-            {/* Floating Card 1: Layers (Top Right) */}
+            {/* CARD 3 (Paling Belakang / Bawah) */}
             <motion.div 
-              animate={{ y: [0, -10, 0] }}
-              transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
-              className="absolute -right-6 top-16 z-20 bg-white dark:bg-black p-4 border-4 border-black dark:border-white shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] dark:shadow-[8px_8px_0px_0px_rgba(255,255,255,1)] hidden md:flex items-center gap-3 rounded-none"
+              animate={{ y: [0, -8, 0], rotateZ: [-6, -5, -6] }}
+              transition={{ repeat: Infinity, duration: 8, ease: "easeInOut", delay: 0.4 }}
+              className="absolute inset-0 z-10 opacity-50 dark:opacity-40 transition-all duration-700 ease-out group-hover:translate-x-12 group-hover:-translate-y-6 group-hover:rotate-[-10deg] scale-[0.85] translate-y-12 translate-x-6 origin-bottom"
             >
-              <div className="w-10 h-10 bg-black dark:bg-white border-2 border-black dark:border-white flex items-center justify-center rounded-none">
-                <Layers className="w-5 h-5 text-white dark:text-black" />
-              </div>
-              <div>
-                <p className="text-[10px] font-black text-gray-500 dark:text-gray-400 uppercase tracking-widest">Kualitas</p>
-                <p className="text-sm font-black text-black dark:text-white uppercase tracking-wider">Pixel Perfect</p>
+              {/* Ditambahin 'relative' di sini biar gambarnya nggak bocor */}
+              <div className="relative w-full h-full rounded-[2rem] overflow-hidden border border-slate-200/50 dark:border-white/10 bg-white dark:bg-slate-900 shadow-lg">
+                <Image src="/feed arfan (20).png" alt="Desain 3" fill className="object-cover" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent dark:from-black/60 dark:to-black/20 mix-blend-overlay pointer-events-none"></div>
               </div>
             </motion.div>
 
-            {/* Floating Card 2: Satisfaction Guarantee (Bottom Left) */}
+            {/* CARD 2 (Tengah) */}
             <motion.div 
-              animate={{ y: [0, 10, 0], rotate: [-3, -1, -3] }}
-              transition={{ repeat: Infinity, duration: 5, ease: "easeInOut" }}
-              className="absolute -left-8 bottom-20 z-20 bg-black dark:bg-white p-4 border-4 border-black dark:border-white shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] dark:shadow-[8px_8px_0px_0px_rgba(255,255,255,1)] hidden md:flex items-center gap-3 rounded-none text-white dark:text-black hover:rotate-0 transition-transform cursor-pointer"
+              animate={{ y: [0, -10, 0], rotateZ: [4, 5, 4] }}
+              transition={{ repeat: Infinity, duration: 6, ease: "easeInOut", delay: 0.2 }}
+              className="absolute inset-0 z-20 opacity-80 dark:opacity-70 transition-all duration-700 ease-out group-hover:-translate-x-10 group-hover:-translate-y-2 group-hover:rotate-[8deg] scale-[0.92] translate-y-6 -translate-x-4 origin-bottom"
             >
-              <div className="w-10 h-10 bg-white dark:bg-black border-2 border-black dark:border-white flex items-center justify-center rounded-none">
-                <Sparkles className="w-5 h-5 text-black dark:text-white" />
+              {/* Ditambahin 'relative' di sini */}
+              <div className="relative w-full h-full rounded-[2rem] overflow-hidden border border-slate-200/60 dark:border-white/10 bg-white dark:bg-slate-900 shadow-2xl shadow-black/5 dark:shadow-black/20">
+                <Image src="/feed arfan (20).png" alt="Desain 2" fill className="object-cover" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent dark:from-black/40 dark:to-black/10 mix-blend-overlay pointer-events-none"></div>
               </div>
-              <div>
-                <p className="text-sm font-black uppercase tracking-wider">AllFanajalh</p>
-                <p className="text-[10px] font-black text-gray-300 dark:text-gray-600 uppercase tracking-widest mt-0.5">Joki Poster & SaaS</p>
+            </motion.div>
+
+            {/* CARD 1 (Paling Depan / Utama) */}
+            <motion.div 
+              animate={{ y: [0, -12, 0] }}
+              transition={{ repeat: Infinity, duration: 7, ease: "easeInOut" }}
+              className="absolute inset-0 z-30 transition-all duration-700 ease-out group-hover:translate-y-2 group-hover:scale-[1.02]"
+            >
+              <div className="relative w-full h-full p-[3px] rounded-[2rem] bg-gradient-to-br from-white/90 via-white/40 to-white/10 dark:from-white/20 dark:via-white/5 dark:to-white/0 shadow-[0_20px_50px_-10px_rgba(249,115,22,0.2)] dark:shadow-[0_20px_50px_-10px_rgba(0,0,0,0.6)] backdrop-blur-sm">
+                <div className="relative w-full h-full rounded-[1.85rem] overflow-hidden bg-white dark:bg-slate-900 border border-slate-100/50 dark:border-white/5">
+                  <Image 
+                    src="/feed arfan (20).png" 
+                    alt="Desain Utama" 
+                    fill 
+                    priority
+                    sizes="(max-width: 768px) 100vw, 50vw"
+                    className="object-cover" 
+                  />
+                  {/* Subtle Glass Reflection Overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/10 to-white/30 dark:via-white/5 dark:to-white/10 pointer-events-none"></div>
+                </div>
+              </div>
+            </motion.div>
+
+            {/* Floating Element: Badge (Attached to Front Card) */}
+            <motion.div 
+              animate={{ y: [-6, 6, -6], rotateZ: [-2, 2, -2] }}
+              transition={{ repeat: Infinity, duration: 5, ease: "easeInOut", delay: 0.5 }}
+              className="absolute -right-6 lg:-right-10 top-16 z-40 bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl p-3.5 border border-white dark:border-slate-700/50 rounded-2xl shadow-2xl flex items-center gap-3 transition-transform duration-700 ease-out group-hover:translate-x-4 group-hover:-translate-y-2"
+            >
+              <div className="w-11 h-11 bg-gradient-to-br from-orange-500 to-amber-500 flex items-center justify-center rounded-[0.85rem] shadow-inner">
+                <Layers className="w-5 h-5 text-white" />
+              </div>
+              <div className="pr-2">
+                <p className="text-[10px] font-extrabold text-orange-500 uppercase tracking-widest mb-0.5">Kualitas</p>
+                <p className="text-sm font-black text-slate-800 dark:text-white">Premium</p>
               </div>
             </motion.div>
 
           </motion.div>
-
         </div>
       </div>
     </section>

@@ -77,27 +77,11 @@ const Swal = {
         `
       }
 
-      // Check layout theme
-      const isMobileEcosystem = window.location.pathname.startsWith("/ecosystem") || window.location.pathname.startsWith("/home")
-      const primaryBtnClass = isMobileEcosystem
-        ? "bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white rounded-full shadow-[0_4px_12px_rgba(249,115,22,0.3)] active:scale-95 transition-all text-xs font-black uppercase tracking-widest px-6 py-3 cursor-pointer"
-        : "bg-black hover:bg-zinc-800 text-white border-2 border-black font-black uppercase tracking-widest text-[11px] shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:scale-95 transition-all px-6 py-3 cursor-pointer"
-
-      const cancelBtnClass = isMobileEcosystem
-        ? "bg-slate-100 hover:bg-slate-200 text-slate-600 rounded-full active:scale-95 transition-all text-xs font-black uppercase tracking-widest px-6 py-3 cursor-pointer"
-        : "bg-white hover:bg-slate-50 text-black border-2 border-black font-black uppercase tracking-widest text-[11px] shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:scale-95 transition-all px-6 py-3 cursor-pointer"
-
-      const cardClass = isMobileEcosystem
-        ? "bg-white rounded-[2rem] p-6 shadow-2xl w-full max-w-[340px] flex flex-col items-center text-center border border-slate-100 transform translate-y-10 transition-transform duration-300 ease-out"
-        : "bg-white border-4 border-black p-8 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] w-full max-w-[420px] flex flex-col items-center text-center transform translate-y-10 transition-transform duration-300 ease-out"
-
-      const titleClass = isMobileEcosystem
-        ? "text-slate-800 text-[16px] font-black tracking-tight mt-4 leading-snug"
-        : "text-black text-xl font-black uppercase tracking-wider mt-5"
-
-      const contentClass = isMobileEcosystem
-        ? "text-slate-500 text-xs font-semibold mt-2 leading-relaxed"
-        : "text-gray-600 text-xs font-bold uppercase tracking-wider mt-3 leading-relaxed"
+      const primaryBtnClass = "bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white rounded-full shadow-[0_4px_12px_rgba(249,115,22,0.3)] active:scale-95 transition-all text-xs font-black uppercase tracking-widest px-6 py-3 cursor-pointer"
+      const cancelBtnClass = "bg-slate-100 hover:bg-slate-200 text-slate-600 rounded-full active:scale-95 transition-all text-xs font-black uppercase tracking-widest px-6 py-3 cursor-pointer"
+      const cardClass = "bg-white rounded-[2rem] p-6 shadow-2xl w-full max-w-[340px] flex flex-col items-center text-center border border-slate-100 transform translate-y-10 transition-transform duration-300 ease-out"
+      const titleClass = "text-slate-800 text-[16px] font-black tracking-tight mt-4 leading-snug"
+      const contentClass = "text-slate-500 text-xs font-semibold mt-2 leading-relaxed"
 
       // Build inner HTML
       container.innerHTML = `

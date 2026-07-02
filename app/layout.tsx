@@ -3,6 +3,7 @@ import type { Metadata } from "next"
 import { Plus_Jakarta_Sans } from "next/font/google"
 import { Providers } from "@/components/Providers"
 import CustomCursor from "@/components/ui/CustomCursor"
+import NavigationLoader from "@/components/sections/NavigationLoader"
 import "./globals.css"
 
 const jakarta = Plus_Jakarta_Sans({ 
@@ -12,32 +13,24 @@ const jakarta = Plus_Jakarta_Sans({
 })
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://fanajah.my.id"),
   title: {
-    default: "AllFanajalh — Jasa Desain Poster & SaaS Business Ecosystem Purwokerto",
-    template: "%s | AllFanajalh"
+    default: "Fanajalah — Template Desain Poster & Grafis Premium",
+    template: "%s | Fanajalah"
   },
   description:
-    "AllFanajalh adalah platform SaaS Business Ecosystem & Jasa Joki Desain Poster profesional di Purwokerto oleh Muhammad Fachri Arfan. Fitur lengkap: Lead Finder, CRM, Email Blast, Keyword Planner AI, SEO Writer, SERP Tracker, AI Google Optimization, dan Website Audit Score.",
+    "Fanajalah adalah platform penyedia Template Desain Poster profesional oleh Muhammad Fachri Arfan. Menyediakan template poster event, poster promosi, infografis, print design, dan postingan media sosial premium.",
   keywords: [
-    "allfanajalh",
-    "fanajalh",
-    "jasa desain poster purwokerto",
-    "joki poster purwokerto",
-    "desain poster murah purwokerto",
-    "jasa poster event purwokerto",
-    "SaaS business ecosystem",
-    "lead finder google maps",
-    "CRM gratis",
-    "email blast massal",
-    "keyword planner AI",
-    "SEO writer AI",
-    "SERP tracker Indonesia",
-    "AI optimization GEO",
-    "website audit score",
+    "fanajalah",
+    "template desain poster",
+    "template poster premium",
+    "template poster murah",
+    "template poster event",
+    "template desain grafis",
     "Muhammad Fachri Arfan",
-    "jasa desain grafis purwokerto",
-    "pembuatan website purwokerto",
-    "digital marketing purwokerto"
+    "template feed instagram",
+    "template spanduk",
+    "template brosur"
   ],
   icons: {
     icon: [
@@ -49,8 +42,6 @@ export const metadata: Metadata = {
     other: [{ rel: "mask-icon", url: "/safari-pinned-tab.png", color: "#f97316" }],
   },
   manifest: "/site.webmanifest",
-  themeColor: "#f97316",
-  viewport: "width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0",
   robots: {
     index: true,
     follow: true,
@@ -64,38 +55,46 @@ export const metadata: Metadata = {
   },
   authors: [{ name: "Muhammad Fachri Arfan", url: "https://allfanajalh.my.id" }],
   creator: "Muhammad Fachri Arfan",
-  publisher: "AllFanajalh",
+  publisher: "Fanajalah",
   alternates: {
-    canonical: "https://allfanajalh.my.id",
+    canonical: "https://fanajah.my.id",
   },
   openGraph: {
     type: "website",
     locale: "id_ID",
-    url: "https://allfanajalh.my.id",
-    title: "AllFanajalh — Jasa Desain Poster & SaaS Business Ecosystem Purwokerto",
-    description: "Platform SaaS Business Ecosystem & Jasa Joki Desain Poster profesional di area Purwokerto. Dibuat oleh Muhammad Fachri Arfan. Fitur: Lead Finder, CRM, Email Blast, Keyword AI, SEO Writer, SERP Tracker, AI Optimization, Website Audit.",
-    siteName: "AllFanajalh",
+    url: "https://fanajah.my.id",
+    title: "Fanajalah — Template Desain Poster & Grafis Premium",
+    description: "Template Desain Poster profesional oleh Muhammad Fachri Arfan. Menyediakan template poster event, promosi, infografis, feed instagram, dan print design.",
+    siteName: "Fanajalah",
     images: [
       {
         url: "/og-image.png",
         width: 1200,
         height: 630,
-        alt: "AllFanajalh — Jasa Desain Poster & SaaS Business Ecosystem Purwokerto oleh Muhammad Fachri Arfan",
+        alt: "Fanajalah — Template Desain Poster & Grafis Premium oleh Muhammad Fachri Arfan",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "AllFanajalh — Jasa Desain Poster & SaaS Business Ecosystem Purwokerto",
-    description: "Platform SaaS Business Ecosystem & Jasa Joki Desain Poster di Purwokerto oleh Muhammad Fachri Arfan. Lead Finder, CRM, Email Blast, SEO AI, Website Audit Score.",
+    title: "Fanajalah — Template Desain Poster & Grafis Premium",
+    description: "Template Desain Poster profesional oleh Muhammad Fachri Arfan. Poster Event, Promosi, Infografis, Feed Instagram.",
     images: ["/og-image.png"],
-    creator: "@allfanajalh",
+    creator: "@fanajalah",
   },
   verification: {
     // Tambahkan verification code dari Google Search Console di sini setelah mendaftar:
     // google: "kode-verifikasi-google-search-console",
   },
-  category: "technology",
+  category: "design",
+}
+
+export const viewport = {
+  themeColor: "#f97316",
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
 }
 
 // JSON-LD Structured Data
@@ -105,16 +104,16 @@ const jsonLd = {
     {
       "@type": "Organization",
       "@id": "https://allfanajalh.my.id/#organization",
-      "name": "AllFanajalh",
-      "url": "https://allfanajalh.my.id",
+      "name": "Fanajalah",
+      "url": "https://fanajah.my.id",
       "logo": {
         "@type": "ImageObject",
-        "url": "https://allfanajalh.my.id/feed arfan (20).png"
+        "url": "https://fanajah.my.id/feed arfan (20).png"
       },
       "founder": {
         "@type": "Person",
         "name": "Muhammad Fachri Arfan",
-        "jobTitle": "Founder & Developer",
+        "jobTitle": "Founder & Lead Designer",
         "address": {
           "@type": "PostalAddress",
           "addressLocality": "Purwokerto",
@@ -129,33 +128,33 @@ const jsonLd = {
         "addressCountry": "ID"
       },
       "sameAs": [],
-      "description": "AllFanajalh adalah platform SaaS Business Ecosystem dan layanan Joki Desain Poster profesional di area Purwokerto yang didirikan oleh Muhammad Fachri Arfan."
+      "description": "Fanajalah adalah platform penyedia Template Desain Poster profesional yang didirikan oleh Muhammad Fachri Arfan."
     },
     {
       "@type": "WebSite",
       "@id": "https://allfanajalh.my.id/#website",
-      "url": "https://allfanajalh.my.id",
-      "name": "AllFanajalh",
-      "description": "Jasa Desain Poster Purwokerto & SaaS Business Ecosystem",
+      "url": "https://fanajah.my.id",
+      "name": "Fanajalah",
+      "description": "Template Desain Poster & Grafis Premium",
       "publisher": { "@id": "https://allfanajalh.my.id/#organization" },
       "inLanguage": "id-ID"
     },
     {
       "@type": "WebPage",
       "@id": "https://allfanajalh.my.id/#webpage",
-      "url": "https://allfanajalh.my.id",
-      "name": "AllFanajalh — Jasa Desain Poster & SaaS Business Ecosystem Purwokerto",
+      "url": "https://fanajah.my.id",
+      "name": "Fanajalah — Template Desain Poster & Grafis Premium",
       "isPartOf": { "@id": "https://allfanajalh.my.id/#website" },
       "about": { "@id": "https://allfanajalh.my.id/#organization" },
-      "description": "Platform SaaS Business Ecosystem lengkap dengan Lead Finder, CRM, Email Blast, Keyword Planner AI, SEO Writer, SERP Tracker, AI Google Optimization, dan Website Audit Score. Juga menyediakan jasa joki desain poster profesional di Purwokerto.",
+      "description": "Template desain poster profesional. Menyediakan template poster event, promosi, infografis, dan digital marketing design.",
       "inLanguage": "id-ID"
     },
     {
       "@type": "LocalBusiness",
       "@id": "https://allfanajalh.my.id/#localbusiness",
-      "name": "AllFanajalh — Joki Poster Purwokerto",
+      "name": "Fanajalah — Template Poster Premium",
       "image": "https://allfanajalh.my.id/feed arfan (20).png",
-      "url": "https://allfanajalh.my.id",
+      "url": "https://fanajah.my.id",
       "address": {
         "@type": "PostalAddress",
         "addressLocality": "Purwokerto",
@@ -167,7 +166,7 @@ const jsonLd = {
         "latitude": -7.4214,
         "longitude": 109.2342
       },
-      "priceRange": "Rp15.000 - Rp500.000",
+      "priceRange": "Rp10.000 - Rp250.000",
       "openingHoursSpecification": {
         "@type": "OpeningHoursSpecification",
         "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
@@ -184,73 +183,30 @@ const jsonLd = {
       }
     },
     {
-      "@type": "SoftwareApplication",
-      "@id": "https://allfanajalh.my.id/#saas",
-      "name": "AllFanajalh Business Ecosystem",
-      "applicationCategory": "BusinessApplication",
-      "operatingSystem": "Web",
-      "offers": {
-        "@type": "Offer",
-        "price": "0",
-        "priceCurrency": "IDR",
-        "description": "Gratis dengan limitasi. Upgrade ke Premium untuk akses unlimited."
-      },
-      "featureList": [
-        "Lead Finder (Google Maps Scraper)",
-        "CRM (Database Prospek & Pelanggan)",
-        "Email Blast Massal dengan SMTP",
-        "Keyword Planner AI (Gemini)",
-        "SEO Content Writer AI",
-        "SERP Tracker & Analytics",
-        "AI Google Optimization (GEO)",
-        "Website Audit & Score"
-      ],
-      "creator": {
-        "@type": "Person",
-        "name": "Muhammad Fachri Arfan"
-      }
-    },
-    {
       "@type": "FAQPage",
       "mainEntity": [
         {
           "@type": "Question",
-          "name": "Apa itu AllFanajalh?",
+          "name": "Apa itu Fanajalah?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "AllFanajalh adalah platform SaaS Business Ecosystem dan layanan joki desain poster profesional di Purwokerto yang didirikan oleh Muhammad Fachri Arfan. Platform ini menyediakan fitur lengkap mulai dari Lead Finder, CRM, Email Blast, Keyword Planner AI, SEO Writer, SERP Tracker, AI Google Optimization, hingga Website Audit Score."
+            "text": "Fanajalah adalah platform penyedia template desain poster profesional yang didirikan oleh Muhammad Fachri Arfan. Menyediakan template poster event, poster promosi, infografis, media sosial, dan digital design."
           }
         },
         {
           "@type": "Question",
-          "name": "Siapa pendiri AllFanajalh?",
+          "name": "Siapa pendiri Fanajalah?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "AllFanajalh didirikan oleh Muhammad Fachri Arfan, seorang developer dan desainer grafis berbasis di Purwokerto, Jawa Tengah, Indonesia."
+            "text": "Fanajalah didirikan oleh Muhammad Fachri Arfan, seorang desainer grafis berbasis di Purwokerto, Jawa Tengah, Indonesia."
           }
         },
         {
           "@type": "Question",
-          "name": "Apa saja fitur SaaS Ecosystem AllFanajalh?",
+          "name": "Berapa harga template desain poster di Fanajalah?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Fitur utama meliputi: Lead Finder untuk scraping data bisnis dari Google Maps, CRM untuk mengelola prospek, Email Blast untuk promosi massal, Keyword Planner AI untuk riset kata kunci, SEO Writer untuk membuat artikel otomatis, SERP Tracker untuk memantau peringkat Google, AI Optimization (GEO) untuk optimasi mesin pencari generatif, dan Website Audit untuk mengecek skor SEO website."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Berapa harga jasa desain poster di AllFanajalh Purwokerto?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Harga jasa desain poster di AllFanajalh mulai dari Rp15.000 untuk desain poster standar. Tersedia berbagai paket untuk poster event, poster promosi, infografis, dan desain grafis lainnya di area Purwokerto dan sekitarnya."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Bagaimana cara menggunakan Business Ecosystem AllFanajalh?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Anda cukup mendaftar atau masuk sebagai tamu, lalu ikuti alur bisnis: cari prospek di Lead Finder, simpan ke CRM, kirim email penawaran massal, riset kata kunci dengan AI, buat artikel SEO otomatis, dan pantau peringkat website Anda di Google."
+            "text": "Harga template desain poster di Fanajalah mulai dari Rp15.000 untuk paket template dasar. Tersedia berbagai paket template untuk poster event, poster promosi, infografis, dan desain grafis lainnya."
           }
         }
       ]
@@ -264,7 +220,7 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="id">
+    <html lang="id" suppressHydrationWarning>
       <head>
         <meta name="msapplication-TileColor" content="#f97316" />
         <meta name="msapplication-config" content="/browserconfig.xml" />
@@ -280,6 +236,7 @@ export default function RootLayout({
       <body className={`${jakarta.className}`}>
         <Providers>
           <CustomCursor />
+          <NavigationLoader />
           <div className="w-full min-h-screen bg-white dark:bg-black relative overflow-x-hidden flex flex-col mx-auto">
             {children}
           </div>

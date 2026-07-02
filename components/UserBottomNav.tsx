@@ -3,7 +3,13 @@
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { Home, Compass, ShoppingBag, User, Briefcase, Crown } from "lucide-react"
-import { useCart } from "@/components/cart"
+// Mock useCart hook to replace deleted cart component
+function useCart() {
+  return {
+    totalItems: 0,
+    setIsOpen: (isOpen: boolean) => {}
+  }
+}
 
 export function UserBottomNav() {
   const pathname = usePathname()

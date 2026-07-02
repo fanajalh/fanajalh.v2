@@ -8,6 +8,8 @@ function isOriginAllowed(origin: string | null): boolean {
     const hostname = url.hostname
     // Allow localhost / 127.0.0.1
     if (hostname === 'localhost' || hostname === '127.0.0.1') return true
+    // Allow production domains
+    if (hostname === 'allfanajalh.my.id' || hostname.endsWith('.allfanajalh.my.id')) return true
     // Allow private IP ranges (192.168.x.x, 10.x.x.x, 172.16.x.x to 172.31.x.x)
     if (
       hostname.startsWith('192.168.') ||

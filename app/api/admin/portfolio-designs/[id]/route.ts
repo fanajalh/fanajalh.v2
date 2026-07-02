@@ -12,7 +12,7 @@ export async function PATCH(request: NextRequest, { params }: { params: { id: st
     }
 
     const body = await request.json()
-    const { title, category, image, description } = body
+    const { title, category, image, description, price_original, price_discount, drive_link } = body
 
     const result = await sql`
       UPDATE portfolio_designs
@@ -20,7 +20,10 @@ export async function PATCH(request: NextRequest, { params }: { params: { id: st
         title = COALESCE(${title}, title),
         category = COALESCE(${category}, category),
         image = COALESCE(${image}, image),
-        description = COALESCE(${description}, description)
+        description = COALESCE(${description}, description),
+        price_original = COALESCE(${price_original !== undefined ? Number(price_original) : null}, price_original),
+        price_discount = COALESCE(${price_discount !== undefined ? Number(price_discount) : null}, price_discount),
+        drive_link = COALESCE(${drive_link !== undefined ? drive_link : null}, drive_link)
       WHERE id = ${params.id}
       RETURNING *
     `

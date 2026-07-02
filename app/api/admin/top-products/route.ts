@@ -33,8 +33,8 @@ export async function GET() {
       await sql`
         INSERT INTO top_products (name, default_price, icon, badge, badge_class, hover_bg, hover_icon, link, badge_icon)
         VALUES 
-        ('Desain Poster', '15.000', 'Palette', 'TOP', 'bg-yellow-400 text-yellow-900', 'group-hover:bg-blue-50', 'group-hover:text-blue-500', '/order?service=poster&package=professional', 'Star'),
-        ('Desain Bisnis', '25.000', 'Briefcase', 'HOT', 'bg-orange-500 text-white', 'group-hover:bg-rose-50', 'group-hover:text-rose-500', '/order?service=logo&package=professional', 'Zap')
+        ('Desain Poster', '15.000', 'Palette', 'TOP', 'bg-yellow-400 text-yellow-900', 'group-hover:bg-blue-50', 'group-hover:text-blue-500', '/payment?package=basic', 'Star'),
+        ('Desain Bisnis', '25.000', 'Briefcase', 'HOT', 'bg-orange-500 text-white', 'group-hover:bg-rose-50', 'group-hover:text-rose-500', '/payment?package=professional', 'Zap')
       `;
     }
 
@@ -79,7 +79,7 @@ export async function POST(req: Request) {
         ${badge_class || 'bg-yellow-400 text-yellow-900'},
         ${hover_bg || 'group-hover:bg-blue-50'},
         ${hover_icon || 'group-hover:text-blue-500'},
-        ${link || '/order'},
+        ${link || '/payment'},
         ${badge_icon || 'Star'}
       )
       RETURNING *

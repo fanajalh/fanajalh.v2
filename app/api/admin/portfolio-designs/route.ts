@@ -25,15 +25,23 @@ export async function POST(request: NextRequest) {
     }
 
     const body = await request.json()
-    const { title, category, image, description } = body
+    const { title, category, image, description, price_original, price_discount, drive_link } = body
 
     if (!title || !category || !image) {
       return NextResponse.json({ success: false, message: "Title, category, and image are required" }, { status: 400 })
     }
 
     const result = await sql`
-      INSERT INTO portfolio_designs (title, category, image, description)
-      VALUES (${title}, ${category}, ${image}, ${description || null})
+      INSERT INTO portfolio_designs (title, category, image, description, price_original, price_discount, drive_link)
+      VALUES (
+        ${title}, 
+        ${category}, 
+        ${image}, 
+        ${description || null},
+        ${Number(price_original) || 15000},
+        ${Number(price_discount) || 10000},
+        ${drive_link || ''}
+      )
       RETURNING *
     `
 
