@@ -32,14 +32,10 @@ export async function GET() {
     if (rows.length > 0) {
       return NextResponse.json({ success: true, data: rows[0] })
     }
-    // Default fallback jika belum ada data
+    // Return null if no APK settings exist
     return NextResponse.json({
       success: true,
-      data: {
-        version: "1.0.0",
-        file_url: "/AllFanajalh.apk",
-        file_size: "~25 MB",
-      },
+      data: null,
     })
   } catch (error: any) {
     console.error("GET apk-settings error:", error)

@@ -12,21 +12,39 @@ interface CountdownBannerProps {
 
 export default function CountdownBanner({ websiteSettings }: CountdownBannerProps) {
   const defaultSeconds = headersConfig.countdownPromo.countdownSeconds
-  const [timeLeft, setTimeLeft] = useState(defaultSeconds)
+  const [timeLeft, setTimeLeft] = useState<number>(-1)
+  const [hasChecked, setHasChecked] = useState(false)
   
   useEffect(() => {
-    const dbSeconds = websiteSettings?.countdownPromo?.countdownSeconds
-    if (dbSeconds !== undefined) {
-      setTimeLeft(Number(dbSeconds))
+    const calculateTime = () => {
+      const config = websiteSettings?.countdownPromo || {}
+      if (config.countdownTarget) {
+        const targetTime = new Date(config.countdownTarget).getTime()
+        const diff = Math.max(0, Math.floor((targetTime - Date.now()) / 1000))
+        setTimeLeft(diff)
+      } else if (config.countdownSeconds !== undefined) {
+        setTimeLeft(Number(config.countdownSeconds))
+      } else {
+        setTimeLeft(defaultSeconds)
+      }
+      setHasChecked(true)
     }
-  }, [websiteSettings])
 
-  useEffect(() => {
+    calculateTime()
+
     const timer = setInterval(() => {
-      setTimeLeft((prev) => (prev > 0 ? prev - 1 : 0))
+      const config = websiteSettings?.countdownPromo || {}
+      if (config.countdownTarget) {
+        const targetTime = new Date(config.countdownTarget).getTime()
+        const diff = Math.max(0, Math.floor((targetTime - Date.now()) / 1000))
+        setTimeLeft(diff)
+      } else {
+        setTimeLeft((prev) => (prev > 0 ? prev - 1 : 0))
+      }
     }, 1000)
+
     return () => clearInterval(timer)
-  }, [])
+  }, [websiteSettings, defaultSeconds])
 
   const formatCountdown = () => {
     const days = Math.floor(timeLeft / (24 * 3600))
@@ -61,6 +79,10 @@ export default function CountdownBanner({ websiteSettings }: CountdownBannerProp
     }, 3000)
     return () => clearInterval(interval)
   }, [images.length])
+
+  if (hasChecked && timeLeft <= 0) {
+    return null
+  }
 
   return (
     <section id="promo" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

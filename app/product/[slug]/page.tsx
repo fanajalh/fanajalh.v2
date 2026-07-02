@@ -3,7 +3,7 @@
 import { useParams } from "next/navigation"
 import Link from "next/link"
 import { useState, useEffect } from "react"
-import { ArrowLeft, Code, Check, ShoppingBag, ChevronRight } from "lucide-react"
+import { ArrowLeft, Code, Check, ShoppingBag, ChevronRight, ShoppingCart } from "lucide-react"
 
 export default function ProductDetailPage() {
   const params = useParams()
@@ -77,6 +77,39 @@ export default function ProductDetailPage() {
 
   const product = getProduct()
 
+  const handleAddToCart = () => {
+    if (!product) return
+    try {
+      const cart = JSON.parse(localStorage.getItem("cart") || "[]")
+      // Check if already in cart
+      const exists = cart.some((item: any) => item.title === product.title)
+      if (!exists) {
+        cart.push({
+          title: product.title,
+          image: (product.image ? product.image.split("|")[0] : null) || "/ucapan.png",
+          price: product.priceDiscount,
+        })
+        localStorage.setItem("cart", JSON.stringify(cart))
+      }
+      // Dispatch custom event to notify Navbar
+      window.dispatchEvent(new Event("cart-updated"))
+      // Show SweetAlert
+      import("sweetalert2").then((Swal) => {
+        Swal.default.fire({
+          icon: "success",
+          title: "Berhasil",
+          text: `"${product.title}" berhasil ditambahkan ke keranjang!`,
+          showConfirmButton: false,
+          timer: 1500,
+          background: document.documentElement.classList.contains("dark") ? "#1e293b" : "#ffffff",
+          color: document.documentElement.classList.contains("dark") ? "#ffffff" : "#0f172a",
+        })
+      })
+    } catch (err) {
+      console.error("Gagal menambahkan ke keranjang:", err)
+    }
+  }
+
   // Loading view while fetching dynamic catalog
   if (loading && !product) {
     return (
@@ -134,22 +167,22 @@ export default function ProductDetailPage() {
 
       {/* Breadcrumb */}
       <div className="max-w-5xl mx-auto px-4 sm:px-6 pt-6">
-        <nav className="flex items-center gap-2 text-sm font-medium text-slate-400">
+        <nav className="flex flex-wrap items-center gap-2 text-xs sm:text-sm font-medium text-slate-400">
           <Link href="/" className="hover:text-orange-500 transition-colors">Home</Link>
-          <ChevronRight size={14} />
+          <ChevronRight size={14} className="shrink-0" />
           <Link href="/#products" className="hover:text-orange-500 transition-colors">Katalog</Link>
-          <ChevronRight size={14} />
-          <span className="text-slate-700 dark:text-slate-300 font-bold truncate max-w-[200px]">{product.title}</span>
+          <ChevronRight size={14} className="shrink-0" />
+          <span className="text-slate-700 dark:text-slate-300 font-bold truncate max-w-[150px] sm:max-w-[200px]">{product.title}</span>
         </nav>
       </div>
-
+ 
       {/* Main Content */}
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 py-10">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14 items-start">
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 py-6 sm:py-10">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-14 items-start">
           
           {/* LEFT: Product Image */}
           <div className="space-y-4">
-            <div className="bg-white dark:bg-slate-900 p-5 md:p-6 border border-slate-100 dark:border-slate-850 rounded-[2rem] shadow-sm flex flex-col gap-4">
+            <div className="bg-white dark:bg-slate-900 p-4 sm:p-6 border border-slate-100 dark:border-slate-850 rounded-[1.5rem] sm:rounded-[2rem] shadow-sm flex flex-col gap-4">
               <div className="relative aspect-[4/5] w-full rounded-2xl overflow-hidden border border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-950">
                 <img
                   src={product.image ? product.image.split("|")[activeImageIndex] : "/ucapan.png"}
@@ -159,27 +192,27 @@ export default function ProductDetailPage() {
                 
                 {/* Discount badge */}
                 {hasDiscount && (
-                  <div className="absolute top-4 left-4 z-10 bg-red-500 text-white text-base font-extrabold px-4 py-1.5 rounded-xl shadow-md">
+                  <div className="absolute top-3 left-3 sm:top-4 sm:left-4 z-10 bg-red-500 text-white text-xs sm:text-base font-extrabold px-3 py-1 sm:px-4 sm:py-1.5 rounded-xl shadow-md">
                     -{discountPercentage}% OFF
                   </div>
                 )}
-
+ 
                 {product.stock === 0 && (
                   <div className="absolute inset-0 bg-black/60 flex items-center justify-center text-white font-extrabold text-xs uppercase tracking-wider z-10">
                     Stok Habis
                   </div>
                 )}
-
+ 
                 {/* Stamp overlay */}
-                <div className="absolute bottom-4 right-4 z-10 w-14 h-14 rounded-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 flex items-center justify-center shadow-lg">
+                <div className="absolute bottom-3 right-3 sm:bottom-4 sm:right-4 z-10 w-10 h-10 sm:w-14 sm:h-14 rounded-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 flex items-center justify-center shadow-lg text-orange-500">
                   {product.categoryId === "webcode" ? (
-                    <Code size={22} className="text-orange-500" />
+                    <Code size={18} className="sm:w-[22px] sm:h-[22px]" />
                   ) : (
-                    <span className="text-sm font-black text-[#00c4cc] italic">Canva</span>
+                    <span className="text-xs sm:text-sm font-black text-[#00c4cc] italic">Canva</span>
                   )}
                 </div>
               </div>
-
+ 
               {/* Thumbnails row if there are multiple images */}
               {product.image && product.image.split("|").filter(Boolean).length > 1 && (
                 <div className="flex flex-wrap gap-2 w-full justify-center">
@@ -187,7 +220,7 @@ export default function ProductDetailPage() {
                     <button
                       key={idx}
                       onClick={() => setActiveImageIndex(idx)}
-                      className={`w-14 h-14 rounded-xl overflow-hidden border-2 transition-all ${
+                      className={`w-11 h-11 sm:w-14 sm:h-14 rounded-lg sm:rounded-xl overflow-hidden border-2 transition-all ${
                         activeImageIndex === idx
                           ? "border-orange-500 scale-105 shadow-md shadow-orange-500/10"
                           : "border-slate-200 dark:border-slate-800 opacity-60 hover:opacity-100"
@@ -201,86 +234,95 @@ export default function ProductDetailPage() {
               )}
             </div>
           </div>
-
+ 
           {/* RIGHT: Product Details */}
           <div className="space-y-6">
             
             {/* Title & Price Card */}
-            <div className="bg-white dark:bg-slate-900 p-7 md:p-8 border border-slate-100 dark:border-slate-850 rounded-[2rem] shadow-sm space-y-5">
-              <span className="text-sm font-extrabold text-orange-500 uppercase tracking-wider block">
+            <div className="bg-white dark:bg-slate-900 p-5 sm:p-8 border border-slate-100 dark:border-slate-850 rounded-[1.5rem] sm:rounded-[2rem] shadow-sm space-y-4">
+              <span className="text-xs sm:text-sm font-extrabold text-orange-500 uppercase tracking-wider block">
                 {product.categoryId === "webcode" ? "Source Code" : "Template Canva"} — Katalog Resmi
               </span>
-              <h1 className="text-2xl md:text-3xl font-extrabold text-slate-900 dark:text-white leading-tight">
+              <h1 className="text-xl sm:text-2xl md:text-3xl font-extrabold text-slate-900 dark:text-white leading-tight">
                 {product.title}
               </h1>
-              <div className="flex items-baseline gap-4">
-                <span className="text-3xl md:text-4xl font-black text-orange-500">
+              <div className="flex items-baseline gap-3 sm:gap-4">
+                <span className="text-2xl sm:text-3xl md:text-4xl font-black text-orange-500">
                   Rp {new Intl.NumberFormat("id-ID").format(product.priceDiscount)}
                 </span>
                 {hasDiscount && (
-                  <span className="text-lg font-semibold text-slate-400 line-through">
+                  <span className="text-sm sm:text-lg font-semibold text-slate-400 line-through">
                     Rp {new Intl.NumberFormat("id-ID").format(product.priceOriginal)}
                   </span>
                 )}
               </div>
             </div>
-
+ 
             {/* Description Card */}
-            <div className="bg-white dark:bg-slate-900 p-7 md:p-8 border border-slate-100 dark:border-slate-850 rounded-[2rem] shadow-sm space-y-5">
-              <h3 className="text-sm font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest">Deskripsi Item</h3>
-              <div className="text-base font-medium text-slate-600 dark:text-slate-350 leading-relaxed space-y-4">
-                <p className="text-slate-800 dark:text-white uppercase font-black text-lg">SPESIFIKASI DAN KELENGKAPAN:</p>
-                <p className="whitespace-pre-wrap">
+            <div className="bg-white dark:bg-slate-900 p-5 sm:p-8 border border-slate-100 dark:border-slate-850 rounded-[1.5rem] sm:rounded-[2rem] shadow-sm space-y-4">
+              <h3 className="text-xs sm:text-sm font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest">Deskripsi Item</h3>
+              <div className="text-sm sm:text-base font-medium text-slate-600 dark:text-slate-350 leading-relaxed space-y-4">
+                <p className="text-slate-800 dark:text-white uppercase font-black text-base sm:text-lg">SPESIFIKASI DAN KELENGKAPAN:</p>
+                <p className="whitespace-pre-wrap leading-relaxed">
                   {product.descriptionFull || product.description}
                 </p>
                 
                 {/* Features checklist */}
                 {product.features && (
-                  <div className="pt-3 space-y-3">
+                  <div className="pt-2 space-y-2.5 sm:space-y-3">
                     {product.features.map((feature: string, fIdx: number) => (
-                      <div key={fIdx} className="flex items-center gap-3 text-slate-800 dark:text-white text-base font-bold">
-                        <div className="w-6 h-6 bg-orange-500/10 text-orange-500 rounded-full flex items-center justify-center shrink-0">
-                          <Check size={14} strokeWidth={3} />
+                      <div key={fIdx} className="flex items-start gap-2.5 sm:gap-3 text-slate-800 dark:text-white text-sm sm:text-base font-bold">
+                        <div className="w-5 h-5 sm:w-6 sm:h-6 bg-orange-500/10 text-orange-500 rounded-full flex items-center justify-center shrink-0 mt-0.5">
+                          <Check size={12} strokeWidth={3} className="sm:w-3.5 sm:h-3.5" />
                         </div>
-                        <span>{feature}</span>
+                        <span className="leading-snug">{feature}</span>
                       </div>
                     ))}
                   </div>
                 )}
               </div>
             </div>
-
-            {/* CTA — Direct to Payment, NO POPUP */}
-            {product.stock === 0 ? (
-              <button
-                disabled
-                className="w-full flex items-center justify-center gap-3 py-5 bg-slate-200 dark:bg-slate-800 text-slate-400 dark:text-slate-600 font-extrabold text-lg uppercase tracking-wider rounded-2xl cursor-not-allowed"
-              >
-                <ShoppingBag size={22} />
-                Stok Habis
-              </button>
-            ) : (
-              <Link
-                href={`/payment?package=custom_template&title=${encodeURIComponent(product.title)}&image=${encodeURIComponent(product.image ? product.image.split("|")[0] : "/ucapan.png")}&price=${product.priceDiscount}`}
-                className="w-full flex items-center justify-center gap-3 py-5 bg-orange-500 hover:bg-orange-600 text-white font-extrabold text-lg uppercase tracking-wider rounded-2xl shadow-lg shadow-orange-500/15 active:scale-95 transition-all duration-300"
-              >
-                <ShoppingBag size={22} />
-                Beli Sekarang — Rp {new Intl.NumberFormat("id-ID").format(product.priceDiscount)}
-              </Link>
-            )}
-
+ 
+             {/* CTA — Direct to Payment, NO POPUP */}
+             {product.stock === 0 ? (
+               <button
+                 disabled
+                 className="w-full flex items-center justify-center gap-2.5 py-4 bg-slate-200 dark:bg-slate-800 text-slate-400 dark:text-slate-600 font-extrabold text-base uppercase tracking-wider rounded-2xl cursor-not-allowed"
+               >
+                 <ShoppingBag size={20} />
+                 Stok Habis
+               </button>
+             ) : (
+               <div className="flex flex-col sm:flex-row gap-3">
+                 <Link
+                   href={`/payment?package=custom_template&title=${encodeURIComponent(product.title)}&image=${encodeURIComponent(product.image ? product.image.split("|")[0] : "/ucapan.png")}&price=${product.priceDiscount}`}
+                   className="flex-1 flex items-center justify-center gap-2 py-4 sm:py-5 bg-orange-500 hover:bg-orange-600 text-white font-extrabold text-base uppercase tracking-wider rounded-2xl shadow-lg shadow-orange-500/15 active:scale-95 transition-all duration-300"
+                 >
+                   <ShoppingBag size={20} />
+                   Beli Sekarang — Rp {new Intl.NumberFormat("id-ID").format(product.priceDiscount)}
+                 </Link>
+                 <button
+                   onClick={handleAddToCart}
+                   className="px-6 py-4 sm:py-5 bg-orange-50 hover:bg-orange-100 dark:bg-orange-500/10 dark:hover:bg-orange-500/20 text-orange-500 font-extrabold text-base uppercase tracking-wider rounded-2xl border border-orange-200 dark:border-orange-500/30 active:scale-95 transition-all duration-300 flex items-center justify-center gap-2"
+                 >
+                   <ShoppingCart size={20} />
+                   <span>Keranjang</span>
+                 </button>
+               </div>
+             )}
+ 
             {/* Trust indicators */}
-            <div className="flex items-center justify-center gap-6 text-sm text-slate-400 dark:text-slate-500 font-semibold">
-              <div className="flex items-center gap-1.5">
-                <Check size={16} className="text-green-500" />
+            <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-6 text-xs sm:text-sm text-slate-400 dark:text-slate-500 font-semibold pt-1">
+              <div className="flex items-center gap-1.5 shrink-0">
+                <Check size={14} className="text-green-500" />
                 <span>Akses Instan</span>
               </div>
-              <div className="flex items-center gap-1.5">
-                <Check size={16} className="text-green-500" />
+              <div className="flex items-center gap-1.5 shrink-0">
+                <Check size={14} className="text-green-500" />
                 <span>Editable</span>
               </div>
-              <div className="flex items-center gap-1.5">
-                <Check size={16} className="text-green-500" />
+              <div className="flex items-center gap-1.5 shrink-0">
+                <Check size={14} className="text-green-500" />
                 <span>Support 24/7</span>
               </div>
             </div>

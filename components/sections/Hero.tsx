@@ -1,6 +1,6 @@
 import Link from "next/link"
 import Image from "next/image"
-import { ArrowRight, Sparkles, Layout, Layers, CheckCircle } from "lucide-react"
+import { ArrowRight, Sparkles, MessageCircle, Layers, CheckCircle } from "lucide-react"
 import MagneticButton from "@/components/ui/MagneticButton"
 import { motion } from "framer-motion"
 
@@ -37,6 +37,9 @@ export default function Hero({ orderPageOpen = true, websiteSettings }: HeroProp
   const primaryText = headersConfig.hero.primaryBtnText
   
   const siteSubtitle = websiteSettings?.tagline || headersConfig.hero.subtitle
+
+  const whatsappNumber = websiteSettings?.whatsapp || "6285133737623"
+  const whatsappLink = `https://wa.me/${whatsappNumber}?text=Halo%20Fanajalh,%20saya%20ingin%20bertanya%20tentang%20layanan%20desain%20atau%20template%20poster.`
 
   return (
     <section className="relative pt-32 pb-24 lg:pt-40 lg:pb-32 overflow-hidden min-h-screen flex items-center selection:bg-orange-500/30 selection:text-orange-900 dark:selection:text-orange-100">
@@ -86,13 +89,15 @@ export default function Hero({ orderPageOpen = true, websiteSettings }: HeroProp
               </MagneticButton>
 
               <MagneticButton>
-                <Link 
-                  href="#portfolio" 
+                <a 
+                  href={whatsappLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="group flex items-center justify-center gap-3 w-full sm:w-auto px-8 py-4 bg-white dark:bg-white/5 backdrop-blur-md text-slate-800 dark:text-white font-bold text-base rounded-2xl border border-slate-200 dark:border-white/10 shadow-sm hover:bg-slate-50 dark:hover:bg-white/10 transition-all duration-300"
                 >
-                  <Layout className="w-5 h-5 text-slate-400 group-hover:text-orange-500 transition-colors" />
+                  <MessageCircle className="w-5 h-5 text-slate-400 group-hover:text-[#25D366] transition-colors" />
                   {headersConfig.hero.secondaryBtnText}
-                </Link>
+                </a>
               </MagneticButton>
             </motion.div>
           </motion.div>

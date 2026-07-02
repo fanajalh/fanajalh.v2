@@ -27,7 +27,7 @@ export const headersConfig = {
     titleLine2Gradient: "Visual Grafis.",
     subtitle: "Koleksi template desain poster profesional untuk mempercepat dan meningkatkan daya tarik visual bisnis, event, dan brand Anda dengan standar industri.",
     primaryBtnText: "Beli Template",
-    secondaryBtnText: "Lihat Portfolio",
+    secondaryBtnText: "Hubungi Admin",
     searchPlaceholder: "Cari template poster, Instagram feed, atau website source code..."
   },
 

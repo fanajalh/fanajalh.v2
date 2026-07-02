@@ -13,6 +13,7 @@ import CountdownBanner from "@/components/sections/CountdownBanner"
 import DealsOfDay from "@/components/sections/DealsOfDay"
 import PhotoboothSection from "@/components/sections/PhotoboothSection"
 import DownloadApkSection from "@/components/sections/DownloadApkSection"
+import BeritaSection from "@/components/sections/BeritaSection"
 import Contact from "@/components/sections/Contact"
 import Footer from "@/components/sections/Footer"
 
@@ -205,7 +206,10 @@ export default function LandingPage() {
           <DownloadApkSection />
         </section>
 
-        {/* ================= 8. CONTACT & COLLABORATION ================= */}
+        {/* ================= 8. BERITA & UPDATE RILIS ================= */}
+        <BeritaSection />
+
+        {/* ================= 9. CONTACT & COLLABORATION ================= */}
         <section id="contact" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <Contact orderPageOpen={orderPageOpen} websiteSettings={websiteSettings} />
         </section>

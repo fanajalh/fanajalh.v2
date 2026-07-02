@@ -20,11 +20,7 @@ interface ApkData {
 }
 
 export default function DownloadApkSection() {
-  const [apk, setApk] = useState<ApkData>({
-    version: "1.0.0",
-    file_url: "/AllFanajalh.apk",
-    file_size: "~25 MB",
-  })
+  const [apk, setApk] = useState<ApkData | null>(null)
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
@@ -33,11 +29,9 @@ export default function DownloadApkSection() {
         const res = await fetch("/api/admin/apk-settings")
         const json = await res.json()
         if (json.success && json.data) {
-          setApk({
-            version: json.data.version || "1.0.0",
-            file_url: json.data.file_url || "/AllFanajalh.apk",
-            file_size: json.data.file_size || "~25 MB",
-          })
+          setApk(json.data)
+        } else {
+          setApk(null)
         }
       } catch (err) {
         console.error("Gagal memuat APK settings:", err)
@@ -47,6 +41,14 @@ export default function DownloadApkSection() {
     }
     fetchApk()
   }, [])
+
+  if (loading) {
+    return null
+  }
+
+  if (!apk) {
+    return null
+  }
 
   return (
     <section id="download-apk" className="relative py-24 lg:py-32 overflow-hidden selection:bg-black dark:selection:bg-white selection:text-white dark:selection:text-black">

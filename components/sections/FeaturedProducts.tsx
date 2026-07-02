@@ -60,9 +60,9 @@ export default function FeaturedProducts({ filteredProducts, websiteSettings }: 
         
       ) : (
         
-        /* --- CARDS CAROUSEL ON MOBILE, GRID ON DESKTOP --- */
-        <div className="flex overflow-x-auto snap-x snap-mandatory hide-scrollbar gap-4 md:gap-8 md:grid md:grid-cols-2 lg:grid-cols-3 pb-8 -mx-6 px-6 lg:mx-0 lg:px-0 scroll-smooth">
-          {filteredProducts.map((service, index) => {
+        /* --- CARDS GRID (MARKETPLACE STYLE) --- */
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-8 pb-8">
+          {filteredProducts.slice(0, 4).map((service, index) => {
             const hasDiscount = service.priceOriginal > service.priceDiscount
             const discountPercentage = hasDiscount
               ? Math.round(((service.priceOriginal - service.priceDiscount) / service.priceOriginal) * 100)
@@ -73,7 +73,7 @@ export default function FeaturedProducts({ filteredProducts, websiteSettings }: 
               <Link
                 key={index}
                 href={`/product/${productSlug}`}
-                className="group relative bg-white dark:bg-slate-900 p-4 md:p-5 transition-all duration-500 ease-[0.21,0.47,0.32,0.98] border border-slate-200/80 dark:border-slate-800 rounded-[2rem] hover:border-orange-500/30 hover:shadow-[0_20px_40px_-15px_rgba(234,88,12,0.15)] dark:hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.5)] md:hover:-translate-y-2 flex flex-col justify-between shrink-0 snap-center w-[45vw] sm:w-[40vw] md:w-auto"
+                className="group relative bg-white dark:bg-slate-900 p-4 md:p-5 transition-all duration-500 ease-[0.21,0.47,0.32,0.98] border border-slate-200/80 dark:border-slate-800 rounded-[2rem] hover:border-orange-500/30 hover:shadow-[0_20px_40px_-15px_rgba(234,88,12,0.15)] dark:hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.5)] md:hover:-translate-y-2 flex flex-col justify-between w-full"
               >
                 <div>
                   {/* Image Box */}
@@ -91,69 +91,82 @@ export default function FeaturedProducts({ filteredProducts, websiteSettings }: 
                     
                     {/* Premium Discount Badge */}
                     {hasDiscount && (
-                      <div className="absolute top-3 left-3 z-10 bg-rose-500/90 backdrop-blur-md border border-rose-400/50 text-white text-xs font-black px-3 py-1.5 rounded-lg shadow-lg shadow-rose-500/20">
-                        HEMAT {discountPercentage}%
+                      <div className="absolute top-3 left-3 z-10 bg-rose-500/90 backdrop-blur-md border border-rose-400/50 text-white text-[10px] sm:text-xs font-black px-2 py-1 sm:px-3 sm:py-1.5 rounded-lg shadow-lg shadow-rose-500/20">
+                        -{discountPercentage}%
                       </div>
                     )}
 
                     {service.stock === 0 && (
-                      <div className="absolute inset-0 bg-black/60 flex items-center justify-center text-white font-extrabold text-xs uppercase tracking-wider z-10">
-                        Stok Habis
+                      <div className="absolute inset-0 bg-black/60 flex items-center justify-center text-white font-extrabold text-[10px] sm:text-xs uppercase tracking-wider z-10">
+                        Habis
                       </div>
                     )}
 
                     {/* Technology Stamp: Canva / Source Code */}
-                    <div className="absolute bottom-3 right-3 z-10 flex items-center justify-center w-10 h-10 rounded-xl bg-white/80 dark:bg-slate-900/80 backdrop-blur-md shadow-lg border border-white/50 dark:border-slate-700/50 text-orange-500">
+                    <div className="absolute bottom-3 right-3 z-10 flex items-center justify-center w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-white/80 dark:bg-slate-900/80 backdrop-blur-md shadow-lg border border-white/50 dark:border-slate-700/50 text-orange-500">
                       {service.categoryId === "webcode" ? (
-                        <Code size={18} strokeWidth={2.5} />
+                        <Code size={16} strokeWidth={2.5} className="sm:w-[18px] sm:h-[18px]" />
                       ) : (
-                        <span className="text-[10px] font-black text-[#00c4cc] italic tracking-tight">Canva</span>
+                        <span className="text-[8px] sm:text-[10px] font-black text-[#00c4cc] italic tracking-tight">Canva</span>
                       )}
                     </div>
                   </div>
 
                   {/* Header details */}
-                  <div className="px-2 space-y-2.5">
+                  <div className="px-1 md:px-2 space-y-2.5">
                     <div className="flex items-center justify-between">
-                      <span className="text-[11px] font-black text-orange-500 uppercase tracking-[0.15em] block">
-                        {service.categoryId === "webcode" ? "Source Code" : "Template Canva"}
+                      <span className="text-[9px] sm:text-[11px] font-black text-orange-500 uppercase tracking-[0.12em] sm:tracking-[0.15em] block truncate">
+                        {service.categoryId === "webcode" ? "Web Code" : "Canva"}
                       </span>
-                      <span className={`text-[9px] font-black uppercase tracking-wider ${
+                      <span className={`text-[8px] sm:text-[9px] font-black uppercase tracking-wider shrink-0 ${
                         service.stock === 0 ? "text-rose-600 font-extrabold" : (service.stock !== undefined && service.stock <= 5) ? "text-orange-500 font-extrabold" : "text-emerald-600 font-extrabold"
                       }`}>
                         {service.stock === 0 ? "Habis" : (service.stock !== undefined && service.stock <= 5) ? "Sisa Sedikit" : `Stok: ${service.stock ?? 10}`}
                       </span>
                     </div>
-                    <h3 className="text-xl font-black text-slate-900 dark:text-white line-clamp-1 leading-snug group-hover:text-orange-600 dark:group-hover:text-orange-400 transition-colors duration-300">
+                    <h3 className="text-sm sm:text-lg lg:text-xl font-black text-slate-900 dark:text-white line-clamp-1 leading-snug group-hover:text-orange-600 dark:group-hover:text-orange-400 transition-colors duration-300">
                       {service.title}
                     </h3>
-                    <p className="text-sm text-slate-500 dark:text-slate-400 line-clamp-2 font-medium leading-relaxed">
+                    <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 line-clamp-2 font-medium leading-relaxed">
                       {service.description}
                     </p>
                   </div>
                 </div>
 
                 {/* Bottom Pricing & Buy block */}
-                <div className="px-2 pt-6 pb-2 flex items-end justify-between gap-3 mt-4">
-                  <div className="flex flex-col gap-1">
+                <div className="px-1 md:px-2 pt-4 sm:pt-6 pb-2 flex items-center sm:items-end justify-between gap-2 sm:gap-3 mt-3">
+                  <div className="flex flex-col gap-0.5 sm:gap-1">
                     {hasDiscount && (
-                      <span className="text-xs font-bold text-slate-400 line-through decoration-slate-300 dark:decoration-slate-600">
+                      <span className="text-[10px] sm:text-xs font-bold text-slate-400 line-through decoration-slate-300 dark:decoration-slate-600">
                         Rp {new Intl.NumberFormat("id-ID").format(service.priceOriginal)}
                       </span>
                     )}
-                    <span className="text-xl md:text-2xl font-black text-slate-900 dark:text-white leading-none">
+                    <span className="text-sm sm:text-lg md:text-xl lg:text-2xl font-black text-slate-900 dark:text-white leading-none">
                       Rp {new Intl.NumberFormat("id-ID").format(service.priceDiscount)}
                     </span>
                   </div>
                   
                   {/* Action Button */}
-                  <div className="w-12 h-12 bg-slate-50 dark:bg-slate-800/50 text-slate-600 dark:text-slate-300 group-hover:bg-gradient-to-r group-hover:from-[#ff7a00] group-hover:to-[#ea580c] group-hover:text-white rounded-[1rem] shadow-sm group-hover:shadow-lg group-hover:shadow-orange-500/25 flex items-center justify-center transition-all duration-300 transform group-hover:rotate-[-5deg]">
-                    <ArrowRight size={20} strokeWidth={2.5} className="group-hover:-rotate-45 transition-transform duration-300" />
+                  <div className="w-8 h-8 sm:w-12 sm:h-12 bg-slate-50 dark:bg-slate-800/50 text-slate-600 dark:text-slate-300 group-hover:bg-gradient-to-r group-hover:from-[#ff7a00] group-hover:to-[#ea580c] group-hover:text-white rounded-lg sm:rounded-[1rem] shadow-sm group-hover:shadow-lg group-hover:shadow-orange-500/25 flex items-center justify-center transition-all duration-300 transform group-hover:rotate-[-5deg] shrink-0">
+                    <ArrowRight size={16} strokeWidth={2.5} className="sm:w-5 sm:h-5 group-hover:-rotate-45 transition-transform duration-300" />
                   </div>
                 </div>
               </Link>
             )
           })}
+        </div>
+      )}
+
+      {/* ================= SEE MORE BUTTON ================= */}
+      {filteredProducts.length > 4 && (
+        <div className="text-center pt-2">
+          <Link
+            href="/poster-portfolio"
+            className="inline-flex items-center gap-2 px-7 py-3.5 bg-slate-900 hover:bg-slate-800 dark:bg-white dark:hover:bg-slate-100 text-white dark:text-slate-900 font-bold uppercase tracking-wider text-xs rounded-xl shadow-md transition-all hover:scale-105 active:scale-95"
+          >
+            <ShoppingBag size={14} />
+            Lihat Semua Produk
+          </Link>
         </div>
       )}
     </section>
